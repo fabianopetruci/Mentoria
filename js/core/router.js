@@ -3,6 +3,19 @@
 window.Router = {
   currentRoute: null,
 
+  routes: [
+    "home",
+    "agenda",
+    "alunos",
+    "professores",
+    "receitas",
+    "despesas",
+    "financeiro",
+    "pendencias",
+    "matricula",
+    "galeria",
+  ],
+
   init() {
     this.bindHeaderActions();
     this.bindMenuActions();
@@ -14,14 +27,11 @@ window.Router = {
      HEADER
   ========================= */
   bindHeaderActions() {
-    // Logo -> Home
     const homeBtn = document.getElementById("btn-home");
     if (homeBtn) {
-      homeBtn.style.cursor = "pointer";
       homeBtn.addEventListener("click", () => this.navigate("home"));
     }
 
-    // Theme toggle
     const toggleBtn = document.getElementById("themeToggle");
 
     const applyTheme = (isDark) => {
@@ -40,7 +50,6 @@ window.Router = {
       });
     }
 
-    // Hamburger
     const menuBtn = document.querySelector(".menu-btn");
     if (menuBtn) {
       menuBtn.addEventListener("click", () => this.toggleMenu());
@@ -60,7 +69,6 @@ window.Router = {
       });
     });
 
-    // fechar ao clicar fora
     document.addEventListener("click", (e) => {
       const menu = document.getElementById("menu");
       const menuBtn = document.querySelector(".menu-btn");
@@ -72,7 +80,6 @@ window.Router = {
       if (!insideMenu && !insideBtn) this.closeMenu();
     });
 
-    // ESC fecha
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") this.closeMenu();
     });
@@ -107,15 +114,28 @@ window.Router = {
      ROUTING
   ========================= */
   navigate(route) {
+    if (!this.routes.includes(route)) return;
+
     this.currentRoute = route;
 
-    // Logout (ação especial)
+    // logout é ação
     if (route === "logout") {
       this.setConnectionStatus(false);
       this.navigate("home");
       return;
     }
 
+    // esconder todas as sections
+    this.routes.forEach((r) => {
+      const section = document.getElementById(r);
+      if (section) section.classList.add("hidden");
+    });
+
+    // mostrar target
+    const target = document.getElementById(route);
+    if (target) target.classList.remove("hidden");
+
+    // render módulo se existir
     const map = {
       home: window.Home,
       agenda: window.Agenda,
