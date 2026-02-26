@@ -193,3 +193,41 @@ main#app {
 .hidden {
   display: none !important;
 }
+
+/* =========================
+   MENU (HAMBURGER)
+========================= */
+#menu.menu {
+  position: fixed;
+  top: 120px; /* altura do header */
+  right: 0;
+  width: 180px;
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+  background: var(--bg-surface);
+  border-left: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 12px 0;
+  z-index: 2000;
+}
+
+#menu.menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#menu.menu li {
+  padding: 10px 16px;
+  cursor: pointer;
+  color: var(--text-main);
+}
+
+#menu.menu li:hover {
+  background: var(--bg-soft);
+}
+
+/* menu fechado */
+#menu.hidden {
+  display: none !important;
+}

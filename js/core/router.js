@@ -5,6 +5,7 @@ window.Router = {
 
   init() {
     this.bindHeaderActions();
+    this.bindMenuActions();
     this.navigate("home");
   },
 
@@ -33,15 +34,75 @@ window.Router = {
         applyTheme(isDark);
       });
     }
+
+    // Hamburger toggle
+    const menuBtn = document.querySelector(".menu-btn");
+    if (menuBtn) {
+      menuBtn.addEventListener("click", () => this.toggleMenu());
+    }
+  },
+
+  bindMenuActions() {
+    // clique nos itens do menu
+    document.querySelectorAll("#menu [data-route]").forEach((item) => {
+      item.addEventListener("click", () => {
+        const route = item.getAttribute("data-route");
+        if (!route) return;
+        this.closeMenu();
+        this.navigate(route);
+      });
+    });
+
+    // fecha ao clicar fora
+    document.addEventListener("click", (e) => {
+      const menu = document.getElementById("menu");
+      const menuBtn = document.querySelector(".menu-btn");
+      if (!menu || menu.classList.contains("hidden")) return;
+
+      const clickedInsideMenu = menu.contains(e.target);
+      const clickedMenuBtn = menuBtn && menuBtn.contains(e.target);
+
+      if (!clickedInsideMenu && !clickedMenuBtn) this.closeMenu();
+    });
+
+    // ESC fecha
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") this.closeMenu();
+    });
+  },
+
+  toggleMenu() {
+    const menu = document.getElementById("menu");
+    if (!menu) return;
+    menu.classList.toggle("hidden");
+  },
+
+  closeMenu() {
+    const menu = document.getElementById("menu");
+    if (!menu) return;
+    menu.classList.add("hidden");
   },
 
   navigate(route) {
     this.currentRoute = route;
     console.log("[Router] route:", route);
 
-    if (route === "home" && window.Home?.render) {
-      Home.render();
-    }
+    // render do módulo se existir
+    const map = {
+      home: window.Home,
+      agenda: window.Agenda,
+      alunos: window.Alunos,
+      professores: window.Professores,
+      financeiro: window.Financeiro,
+      receitas: window.Receitas,
+      despesas: window.Despesas,
+      pendencias: window.Pendencias,
+      matricula: window.Matricula,
+      galeria: window.Galeria,
+    };
+
+    const mod = map[route];
+    if (mod && typeof mod.render === "function") mod.render();
   },
 
   getRoute() {
@@ -49,7 +110,6 @@ window.Router = {
   },
 };
 
-// init
 document.addEventListener("DOMContentLoaded", () => {
   Router.init();
 });
