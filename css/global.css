@@ -1,0 +1,92 @@
+/* =========================
+   RESET
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   TOKENS DE COR (BASE)
+========================= */
+:root {
+  /* Backgrounds */
+  --bg-app: #f4f6f8;
+  --bg-surface: #ffffff;
+  --bg-soft: #edf2f7;
+
+  /* Texto */
+  --text-main: #2d3748;
+  --text-muted: #718096;
+
+  /* Bordas e efeitos */
+  --border: #e2e8f0;
+  --radius: 8px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* Ações (tokens apenas, não usados ainda) */
+  --primary: #2b6cb0;
+  --danger: #c53030;
+  --warning: #d69e2e;
+  --success: #22c55e;
+}
+
+/* =========================
+   DARK MODE (SOMENTE TOKENS)
+========================= */
+body.dark {
+  --bg-app: #0f172a;
+  --bg-surface: #020617;
+  --bg-soft: #1e293b;
+
+  --text-main: #e5e7eb;
+  --text-muted: #94a3b8;
+
+  --border: #1e293b;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+
+  --primary: #3b82f6;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --success: #22c55e;
+}
+
+/* =========================
+   BASE ESTRUTURAL
+========================= */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================
+   LAYOUT PRINCIPAL
+========================= */
+header {
+  flex-shrink: 0;
+}
+
+main#app {
+  flex: 1;
+  padding: 20px;
+}
+
+footer {
+  flex-shrink: 0;
+}
+
+/* =========================
+   UTILITÁRIOS
+========================= */
+.hidden {
+  display: none !important;
+}
