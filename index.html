@@ -14,13 +14,41 @@
 
   <body>
     <!-- HEADER -->
-    <header id="header"></header>
+    <header class="header">
+      <div class="header-left">
+        <img
+          src="./assets/img/mentoria-logo.png"
+          alt="Mentoria"
+          class="logo"
+          id="btn-home"
+        />
+      </div>
+
+      <div class="header-right">
+        <button
+          id="themeToggle"
+          class="theme-btn"
+          title="Alternar tema"
+          type="button"
+        >
+          🌙
+        </button>
+
+        <button class="menu-btn" title="Menu" type="button">☰</button>
+      </div>
+    </header>
 
     <!-- APP -->
     <main id="app"></main>
 
     <!-- FOOTER -->
-    <footer id="footer"></footer>
+    <footer class="footer">
+      <span class="status">
+        Sistema Mentoria v1.0
+        <span class="dot"></span>
+        Conectado
+      </span>
+    </footer>
 
     <!-- JS CORE -->
     <script src="./js/core/router.js"></script>
