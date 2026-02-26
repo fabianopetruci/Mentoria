@@ -1,18 +1,137 @@
-/* css/home.css */
+/* =========================
+   HOME
+========================= */
 
-/* grid já existe no global; aqui só card */
-.home-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  min-height: 140px;
+#home {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-grid {
+  width: 100%;
+  max-width: 1400px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(160px, 1fr));
+  gap: 32px;
+  align-content: center;
+  padding: 10px;
+}
+
+.home-tile {
+  position: relative;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+
+  aspect-ratio: 1 / 1;
+  min-height: 180px;
+  max-height: 240px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Dark mode */
+body.dark .home-tile {
+  background-color: #020617;
+}
+
+/* Contorno animado no dark */
+body.dark .home-tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  padding: 3px;
+  opacity: 0;
+  z-index: 0;
+
+  background: linear-gradient(
+    90deg,
+    #00c6ff,
+    #00ffcc,
+    #7cff00,
+    #ffd000,
+    #ff7a00,
+    #ff004c,
+    #b000ff,
+    #00c6ff
+  );
+
+  background-size: 300% 100%;
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+body.dark .home-tile:hover::before {
+  opacity: 1;
+  animation: borderFlow 2s linear infinite alternate;
+}
+
+@keyframes borderFlow {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+.home-tile > * {
+  position: relative;
+  z-index: 1;
+}
+
+.home-tile:hover {
+  transform: translateY(-2px);
+  transition: 0.15s ease;
+}
+
+.home-img {
+  max-width: 90px;
+  max-height: 90px;
+  object-fit: contain;
+}
+
+.home-label {
+  font-size: 13px;
+  font-weight: bold;
+  color: #2b6cb0;
+  text-align: center;
+  letter-spacing: 0.6px;
+}
+
+body.dark .home-label {
+  color: #93c5fd;
+}
+
+.home-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #c53030;
+  color: #fff;
+  font-size: 12px;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-}
-
-.home-card__label {
-  font-weight: 600;
-  color: var(--text-main);
+  font-weight: bold;
 }
