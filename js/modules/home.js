@@ -19,19 +19,18 @@ window.Home = {
 
     app.innerHTML = `
       <section id="home" class="home">
-        <h1>Mentoria</h1>
-        <p>Sistema de reforço escolar</p>
-
-        <div class="home-grid">
-          ${cards
-            .map(
-              (c) => `
-              <div class="home-card" data-route="${c.route}">
-                ${c.label}
-              </div>
-            `,
-            )
-            .join("")}
+        <div class="app-canvas">
+          <div class="home-grid">
+            ${cards
+              .map(
+                (c) => `
+                <div class="home-card" data-route="${c.route}">
+                  <span class="home-card__label">${c.label}</span>
+                </div>
+              `,
+              )
+              .join("")}
+          </div>
         </div>
       </section>
     `;
@@ -40,9 +39,9 @@ window.Home = {
   },
 
   bindNavigation() {
-    document.querySelectorAll("[data-route]").forEach((el) => {
-      el.addEventListener("click", () => {
-        const route = el.getAttribute("data-route");
+    document.querySelectorAll(".home-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const route = card.getAttribute("data-route");
         if (route && window.Router) {
           Router.navigate(route);
         }

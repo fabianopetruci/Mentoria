@@ -1,0 +1,18 @@
+/* css/home.css */
+
+/* grid já existe no global; aqui só card */
+.home-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.home-card__label {
+  font-weight: 600;
+  color: var(--text-main);
+}
