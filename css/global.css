@@ -90,3 +90,20 @@ footer {
 .hidden {
   display: none !important;
 }
+
+/* =========================
+   HEADER (ESTRUTURA MÍNIMA)
+========================= */
+.app-header {
+  height: 64px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.app-header__brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
