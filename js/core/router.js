@@ -11,6 +11,10 @@ window.Router = {
   navigate(route) {
     this.currentRoute = route;
     console.log("[Router] route:", route);
+
+    if (route === "home" && window.Home?.render) {
+      Home.render();
+    }
   },
 
   getRoute() {
