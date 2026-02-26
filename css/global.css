@@ -107,3 +107,15 @@ footer {
   font-weight: 700;
   font-size: 1.1rem;
 }
+
+/* =========================
+   HOME (ESTRUTURA MÍNIMA)
+========================= */
+.home h1 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.home p {
+  color: var(--text-muted);
+}
