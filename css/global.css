@@ -231,3 +231,13 @@ main#app {
 #menu.hidden {
   display: none !important;
 }
+
+/* =========================
+   FOOTER - STATUS DE CONEXÃO
+========================= */
+.dot.is-connected {
+  background-color: var(--success);
+}
+.dot.is-disconnected {
+  background-color: var(--danger);
+}

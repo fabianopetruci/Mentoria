@@ -6,9 +6,13 @@ window.Router = {
   init() {
     this.bindHeaderActions();
     this.bindMenuActions();
+    this.setConnectionStatus(false);
     this.navigate("home");
   },
 
+  /* =========================
+     HEADER
+  ========================= */
   bindHeaderActions() {
     // Logo -> Home
     const homeBtn = document.getElementById("btn-home");
@@ -17,8 +21,9 @@ window.Router = {
       homeBtn.addEventListener("click", () => this.navigate("home"));
     }
 
-    // Theme toggle (persistência simples)
+    // Theme toggle
     const toggleBtn = document.getElementById("themeToggle");
+
     const applyTheme = (isDark) => {
       document.body.classList.toggle("dark", isDark);
       if (toggleBtn) toggleBtn.textContent = isDark ? "☀️" : "🌙";
@@ -35,15 +40,17 @@ window.Router = {
       });
     }
 
-    // Hamburger toggle
+    // Hamburger
     const menuBtn = document.querySelector(".menu-btn");
     if (menuBtn) {
       menuBtn.addEventListener("click", () => this.toggleMenu());
     }
   },
 
+  /* =========================
+     MENU
+  ========================= */
   bindMenuActions() {
-    // clique nos itens do menu
     document.querySelectorAll("#menu [data-route]").forEach((item) => {
       item.addEventListener("click", () => {
         const route = item.getAttribute("data-route");
@@ -53,16 +60,16 @@ window.Router = {
       });
     });
 
-    // fecha ao clicar fora
+    // fechar ao clicar fora
     document.addEventListener("click", (e) => {
       const menu = document.getElementById("menu");
       const menuBtn = document.querySelector(".menu-btn");
       if (!menu || menu.classList.contains("hidden")) return;
 
-      const clickedInsideMenu = menu.contains(e.target);
-      const clickedMenuBtn = menuBtn && menuBtn.contains(e.target);
+      const insideMenu = menu.contains(e.target);
+      const insideBtn = menuBtn && menuBtn.contains(e.target);
 
-      if (!clickedInsideMenu && !clickedMenuBtn) this.closeMenu();
+      if (!insideMenu && !insideBtn) this.closeMenu();
     });
 
     // ESC fecha
@@ -83,11 +90,32 @@ window.Router = {
     menu.classList.add("hidden");
   },
 
+  /* =========================
+     FOOTER STATUS
+  ========================= */
+  setConnectionStatus(isConnected) {
+    const dot = document.getElementById("connDot");
+    const text = document.getElementById("connText");
+    if (!dot || !text) return;
+
+    dot.classList.toggle("is-connected", !!isConnected);
+    dot.classList.toggle("is-disconnected", !isConnected);
+    text.textContent = isConnected ? "Conectado" : "Desconectado";
+  },
+
+  /* =========================
+     ROUTING
+  ========================= */
   navigate(route) {
     this.currentRoute = route;
-    console.log("[Router] route:", route);
 
-    // render do módulo se existir
+    // Logout (ação especial)
+    if (route === "logout") {
+      this.setConnectionStatus(false);
+      this.navigate("home");
+      return;
+    }
+
     const map = {
       home: window.Home,
       agenda: window.Agenda,
@@ -102,7 +130,9 @@ window.Router = {
     };
 
     const mod = map[route];
-    if (mod && typeof mod.render === "function") mod.render();
+    if (mod && typeof mod.render === "function") {
+      mod.render();
+    }
   },
 
   getRoute() {
