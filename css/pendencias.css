@@ -1,0 +1,182 @@
+/* =========================
+   PENDENCIAS - LAYOUT
+========================= */
+
+.pendencias-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* =========================
+   CARD BASE
+========================= */
+
+.pendencias-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.pendencias-card-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pendencias-card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pendencias-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.pendencias-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* =========================
+   TABELA FINANCEIRA
+========================= */
+
+.pendencias-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.pendencias-table th,
+.pendencias-table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.pendencias-table th {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* =========================
+   BADGES (STATUS)
+========================= */
+
+.pen-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.pen-badge-vencida {
+  background: #fde8e8;
+  color: var(--danger);
+}
+
+.pen-badge-apagar {
+  background: #fff4e5;
+  color: #b7791f;
+}
+
+.pen-badge-ok {
+  background: #e6fffa;
+  color: var(--success);
+}
+
+/* =========================
+   LEMBRETES
+========================= */
+
+.pendencias-lembrete-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+}
+
+.pendencias-lembrete-text {
+  flex: 1;
+  font-size: 0.85rem;
+  color: var(--text-main);
+}
+
+.pendencias-lembrete-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* =========================
+   PRIORIDADE (PÍLULA)
+========================= */
+
+.pen-pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.pen-pill-alta {
+  background: #fde8e8;
+  color: var(--danger);
+}
+
+.pen-pill-media {
+  background: #ebf8ff;
+  color: var(--primary);
+}
+
+.pen-pill-baixa {
+  background: #e6fffa;
+  color: var(--success);
+}
+
+/* =========================
+   ÍCONES AÇÃO
+========================= */
+
+.pen-icon-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  cursor: pointer;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.pen-icon-btn:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* =========================
+   ANIVERSÁRIOS
+========================= */
+
+.pendencias-aniversario-item {
+  font-size: 0.85rem;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
