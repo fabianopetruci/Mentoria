@@ -59,8 +59,8 @@ window.Receitas = {
             <button class="btn btn-primary" id="rec-btn-cadastrar">Cadastrar</button>
             <button class="btn btn-warning" id="rec-btn-alterar">Alterar</button>
             <button class="btn btn-danger" id="rec-btn-excluir">Excluir</button>
-            <button class="btn btn-secondary" id="rec-btn-imprimir">Imprimir</button>
-            <button class="btn btn-secondary" id="rec-btn-periodo">Escolher período</button>
+            <button class="btn btn-outline" id="rec-btn-imprimir">Imprimir</button>
+            <button class="btn btn-outline" id="rec-btn-periodo">Escolher período</button>
           </div>
 
           <div class="receitas-card">
@@ -87,9 +87,9 @@ window.Receitas = {
           </div>
 
           <div class="receitas-pagination">
-            <button class="btn btn-secondary btn-icon" id="rec-prev-month" aria-label="Mês anterior">◀</button>
+            <button class="btn-arrow" id="rec-prev-month" aria-label="Mês anterior">◀</button>
             <span class="receitas-page" id="rec-period-label">${periodLabel}</span>
-            <button class="btn btn-secondary btn-icon" id="rec-next-month" aria-label="Próximo mês">▶</button>
+            <button class="btn-arrow" id="rec-next-month" aria-label="Próximo mês">▶</button>
           </div>
 
         </div>
@@ -108,7 +108,6 @@ window.Receitas = {
       this.changeMonth(1);
     });
 
-    // placeholders (sem lógica por enquanto)
     document
       .getElementById("rec-btn-cadastrar")
       ?.addEventListener("click", () => {});

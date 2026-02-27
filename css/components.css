@@ -6,19 +6,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 14px;
+  height: 38px;
+  min-width: 120px;
+  padding: 0 16px;
   border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: var(--bg-surface);
-  color: var(--text-main);
+  border: 1px solid transparent;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
-}
-
-.btn:hover {
-  background: var(--bg-soft);
 }
 
 /* =========================
@@ -27,25 +23,78 @@
 
 .btn-primary {
   background: var(--primary);
-  border-color: var(--primary);
   color: #fff;
 }
 
 .btn-primary:hover {
-  background: var(--primary-hover);
+  opacity: 0.9;
+}
+
+.btn-warning {
+  background: var(--warning);
+  color: #fff;
+}
+
+.btn-warning:hover {
+  opacity: 0.9;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.btn-danger:hover {
+  opacity: 0.9;
 }
 
 .btn-secondary {
   background: var(--bg-soft);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-app);
 }
 
 /* =========================
-   BOTÃO ÍCONE (SETAS)
+   BOTÃO OUTLINE (AZUL)
 ========================= */
 
-.btn-icon {
-  width: 32px;
-  height: 32px;
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.btn-outline:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* =========================
+   BOTÃO SETA (NAV MÊS/DIA)
+========================= */
+
+.btn-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   padding: 0;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--text-main);
   font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-arrow:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
 }

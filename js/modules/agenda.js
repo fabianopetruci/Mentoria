@@ -44,13 +44,13 @@ window.Agenda = {
             <!-- NAV ABAIXO DO CONTEÚDO -->
             <div class="agenda-nav-wrapper">
               <div class="agenda-nav">
-                <button id="prev-day" class="btn btn-secondary btn-icon">◀</button>
+                <button id="prev-day" class="btn-arrow">◀</button>
                 <span 
                   id="current-date-display" 
                   class="agenda-nav-date">
                   ${this.formatShortDate(this.state.currentDate)}
                 </span>
-                <button id="next-day" class="btn btn-secondary btn-icon">▶</button>
+                <button id="next-day" class="btn-arrow">▶</button>
               </div>
             </div>
 
