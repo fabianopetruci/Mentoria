@@ -1,0 +1,100 @@
+/* =========================
+   DESPESAS - LAYOUT
+========================= */
+
+.module-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* =========================
+   AÇÕES SUPERIORES
+========================= */
+
+.despesas-actions-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* =========================
+   CARD TABELA
+========================= */
+
+.despesas-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.despesas-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.despesas-table thead {
+  background: var(--bg-soft);
+}
+
+.despesas-table th,
+.despesas-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.despesas-table th {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.despesas-table tbody tr:hover {
+  background: var(--bg-soft);
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.desp-status-pago {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.desp-status-pagar {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+/* =========================
+   TOTAL
+========================= */
+
+.despesas-total {
+  padding: 16px;
+  text-align: right;
+  font-size: 0.95rem;
+  border-top: 1px solid var(--border);
+}
+
+/* =========================
+   PAGINAÇÃO / PERÍODO
+========================= */
+
+.despesas-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.despesas-page {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
