@@ -2,8 +2,8 @@
 
 window.Home = {
   render() {
-    const app = document.getElementById("app");
-    if (!app) return;
+    const homeSection = document.getElementById("home");
+    if (!homeSection) return;
 
     const tiles = [
       { label: "AGENDA", route: "agenda", img: "agenda.png" },
@@ -23,34 +23,30 @@ window.Home = {
       { label: "SAIR DO SISTEMA", route: "logout", img: "logout.png" },
     ];
 
-    app.innerHTML = `
-      <section id="home">
-        <div class="home-grid">
-          ${tiles
-            .map(
-              (t) => `
-              <div class="home-tile" data-route="${t.route}">
-                ${t.badge ? `<span class="home-badge">${t.badge}</span>` : ""}
-                <img class="home-img" src="./assets/img/${t.img}" alt="${t.label}">
-                <span class="home-label">${t.label}</span>
-              </div>
-            `,
-            )
-            .join("")}
-        </div>
-      </section>
+    homeSection.innerHTML = `
+      <div class="home-grid">
+        ${tiles
+          .map(
+            (t) => `
+            <div class="home-tile" data-route="${t.route}">
+              ${t.badge ? `<span class="home-badge">${t.badge}</span>` : ""}
+              <img class="home-img" src="./assets/img/${t.img}" alt="${t.label}">
+              <span class="home-label">${t.label}</span>
+            </div>
+          `,
+          )
+          .join("")}
+      </div>
     `;
 
-    this.bindNavigation();
+    this.bindActions();
   },
 
-  bindNavigation() {
+  bindActions() {
     document.querySelectorAll(".home-tile").forEach((tile) => {
       tile.addEventListener("click", () => {
-        const route = tile.dataset.route;
-        if (route && window.Router) {
-          Router.navigate(route);
-        }
+        const route = tile.getAttribute("data-route");
+        if (route) Router.navigate(route);
       });
     });
   },
