@@ -44,13 +44,13 @@ window.Agenda = {
             <!-- NAV ABAIXO DO CONTEÚDO -->
             <div class="agenda-nav-wrapper">
               <div class="agenda-nav">
-                <button id="prev-day">◀</button>
+                <button id="prev-day" class="btn btn-secondary btn-icon">◀</button>
                 <span 
                   id="current-date-display" 
                   class="agenda-nav-date">
                   ${this.formatShortDate(this.state.currentDate)}
                 </span>
-                <button id="next-day">▶</button>
+                <button id="next-day" class="btn btn-secondary btn-icon">▶</button>
               </div>
             </div>
 
@@ -62,10 +62,6 @@ window.Agenda = {
 
     this.bindEvents();
   },
-
-  /* =========================
-     FORMATAÇÃO DE DATAS
-  ========================= */
 
   formatFullDate(date) {
     return date.toLocaleDateString("pt-BR", {
@@ -80,10 +76,6 @@ window.Agenda = {
     return date.toLocaleDateString("pt-BR");
   },
 
-  /* =========================
-     EVENTOS
-  ========================= */
-
   bindEvents() {
     document.getElementById("prev-day")?.addEventListener("click", () => {
       this.changeDay(-1);
@@ -94,17 +86,12 @@ window.Agenda = {
     });
   },
 
-  /* =========================
-     NAVEGAÇÃO ENTRE DIAS
-  ========================= */
-
   changeDay(step) {
     const current = this.state.currentDate;
     const newDate = new Date(current);
 
     newDate.setDate(newDate.getDate() + step);
 
-    // 🔒 trava navegação dentro do mês atual
     if (newDate.getMonth() !== current.getMonth()) {
       return;
     }
