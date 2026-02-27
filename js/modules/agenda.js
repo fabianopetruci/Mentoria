@@ -1,3 +1,5 @@
+// js/modules/agenda.js
+
 window.Agenda = {
   state: {
     currentDate: new Date(),
@@ -28,6 +30,10 @@ window.Agenda = {
             <button class="btn btn-secondary">
               Escolher data
             </button>
+
+            <button class="btn btn-print">
+              Imprimir
+            </button>
           </div>
 
           <!-- MAIN -->
@@ -41,7 +47,6 @@ window.Agenda = {
               Nenhuma tarefa cadastrada para este dia.
             </div>
 
-            <!-- NAV ABAIXO DO CONTEÚDO -->
             <div class="agenda-nav-wrapper">
               <div class="agenda-nav">
                 <button id="prev-day" class="btn-arrow">◀</button>

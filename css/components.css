@@ -74,6 +74,19 @@
 }
 
 /* =========================
+   BOTÃO PRINT
+========================= */
+
+.btn-print {
+  background: #6c5ce7;
+  color: #fff;
+}
+
+.btn-print:hover {
+  opacity: 0.9;
+}
+
+/* =========================
    BOTÃO SETA (NAV MÊS/DIA)
 ========================= */
 

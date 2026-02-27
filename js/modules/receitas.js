@@ -1,3 +1,5 @@
+// js/modules/receitas.js
+
 window.Receitas = {
   state: {
     currentMonth: new Date().getMonth(), // 0-11
@@ -59,7 +61,7 @@ window.Receitas = {
             <button class="btn btn-primary" id="rec-btn-cadastrar">Cadastrar</button>
             <button class="btn btn-warning" id="rec-btn-alterar">Alterar</button>
             <button class="btn btn-danger" id="rec-btn-excluir">Excluir</button>
-            <button class="btn btn-outline" id="rec-btn-imprimir">Imprimir</button>
+            <button class="btn btn-print" id="rec-btn-imprimir">Imprimir</button>
             <button class="btn btn-outline" id="rec-btn-periodo">Escolher período</button>
           </div>
 
