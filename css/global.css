@@ -144,6 +144,14 @@ body.dark .header::after {
 /* =========================
    LAYOUT PRINCIPAL
 ========================= */
+
+#app > section {
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  justify-content: center;
+}
+
 main#app {
   flex: 1;
   display: flex;
