@@ -97,3 +97,9 @@
   font-weight: 700;
   color: var(--text-main);
 }
+
+#financeiro-resumo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
