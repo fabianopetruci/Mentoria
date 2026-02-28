@@ -12,66 +12,64 @@ window.Financeiro = {
 
     el.innerHTML = `
       <div class="module-frame">
-        <div class="module-header">
-          <div class="financeiro-topbar">
-            <div class="financeiro-year-nav">
-              <button class="btn-arrow" id="fin-ano-prev" aria-label="Ano anterior">◀</button>
-              <span class="financeiro-year" id="fin-ano-label">${this.state.ano}</span>
-              <button class="btn-arrow" id="fin-ano-next" aria-label="Próximo ano">▶</button>
-            </div>
 
-            <div class="financeiro-actions">
-              <button class="btn btn-primary" id="fin-btn-atualizar">Atualizar</button>
-              <button class="btn btn-print" id="fin-btn-imprimir">Imprimir</button>
-            </div>
+        <div class="financeiro-topbar">
+
+          <div class="financeiro-year-nav">
+            <button class="btn-arrow" id="fin-ano-prev">◀</button>
+            <span class="financeiro-year" id="fin-ano-label">${this.state.ano}</span>
+            <button class="btn-arrow" id="fin-ano-next">▶</button>
           </div>
 
-          <div class="module-title">Fluxo de Caixa</div>
+          <div class="financeiro-actions">
+            <button class="btn btn-primary" id="fin-btn-gravar">Gravar</button>
+            <button class="btn btn-print" id="fin-btn-imprimir">Imprimir</button>
+          </div>
+
         </div>
 
-        <div class="module-body">
-          <div class="financeiro-grid">
-            <div class="financeiro-card" id="fin-card-resumo">
-              <h3>Resumo Anual</h3>
-              <div id="financeiro-resumo">—</div>
-            </div>
+        <h2>Fluxo de Caixa</h2>
 
-            <div class="financeiro-card financeiro-card-table">
-              <h3>Tabela Mensal</h3>
-              <div id="financeiro-list">Carregando…</div>
-            </div>
+        <div class="financeiro-grid">
+          <div class="financeiro-card">
+            <h3>Resumo Anual</h3>
+            <div id="financeiro-resumo"></div>
+          </div>
 
-            <div class="financeiro-card" id="fin-card-grafico">
-              <h3>Gráfico</h3>
-              <div id="financeiro-grafico">—</div>
-            </div>
+          <div class="financeiro-card financeiro-card-table">
+            <h3>Tabela Mensal</h3>
+            <div id="financeiro-list"></div>
+          </div>
+
+          <div class="financeiro-card">
+            <h3>Gráfico</h3>
+            <div id="financeiro-grafico">—</div>
           </div>
         </div>
+
       </div>
     `;
 
     this.bindUI();
-    await this.loadMock(); // mock local por enquanto
+    this.loadMock();
   },
 
   bindUI() {
     document.getElementById("fin-ano-prev")?.addEventListener("click", () => {
       this.state.ano--;
-      this.syncYearUI();
+      this.syncYear();
       this.loadMock();
     });
 
     document.getElementById("fin-ano-next")?.addEventListener("click", () => {
       this.state.ano++;
-      this.syncYearUI();
+      this.syncYear();
       this.loadMock();
     });
 
-    document
-      .getElementById("fin-btn-atualizar")
-      ?.addEventListener("click", () => {
-        this.loadMock();
-      });
+    document.getElementById("fin-btn-gravar")?.addEventListener("click", () => {
+      this.gravarBalanco();
+    });
 
     document
       .getElementById("fin-btn-imprimir")
@@ -80,12 +78,12 @@ window.Financeiro = {
       });
   },
 
-  syncYearUI() {
+  syncYear() {
     const label = document.getElementById("fin-ano-label");
     if (label) label.textContent = this.state.ano;
   },
 
-  async loadMock() {
+  loadMock() {
     const meses = [
       "Jan",
       "Fev",
@@ -101,32 +99,27 @@ window.Financeiro = {
       "Dez",
     ];
 
-    // MOCK (substituir pela API depois)
     const base = [
-      { m: 0, r: 1200, d: 300 },
-      { m: 1, r: 1500, d: 800 },
-      { m: 2, r: 1800, d: 450 },
-      { m: 3, r: 0, d: 0 },
+      { mes: 0, receita: 1200, despesa: 300 },
+      { mes: 1, receita: 1500, despesa: 800 },
+      { mes: 2, receita: 1800, despesa: 450 },
     ];
 
     const mapa = {};
-    base.forEach((x) => (mapa[x.m] = x));
+    base.forEach((x) => (mapa[x.mes] = x));
 
     this.state.dados = Array.from({ length: 12 }, (_, i) => {
-      const r = mapa[i]?.r || 0;
-      const d = mapa[i]?.d || 0;
+      const r = mapa[i]?.receita || 0;
+      const d = mapa[i]?.despesa || 0;
       const lucro = r - d;
-      const prolabore = lucro * 0.9;
-      const capital = lucro * 0.1;
 
       return {
-        mesIdx: i,
         mes: meses[i],
         receitas: r,
         despesas: d,
         lucro,
-        prolabore,
-        capital,
+        prolabore: lucro * 0.9,
+        capital: lucro * 0.1,
       };
     });
 
@@ -134,15 +127,45 @@ window.Financeiro = {
   },
 
   paint() {
-    this.paintTable();
     this.paintResumo();
+    this.paintTabela();
   },
 
-  paintTable() {
-    const list = document.getElementById("financeiro-list");
-    if (!list) return;
+  paintResumo() {
+    const el = document.getElementById("financeiro-resumo");
+    if (!el) return;
 
-    list.innerHTML = `
+    const totalReceitas = this.state.dados.reduce(
+      (acc, x) => acc + x.receitas,
+      0,
+    );
+    const totalDespesas = this.state.dados.reduce(
+      (acc, x) => acc + x.despesas,
+      0,
+    );
+    const totalLucro = totalReceitas - totalDespesas;
+
+    el.innerHTML = `
+      <div class="fin-kpi">
+        <span>Receitas</span>
+        <strong>${this.moeda(totalReceitas)}</strong>
+      </div>
+      <div class="fin-kpi">
+        <span>Despesas</span>
+        <strong>${this.moeda(totalDespesas)}</strong>
+      </div>
+      <div class="fin-kpi">
+        <span>Lucro</span>
+        <strong>${this.moeda(totalLucro)}</strong>
+      </div>
+    `;
+  },
+
+  paintTabela() {
+    const el = document.getElementById("financeiro-list");
+    if (!el) return;
+
+    el.innerHTML = `
       <table class="financeiro-table">
         <thead>
           <tr>
@@ -158,15 +181,15 @@ window.Financeiro = {
           ${this.state.dados
             .map(
               (x) => `
-                <tr>
-                  <td>${x.mes}</td>
-                  <td>${this.moeda(x.receitas)}</td>
-                  <td>${this.moeda(x.despesas)}</td>
-                  <td>${this.moeda(x.lucro)}</td>
-                  <td>${this.moeda(x.prolabore)}</td>
-                  <td>${this.moeda(x.capital)}</td>
-                </tr>
-              `,
+            <tr>
+              <td>${x.mes}</td>
+              <td>${this.moeda(x.receitas)}</td>
+              <td>${this.moeda(x.despesas)}</td>
+              <td>${this.moeda(x.lucro)}</td>
+              <td>${this.moeda(x.prolabore)}</td>
+              <td>${this.moeda(x.capital)}</td>
+            </tr>
+          `,
             )
             .join("")}
         </tbody>
@@ -174,34 +197,15 @@ window.Financeiro = {
     `;
   },
 
-  paintResumo() {
-    const el = document.getElementById("financeiro-resumo");
-    if (!el) return;
+  async gravarBalanco() {
+    alert("Balanço anual gravado (mock).");
 
-    const totR = this.state.dados.reduce((acc, x) => acc + x.receitas, 0);
-    const totD = this.state.dados.reduce((acc, x) => acc + x.despesas, 0);
-    const lucro = totR - totD;
-
-    el.innerHTML = `
-      <div class="fin-kpis">
-        <div class="fin-kpi">
-          <div class="fin-kpi-label">Receitas</div>
-          <div class="fin-kpi-value">${this.moeda(totR)}</div>
-        </div>
-        <div class="fin-kpi">
-          <div class="fin-kpi-label">Despesas</div>
-          <div class="fin-kpi-value">${this.moeda(totD)}</div>
-        </div>
-        <div class="fin-kpi">
-          <div class="fin-kpi-label">Lucro</div>
-          <div class="fin-kpi-value">${this.moeda(lucro)}</div>
-        </div>
-      </div>
-    `;
+    // Futuramente:
+    // Api.replaceYear("Fluxo_caixa", this.state.ano, this.state.dados);
   },
 
-  moeda(v) {
-    return Number(v || 0).toLocaleString("pt-BR", {
+  moeda(valor) {
+    return Number(valor || 0).toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
     });
