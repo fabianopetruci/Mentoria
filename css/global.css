@@ -56,6 +56,8 @@ body.dark {
 html,
 body {
   height: 100%;
+  /*overflow: hidden;*/
+  margin: 0;
 }
 
 body {
@@ -64,6 +66,20 @@ body {
   color: var(--text-main);
   display: flex;
   flex-direction: column;
+}
+
+#app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
 /* =========================
@@ -252,6 +268,10 @@ main#app {
   background-color: var(--danger);
 }
 
+footer {
+  flex-shrink: 0;
+}
+
 /* =========================
    MODULE FRAME (PADRÃO)
 ========================= */
@@ -259,16 +279,19 @@ main#app {
 .module-frame {
   width: 100%;
   max-width: 1200px;
-  min-height: 100%;
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+
+  /*height: 100%;*/
+  height: auto;
+  max-height: calc(100vh - 160px); /* header + footer */
+
   display: flex;
   flex-direction: column;
+
+  background: var(--bg-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
   padding: 24px;
 }
-
 .module-header {
   margin-bottom: 24px;
   border-bottom: 1px solid var(--border);
