@@ -95,13 +95,61 @@ window.Alunos = {
     try {
       const res = await Api.getAll();
       this.state.data = res.Alunos || [];
-      this.state.filteredData = [...this.state.data];
-      this.state.page = 1;
-      this.state.selected = null;
-      this.paint();
     } catch {
-      list.innerHTML = "Erro ao carregar alunos.";
+      // MOCK TEMPORÁRIO (igual aos outros módulos)
+      this.state.data = [
+        {
+          id: "ALU-1",
+          data: [
+            "Júlia Victoria Botentuite Duarte",
+            "2013-07-29",
+            "Feminino",
+            "Vespertino",
+            "7º ano",
+            "Colégio Vinícius de Moraes",
+            "Valdinar Espíndola Duarte",
+            "98984210844",
+            "Ativo",
+            "",
+          ],
+        },
+        {
+          id: "ALU-2",
+          data: [
+            "Maria Helena de Oliveira Garreto de Souza",
+            "2014-06-03",
+            "Feminino",
+            "Matutino",
+            "6º ano",
+            "Instituto Divina Pastora",
+            "Vanessa de Oliveira Coelho",
+            "98991001102",
+            "Ativo",
+            "",
+          ],
+        },
+        {
+          id: "ALU-3",
+          data: [
+            "Maria Alice de Oliveira Garreto de Souza",
+            "2016-08-01",
+            "Feminino",
+            "Matutino",
+            "4º ano",
+            "Instituto Divina Pastora",
+            "Vanessa de Oliveira Coelho",
+            "98991001102",
+            "Ativo",
+            "",
+          ],
+        },
+      ];
     }
+
+    this.state.filteredData = [...this.state.data];
+    this.state.page = 1;
+    this.state.selected = null;
+    this.paint();
   },
 
   bindUI() {

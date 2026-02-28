@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  height: 100%;
 }
 
 /* =========================
@@ -50,25 +51,31 @@
 }
 
 /* =========================
-   LISTA DE CARDS
+   GRID DE CARDS (3 FIXOS)
 ========================= */
 
 #alunos-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: stretch;
 }
+
+/* =========================
+   CARD
+========================= */
 
 .aluno-card {
   display: flex;
+  flex-direction: row;
   gap: 16px;
-  padding: 16px;
+  padding: 20px;
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--bg-surface);
   box-shadow: var(--shadow);
-  cursor: pointer;
-  transition: all 0.15s ease;
+  height: 100%;
 }
 
 .aluno-card:hover {
@@ -81,17 +88,17 @@
 }
 
 /* =========================
-   FOTO
+   FOTO (QUADRADA)
 ========================= */
 
 .aluno-foto {
-  width: 100px;
-  min-width: 100px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   border-radius: var(--radius);
   overflow: hidden;
   border: 1px solid var(--border);
   background: var(--bg-soft);
+  flex-shrink: 0;
 }
 
 .aluno-foto img {
@@ -105,21 +112,14 @@
 ========================= */
 
 .aluno-info {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-.aluno-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
   font-size: 0.85rem;
 }
 
 .aluno-name {
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
