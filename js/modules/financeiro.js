@@ -146,18 +146,30 @@ window.Financeiro = {
     const totalLucro = totalReceitas - totalDespesas;
 
     el.innerHTML = `
-      <div class="fin-kpi">
-        <span>Receitas</span>
-        <strong>${this.moeda(totalReceitas)}</strong>
-      </div>
-      <div class="fin-kpi">
-        <span>Despesas</span>
-        <strong>${this.moeda(totalDespesas)}</strong>
-      </div>
-      <div class="fin-kpi">
-        <span>Lucro</span>
-        <strong>${this.moeda(totalLucro)}</strong>
-      </div>
+        <div class="fin-kpi">
+            <span>Receitas</span>
+            <strong>${this.moeda(totalReceitas)}</strong>
+        </div>
+
+        <div class="fin-kpi">
+            <span>Despesas</span>
+            <strong>${this.moeda(totalDespesas)}</strong>
+        </div>
+
+        <div class="fin-kpi">
+            <span>Lucro</span>
+            <strong>${this.moeda(totalLucro)}</strong>
+        </div>
+
+        <div class="fin-kpi">
+            <span>Pró-labore</span>
+            <strong>${this.moeda(totalLucro * 0.9)}</strong>
+        </div>
+
+        <div class="fin-kpi">
+            <span>Capital</span>
+            <strong>${this.moeda(totalLucro * 0.1)}</strong>
+        </div>
     `;
   },
 
