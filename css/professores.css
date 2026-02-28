@@ -1,0 +1,187 @@
+/* =========================
+   PROFESSORES - LAYOUT
+========================= */
+
+.professores-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+}
+
+/* =========================
+   AÇÕES
+========================= */
+
+.professores-actions-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* =========================
+   FILTROS
+========================= */
+
+.prof-filtros {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.prof-filtros.hidden {
+  display: none;
+}
+
+.prof-filtros-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.prof-filtros-grid input,
+.prof-filtros-grid select {
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--text-main);
+  font-size: 0.85rem;
+}
+
+/* =========================
+   GRID 3 COLUNAS
+========================= */
+
+#professores-list {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* =========================
+   CARD HORIZONTAL
+========================= */
+
+.prof-card {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  padding: 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow);
+  height: 100%;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.prof-card:hover {
+  border-color: var(--primary);
+}
+
+.prof-card-selected {
+  border-color: var(--primary);
+  background: var(--bg-soft);
+}
+
+/* =========================
+   FOTO
+========================= */
+
+.prof-foto {
+  width: 140px;
+  height: 140px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  flex-shrink: 0;
+}
+
+.prof-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =========================
+   INFORMAÇÕES
+========================= */
+
+.prof-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+
+.prof-name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.prof-label {
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+.prof-value {
+  color: var(--text-main);
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status-ativo {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.status-inativo {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+/* =========================
+   CONTADOR
+========================= */
+
+.professores-counter {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* =========================
+   PAGINAÇÃO
+========================= */
+
+.professores-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.professores-pagination button {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.professores-pagination button:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
