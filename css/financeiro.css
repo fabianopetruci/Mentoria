@@ -1,45 +1,99 @@
-/* GRID PRINCIPAL */
+/* css/financeiro.css */
+
+.financeiro-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.financeiro-year-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.financeiro-year {
+  font-weight: 700;
+  color: var(--text-main);
+  min-width: 64px;
+  text-align: center;
+}
+
+.financeiro-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .financeiro-grid {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-  gap: 20px;
-  height: 100%;
+  gap: 16px;
+  width: 100%;
 }
 
-/* CARDS */
-.resumo-card,
-.tabela-card,
-.grafico-card {
+.financeiro-card {
   background: var(--bg-surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 16px;
-  display: flex;
-  flex-direction: column;
+  min-height: 360px;
 }
 
-/* TABELA */
+.financeiro-card h3 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: var(--text-main);
+}
+
+.financeiro-card-table {
+  min-height: 360px;
+}
+
 .financeiro-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.85rem;
+  font-size: 0.92rem;
 }
 
 .financeiro-table th,
 .financeiro-table td {
-  padding: 6px 8px;
-  text-align: right;
-}
-
-.financeiro-table th:first-child,
-.financeiro-table td:first-child {
-  text-align: left;
-}
-
-.financeiro-table thead {
+  padding: 10px 12px;
   border-bottom: 1px solid var(--border);
+  text-align: left;
+  white-space: nowrap;
 }
 
-.financeiro-table tbody tr:nth-child(even) {
+.financeiro-table thead th {
   background: var(--bg-soft);
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.fin-kpis {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fin-kpi {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  background: var(--bg-soft);
+}
+
+.fin-kpi-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.fin-kpi-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-main);
 }
