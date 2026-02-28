@@ -145,8 +145,21 @@ window.Receitas = {
   },
 
   formatPeriod(monthIndex, year) {
-    const mm = String(monthIndex + 1).padStart(2, "0");
-    return `${mm}/${year}`;
+    const meses = [
+      "jan",
+      "fev",
+      "mar",
+      "abr",
+      "mai",
+      "jun",
+      "jul",
+      "ago",
+      "set",
+      "out",
+      "nov",
+      "dez",
+    ];
+    return `${meses[monthIndex]}/${year}`;
   },
 
   buildTable() {
