@@ -21,55 +21,66 @@ window.Alunos = {
     if (!el) return;
 
     el.innerHTML = `
-      <div class="alunos-container">
-
-        <div class="alunos-actions-top">
-          <button class="btn btn-primary" id="aluno-btn-cadastrar">Cadastrar</button>
-          <button class="btn btn-warning" id="aluno-btn-alterar" disabled>Alterar</button>
-          <button class="btn btn-danger" id="aluno-btn-excluir" disabled>Excluir</button>
-          <button class="btn btn-print id="aluno-btn-imprimir">Imprimir</button>
-          <button class="btn btn-outline" id="aluno-btn-filtros">Filtros</button>
+      <div class="module-frame">
+        <div class="module-header">
+          <h1 class="module-title">ALUNOS</h1>
         </div>
 
-        <div id="aluno-filtros-panel" class="aluno-filtros hidden">
-          <div class="aluno-filtros-grid">
+        <div class="module-body">
 
-            <select id="f-status">
-              <option value="">Status</option>
-              <option value="Ativo">Ativo</option>
-              <option value="Inativo">Inativo</option>
-            </select>
+          <div class="alunos-container">
 
-            <select id="f-sexo">
-              <option value="">Sexo</option>
-              <option value="Masculino">Masculino</option>
-              <option value="Feminino">Feminino</option>
-            </select>
+            <div class="alunos-actions-top">
+              <button class="btn btn-primary" id="aluno-btn-cadastrar">Cadastrar</button>
+              <button class="btn btn-warning" id="aluno-btn-alterar" disabled>Alterar</button>
+              <button class="btn btn-danger" id="aluno-btn-excluir" disabled>Excluir</button>
+              <button class="btn btn-print" id="aluno-btn-imprimir">Imprimir</button>
+              <button class="btn btn-outline" id="aluno-btn-filtros">Filtros</button>
+            </div>
 
-            <input id="f-ano" placeholder="Ano escolar">
-            <input id="f-escola" placeholder="Escola">
-            <select id="f-turno">
-              <option value="">Turno</option>
-              <option value="Matutino">Matutino</option>
-              <option value="Vespertino">Vespertino</option>
-            </select>
+            <div id="aluno-filtros-panel" class="aluno-filtros hidden">
+              <div class="aluno-filtros-grid">
 
-            <button class="btn btn-primary" id="f-aplicar">Aplicar</button>
-            <button class="btn btn-secondary" id="f-limpar">Limpar</button>
+                <select id="f-status">
+                  <option value="">Status</option>
+                  <option value="Ativo">Ativo</option>
+                  <option value="Inativo">Inativo</option>
+                </select>
+
+                <select id="f-sexo">
+                  <option value="">Sexo</option>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Feminino">Feminino</option>
+                </select>
+
+                <input id="f-ano" placeholder="Ano escolar">
+                <input id="f-escola" placeholder="Escola">
+
+                <select id="f-turno">
+                  <option value="">Turno</option>
+                  <option value="Matutino">Matutino</option>
+                  <option value="Vespertino">Vespertino</option>
+                </select>
+
+                <button class="btn btn-primary" id="f-aplicar">Aplicar</button>
+                <button class="btn btn-secondary" id="f-limpar">Limpar</button>
+
+              </div>
+            </div>
+
+            <div id="alunos-list">Carregando alunos...</div>
+
+            <div class="alunos-counter" id="alunos-counter"></div>
+
+            <div class="alunos-pagination">
+              <button id="prev-page">◀</button>
+              <span id="page-info">1 / 1</span>
+              <button id="next-page">▶</button>
+            </div>
 
           </div>
+
         </div>
-
-        <div id="alunos-list">Carregando alunos...</div>
-
-        <div class="alunos-counter" id="alunos-counter"></div>
-
-        <div class="alunos-pagination">
-          <button id="prev-page">◀</button>
-          <span id="page-info">1 / 1</span>
-          <button id="next-page">▶</button>
-        </div>
-
       </div>
     `;
 
@@ -270,7 +281,6 @@ window.Alunos = {
       .join("");
 
     counter.textContent = `Exibindo ${slice.length} de ${totalFiltered} alunos.`;
-
     pageInfo.textContent = `${this.state.page} / ${totalPages}`;
 
     list.querySelectorAll(".aluno-card").forEach((card) => {
