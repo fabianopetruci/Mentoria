@@ -27,7 +27,7 @@ window.Alunos = {
           <button class="btn btn-primary" id="aluno-btn-cadastrar">Cadastrar</button>
           <button class="btn btn-warning" id="aluno-btn-alterar" disabled>Alterar</button>
           <button class="btn btn-danger" id="aluno-btn-excluir" disabled>Excluir</button>
-          <button class="btn btn-secondary" id="aluno-btn-imprimir">Imprimir</button>
+          <button class="btn btn-print id="aluno-btn-imprimir">Imprimir</button>
           <button class="btn btn-outline" id="aluno-btn-filtros">Filtros</button>
         </div>
 
