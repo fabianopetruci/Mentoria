@@ -1,0 +1,45 @@
+/* GRID PRINCIPAL */
+.financeiro-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 20px;
+  height: 100%;
+}
+
+/* CARDS */
+.resumo-card,
+.tabela-card,
+.grafico-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TABELA */
+.financeiro-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.financeiro-table th,
+.financeiro-table td {
+  padding: 6px 8px;
+  text-align: right;
+}
+
+.financeiro-table th:first-child,
+.financeiro-table td:first-child {
+  text-align: left;
+}
+
+.financeiro-table thead {
+  border-bottom: 1px solid var(--border);
+}
+
+.financeiro-table tbody tr:nth-child(even) {
+  background: var(--bg-soft);
+}
