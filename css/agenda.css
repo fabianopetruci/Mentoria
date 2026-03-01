@@ -89,3 +89,20 @@
   line-height: 1.4;
   text-transform: capitalize;
 }
+
+/* =========================
+   ITEM DE REGISTRO
+========================= */
+
+.agenda-item {
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.agenda-item + .agenda-item {
+  margin-top: 12px;
+}
