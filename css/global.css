@@ -281,8 +281,7 @@ footer {
   max-width: 1200px;
 
   /*height: 100%;*/
-  height: auto;
-  max-height: calc(100vh - 160px); /* header + footer */
+  height: calc(100vh - 240px);
 
   display: flex;
   flex-direction: column;
