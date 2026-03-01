@@ -1,59 +1,89 @@
 /* =========================
-   RECEITAS - LAYOUT
-========================= */
-
-.module-body {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-/* =========================
-   AÇÕES SUPERIORES
+   RECEITAS - LAYOUT GERAL
 ========================= */
 
 .receitas-actions-top {
   display: flex;
-  flex-wrap: wrap;
   gap: 12px;
+  margin-bottom: 12px;
 }
 
-/* =========================
-   CARD TABELA
-========================= */
-
 .receitas-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  overflow: hidden;
+  padding: 16px;
 }
+
+/* =========================
+   TABELA
+========================= */
 
 .receitas-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
-}
-
-.receitas-table thead {
-  background: var(--bg-soft);
+  table-layout: fixed;
 }
 
 .receitas-table th,
 .receitas-table td {
-  padding: 12px 14px;
+  padding: 10px 12px;
   border-bottom: 1px solid var(--border);
-  text-align: left;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .receitas-table th {
+  text-align: left;
   font-weight: 600;
-  color: var(--text-muted);
+  background: var(--bg-soft);
 }
 
-.receitas-table tbody tr:hover {
-  background: var(--bg-soft);
+/* COLUNAS PROPORCIONAIS FIXAS */
+
+.receitas-table th:nth-child(1),
+.receitas-table td:nth-child(1) {
+  width: 42%;
+}
+
+.receitas-table th:nth-child(2),
+.receitas-table td:nth-child(2) {
+  width: 8%;
+  text-align: center;
+}
+
+.receitas-table th:nth-child(3),
+.receitas-table td:nth-child(3) {
+  width: 12%;
+  text-align: center;
+}
+
+.receitas-table th:nth-child(4),
+.receitas-table td:nth-child(4),
+.receitas-table th:nth-child(5),
+.receitas-table td:nth-child(5),
+.receitas-table th:nth-child(6),
+.receitas-table td:nth-child(6) {
+  width: 12%;
+  text-align: right;
+}
+
+.receitas-table tbody {
+  display: block;
+  min-height: 150px; /* ajuste conforme altura de 4 linhas */
+}
+
+.receitas-table thead,
+.receitas-table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 
 /* =========================
@@ -75,26 +105,44 @@
 ========================= */
 
 .receitas-total {
-  padding: 16px;
+  margin-top: 16px;
   text-align: right;
   font-size: 0.95rem;
-  border-top: 1px solid var(--border);
 }
 
 /* =========================
-   PAGINAÇÃO / PERÍODO
+   PAGINAÇÃO
 ========================= */
 
 .receitas-pagination {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 16px;
-  padding-top: 8px;
+  justify-content: space-between;
+  margin-top: 8px;
 }
 
-.receitas-page {
-  font-size: 0.9rem;
+.receitas-page-nav-left,
+.receitas-page-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.receitas-month-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-label {
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
