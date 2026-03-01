@@ -3,6 +3,20 @@
 window.Agenda = {
   state: {
     currentDate: new Date(),
+    page: 0,
+    perPage: 5,
+    tasks: [
+      "09:00 - Maria Clara - fazer tarefa de matemática",
+      "09:30 - Paulo Gustavo - estudar para prova de física",
+      "10:00 - Ana Beatriz - revisar interpretação de texto",
+      "10:30 - João Pedro - exercícios de frações",
+      "11:00 - Laura Mendes - estudar para prova de história",
+      "11:30 - Miguel Santos - fazer tarefa de geografia",
+      "14:00 - Sofia Almeida - revisão de equações",
+      "15:00 - Gabriel Rocha - estudar para prova de química",
+      "16:00 - Helena Costa - leitura e resumo de português",
+      "17:00 - Lucas Ferreira - exercícios de matemática básica",
+    ],
   },
 
   render() {
@@ -17,7 +31,6 @@ window.Agenda = {
 
         <div class="agenda-container">
 
-          <!-- SIDEBAR -->
           <div class="agenda-sidebar">
             <div class="agenda-date" id="agenda-date-label">
               ${this.formatFullDate(this.state.currentDate)}
@@ -36,26 +49,21 @@ window.Agenda = {
             </button>
           </div>
 
-          <!-- MAIN -->
           <div class="agenda-list">
 
             <div class="agenda-title">
               Agenda do dia
             </div>
 
-            <div id="agenda-content" class="agenda-content">
-              Nenhuma tarefa cadastrada para este dia.
-            </div>
+            <div id="agenda-content" class="agenda-content"></div>
 
             <div class="agenda-nav-wrapper">
               <div class="agenda-nav">
-                <button id="prev-day" class="btn-arrow">◀</button>
-                <span 
-                  id="current-date-display" 
-                  class="agenda-nav-date">
-                  ${this.formatShortDate(this.state.currentDate)}
+                <button id="prev-page" class="btn-arrow">◀</button>
+                <span class="agenda-nav-date">
+                  Página ${this.state.page + 1}
                 </span>
-                <button id="next-day" class="btn-arrow">▶</button>
+                <button id="next-page" class="btn-arrow">▶</button>
               </div>
             </div>
 
@@ -65,7 +73,22 @@ window.Agenda = {
       </div>
     `;
 
+    this.renderTasks();
     this.bindEvents();
+  },
+
+  renderTasks() {
+    const content = document.getElementById("agenda-content");
+    if (!content) return;
+
+    const start = this.state.page * this.state.perPage;
+    const end = start + this.state.perPage;
+
+    const visible = this.state.tasks.slice(start, end);
+
+    content.innerHTML = visible
+      .map((task) => `<div class="agenda-item">${task}</div>`)
+      .join("");
   },
 
   formatFullDate(date) {
@@ -77,44 +100,30 @@ window.Agenda = {
     });
   },
 
-  formatShortDate(date) {
-    return date.toLocaleDateString("pt-BR");
-  },
-
   bindEvents() {
-    document.getElementById("prev-day")?.addEventListener("click", () => {
-      this.changeDay(-1);
+    document.getElementById("prev-page")?.addEventListener("click", () => {
+      if (this.state.page > 0) {
+        this.state.page--;
+        this.renderTasks();
+        this.updatePageLabel();
+      }
     });
 
-    document.getElementById("next-day")?.addEventListener("click", () => {
-      this.changeDay(1);
+    document.getElementById("next-page")?.addEventListener("click", () => {
+      const maxPage =
+        Math.ceil(this.state.tasks.length / this.state.perPage) - 1;
+      if (this.state.page < maxPage) {
+        this.state.page++;
+        this.renderTasks();
+        this.updatePageLabel();
+      }
     });
   },
 
-  changeDay(step) {
-    const current = this.state.currentDate;
-    const newDate = new Date(current);
-
-    newDate.setDate(newDate.getDate() + step);
-
-    if (newDate.getMonth() !== current.getMonth()) {
-      return;
-    }
-
-    this.state.currentDate = newDate;
-    this.updateDateUI();
-  },
-
-  updateDateUI() {
-    const fullLabel = document.getElementById("agenda-date-label");
-    const shortLabel = document.getElementById("current-date-display");
-
-    if (fullLabel) {
-      fullLabel.textContent = this.formatFullDate(this.state.currentDate);
-    }
-
-    if (shortLabel) {
-      shortLabel.textContent = this.formatShortDate(this.state.currentDate);
+  updatePageLabel() {
+    const label = document.querySelector(".agenda-nav-date");
+    if (label) {
+      label.textContent = `Página ${this.state.page + 1}`;
     }
   },
 };
