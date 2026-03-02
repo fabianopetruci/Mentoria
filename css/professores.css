@@ -5,7 +5,7 @@
 .professores-container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: clamp(16px, 3vh, 24px);
   height: 100%;
 }
 
@@ -16,7 +16,8 @@
 .professores-actions-top {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  justify-content: center;
+  gap: clamp(8px, 2vh, 12px);
 }
 
 /* =========================
@@ -27,7 +28,7 @@
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 16px;
+  padding: clamp(10px, 2vh, 16px);
 }
 
 .prof-filtros.hidden {
@@ -37,17 +38,17 @@
 .prof-filtros-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: clamp(8px, 2vh, 12px);
 }
 
 .prof-filtros-grid input,
 .prof-filtros-grid select {
-  padding: 8px 10px;
+  padding: clamp(6px, 1.2vh, 8px) clamp(8px, 1.5vh, 10px);
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--bg-soft);
   color: var(--text-main);
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 1.3vh, 0.85rem);
 }
 
 /* =========================
@@ -55,11 +56,10 @@
 ========================= */
 
 #professores-list {
-  flex: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  align-items: stretch;
+  gap: clamp(16px, 3vh, 24px);
+  align-items: start;
 }
 
 /* =========================
@@ -69,13 +69,12 @@
 .prof-card {
   display: flex;
   flex-direction: row;
-  gap: 16px;
-  padding: 20px;
+  gap: clamp(10px, 2vh, 16px);
+  padding: clamp(12px, 2.5vh, 20px);
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--bg-surface);
   box-shadow: var(--shadow);
-  height: 100%;
   cursor: pointer;
   transition: 0.15s ease;
 }
@@ -94,8 +93,8 @@
 ========================= */
 
 .prof-foto {
-  width: 140px;
-  height: 140px;
+  width: clamp(70px, 12vh, 140px);
+  height: clamp(70px, 12vh, 140px);
   border-radius: var(--radius);
   overflow: hidden;
   border: 1px solid var(--border);
@@ -116,12 +115,12 @@
 .prof-info {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 0.85rem;
+  gap: clamp(6px, 1.5vh, 8px);
+  font-size: clamp(0.75rem, 1.3vh, 0.85rem);
 }
 
 .prof-name {
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.8vh, 1rem);
   font-weight: 600;
 }
 
@@ -154,9 +153,11 @@
 ========================= */
 
 .professores-counter {
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 1.3vh, 0.85rem);
   color: var(--text-muted);
-  text-align: right;
+  text-align: center;
+  margin-top: clamp(6px, 1vh, 10px);
+  margin-bottom: clamp(4px, 0.8vh, 8px);
 }
 
 /* =========================
@@ -167,12 +168,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: clamp(8px, 1.5vh, 12px);
 }
 
 .professores-pagination button {
-  width: 36px;
-  height: 36px;
+  width: clamp(28px, 4vh, 36px);
+  height: clamp(28px, 4vh, 36px);
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--bg-soft);
