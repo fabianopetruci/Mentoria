@@ -5,7 +5,8 @@
 .pendencias-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 3vh;
+  align-items: stretch;
 }
 
 /* =========================
@@ -19,11 +20,15 @@
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .pendencias-card-header {
-  padding: 16px;
+  padding: 2vh;
   border-bottom: 1px solid var(--border);
+  min-height: 65px;
+  display: flex;
+  align-items: center;
 }
 
 .pendencias-card-header-row {
@@ -33,16 +38,18 @@
 }
 
 .pendencias-card-title {
-  font-size: 1rem;
+  font-size: clamp(0.7rem, 0.4vw + 0.5rem, 0.8rem);
   font-weight: 600;
   color: var(--text-main);
 }
 
 .pendencias-card-body {
-  padding: 16px;
+  padding: 2vh;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 1.5vh;
+  flex: 1;
+  overflow: hidden;
 }
 
 /* =========================
@@ -52,19 +59,23 @@
 .pendencias-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.85rem;
+  table-layout: fixed;
+  font-size: clamp(0.6rem, 0.4vw + 0.4rem, 0.8rem);
 }
 
 .pendencias-table th,
 .pendencias-table td {
-  padding: 10px;
+  padding: 1.2vh;
   border-bottom: 1px solid var(--border);
   text-align: left;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .pendencias-table th {
   color: var(--text-muted);
   font-weight: 600;
+  background: var(--bg-soft);
 }
 
 /* =========================
@@ -73,9 +84,9 @@
 
 .pen-badge {
   display: inline-block;
-  padding: 4px 10px;
+  padding: 0.6vh 1.2vh;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: clamp(0.6rem, 0.4vw + 0.4rem, 0.8rem);
   font-weight: 600;
 }
 
@@ -102,8 +113,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  padding: 10px;
+  gap: 1.5vh;
+  padding: 1.2vh;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg-soft);
@@ -111,14 +122,16 @@
 
 .pendencias-lembrete-text {
   flex: 1;
-  font-size: 0.85rem;
+  font-size: clamp(0.6rem, 0.4vw + 0.4rem, 0.8rem);
   color: var(--text-main);
+  white-space: normal;
+  word-break: break-word;
 }
 
 .pendencias-lembrete-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 1.2vh;
 }
 
 /* =========================
@@ -126,9 +139,9 @@
 ========================= */
 
 .pen-pill {
-  padding: 4px 10px;
+  padding: 0.5vh 1vh;
   border-radius: 999px;
-  font-size: 0.7rem;
+  font-size: clamp(0.6rem, 0.4vw + 0.4rem, 0.8rem);
   font-weight: 600;
 }
 
@@ -152,14 +165,14 @@
 ========================= */
 
 .pen-icon-btn {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  width: 3.2vh;
+  height: 3.2vh;
+  border-radius: 0.8vh;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-main);
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: clamp(0.6rem, 0.4vw + 0.4rem, 0.8rem);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -177,7 +190,7 @@
 ========================= */
 
 .pendencias-aniversario-item {
-  font-size: 0.85rem;
-  padding: 6px 0;
+  font-size: clamp(0.6rem, 0.4vw + 0.4rem, 0.8rem);
+  padding: 1vh 0;
   border-bottom: 1px solid var(--border);
 }
