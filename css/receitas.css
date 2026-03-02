@@ -4,8 +4,9 @@
 
 .receitas-actions-top {
   display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 1.85vh; /* proporcional */
+  margin-bottom: 2.46vh;
 }
 
 .receitas-card {
@@ -16,7 +17,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 16px;
+  padding: 2.46vh; /* proporcional */
 }
 
 /* =========================
@@ -31,9 +32,9 @@
 
 .receitas-table th,
 .receitas-table td {
-  padding: 10px 12px;
+  padding: 1.6vh 1.85vh;
   border-bottom: 1px solid var(--border);
-  font-size: 0.9rem;
+  font-size: clamp(0.75rem, 1.6vh, 0.9rem);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -49,12 +50,12 @@
 
 .receitas-table th:nth-child(1),
 .receitas-table td:nth-child(1) {
-  width: 42%;
+  width: 38%;
 }
 
 .receitas-table th:nth-child(2),
 .receitas-table td:nth-child(2) {
-  width: 8%;
+  width: 10%;
   text-align: center;
 }
 
@@ -70,13 +71,15 @@
 .receitas-table td:nth-child(5),
 .receitas-table th:nth-child(6),
 .receitas-table td:nth-child(6) {
-  width: 12%;
+  width: 13%;
   text-align: right;
 }
 
+/* Mantém altura consistente */
+
 .receitas-table tbody {
   display: block;
-  min-height: 150px; /* ajuste conforme altura de 4 linhas */
+  min-height: 22vh;
 }
 
 .receitas-table thead,
@@ -105,9 +108,9 @@
 ========================= */
 
 .receitas-total {
-  margin-top: 16px;
+  margin-top: 2.46vh;
   text-align: right;
-  font-size: 0.95rem;
+  font-size: clamp(0.8rem, 1.8vh, 0.95rem);
 }
 
 /* =========================
@@ -118,24 +121,26 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 8px;
+  margin-top: 2vh;
+  padding-top: 1.5vh;
+  border-top: 1px solid var(--border);
 }
 
 .receitas-page-nav-left,
 .receitas-page-nav-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 1.23vh;
 }
 
 .receitas-month-nav {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 1.85vh;
 }
 
 .page-label {
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 1.6vh, 0.85rem);
   font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
