@@ -1,45 +1,80 @@
 /* =========================
-   AÇÕES SUPERIORES
+   DESPESAS - LAYOUT GERAL
 ========================= */
 
 .despesas-actions-top {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 1.85vh;
+  margin-bottom: 2.46vh;
 }
 
-/* =========================
-   CARD TABELA
-========================= */
-
 .despesas-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  overflow: hidden;
+  padding: 2.46vh;
 }
+
+/* =========================
+   TABELA
+========================= */
 
 .despesas-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
-}
-
-.despesas-table thead {
-  background: var(--bg-soft);
+  table-layout: fixed;
 }
 
 .despesas-table th,
 .despesas-table td {
-  padding: 12px 14px;
+  padding: 1.6vh 1.85vh;
   border-bottom: 1px solid var(--border);
-  text-align: left;
+  font-size: clamp(0.9rem, 0.6vw + 0.5rem, 1.05rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .despesas-table th {
+  text-align: left;
   font-weight: 600;
-  color: var(--text-muted);
+  background: var(--bg-soft);
+}
+
+/* =========================
+   COLUNAS PROPORCIONAIS
+========================= */
+
+/* Descrição */
+.despesas-table th:nth-child(1),
+.despesas-table td:nth-child(1) {
+  width: 45%;
+}
+
+/* Valor */
+.despesas-table th:nth-child(2),
+.despesas-table td:nth-child(2) {
+  width: 18%;
+  text-align: right;
+}
+
+/* Vencimento */
+.despesas-table th:nth-child(3),
+.despesas-table td:nth-child(3) {
+  width: 20%;
+  text-align: center;
+}
+
+/* Status */
+.despesas-table th:nth-child(4),
+.despesas-table td:nth-child(4) {
+  width: 17%;
+  text-align: right;
 }
 
 .despesas-table tbody tr:hover {
@@ -65,26 +100,30 @@
 ========================= */
 
 .despesas-total {
-  padding: 16px;
+  margin-top: 2.46vh;
   text-align: right;
-  font-size: 0.95rem;
-  border-top: 1px solid var(--border);
+  font-size: clamp(0.9rem, 0.6vw + 0.5rem, 1.05rem);
 }
 
 /* =========================
-   PAGINAÇÃO / PERÍODO
+   PAGINAÇÃO
 ========================= */
 
 .despesas-pagination {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 16px;
-  padding-top: 8px;
+  justify-content: center;
+  gap: 2vh;
+  margin-top: 2vh;
 }
 
 .despesas-page {
-  font-size: 0.9rem;
+  font-size: clamp(0.9rem, 0.6vw + 0.5rem, 1.05rem);
   font-weight: 600;
   color: var(--text-muted);
+}
+
+.btn-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
