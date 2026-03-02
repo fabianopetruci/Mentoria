@@ -54,9 +54,9 @@ window.Professores = {
             <div class="professores-counter" id="prof-counter"></div>
 
             <div class="professores-pagination">
-              <button id="prof-prev-page">◀</button>
-              <span id="prof-page-info">1 / 1</span>
-              <button id="prof-next-page">▶</button>
+              <button class="btn-arrow" id="prof-prev-page">◀</button>
+              <span class="page-label" id="prof-page-info">1 / 1</span>
+              <button class="btn-arrow" id="prof-next-page">▶</button>
             </div>
 
           </div>
