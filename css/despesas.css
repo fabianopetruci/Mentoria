@@ -1,14 +1,4 @@
 /* =========================
-   DESPESAS - LAYOUT
-========================= */
-
-.module-body {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-/* =========================
    AÇÕES SUPERIORES
 ========================= */
 
