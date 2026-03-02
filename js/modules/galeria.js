@@ -31,7 +31,7 @@ window.Galeria = {
 
           <div class="galeria-pagination">
             <button class="btn-arrow" id="gal-prev">◀</button>
-            <span id="gal-page-info">0 / 0</span>
+            <span class="pagination-info" id="gal-page-info">0 / 0</span>
             <button class="btn-arrow" id="gal-next">▶</button>
           </div>
 
