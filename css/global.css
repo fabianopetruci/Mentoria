@@ -261,6 +261,7 @@ main#app {
 .module-frame {
   width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
 
   /* header ≈ 12.3vh | footer ≈ 6.15vh  */
   height: calc(100vh - 18.45vh);
