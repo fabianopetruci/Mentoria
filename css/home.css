@@ -13,15 +13,15 @@
   max-width: 1400px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 4.92vh; /* 32px ≈ 4.92vh */
+  gap: 4.92vh;
   align-content: center;
-  padding: 1.54vh; /* 10px ≈ 1.54vh */
+  padding: 1.54vh;
 }
 
 .home-tile {
   position: relative;
   background-color: #f3f3f3;
-  border-radius: 1.23vh; /* 8px ≈ 1.23vh */
+  border-radius: 1.23vh;
 
   aspect-ratio: 1 / 1;
 
@@ -29,41 +29,28 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2.46vh; /* 16px ≈ 2.46vh */
+  gap: 2.46vh;
 
   cursor: pointer;
   box-shadow: 0 0.92vh 2.77vh rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
-/* Dark mode */
-body.dark .home-tile {
-  background-color: #020617;
-}
+/* =========================
+   LIGHT MODE - BORDA ANIMADA
+========================= */
 
-/* Contorno animado no dark */
-body.dark .home-tile::before {
+.home-tile::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 1.23vh; /* 8px ≈ 1.23vh */
-  padding: 0.46vh; /* 3px ≈ 0.46vh */
+  border-radius: 1.23vh;
+  padding: 0.46vh;
   opacity: 0;
   z-index: 0;
 
-  background: linear-gradient(
-    90deg,
-    #00c6ff,
-    #00ffcc,
-    #7cff00,
-    #ffd000,
-    #ff7a00,
-    #ff004c,
-    #b000ff,
-    #00c6ff
-  );
-
-  background-size: 300% 100%;
+  background: linear-gradient(90deg, #2b6cb0, #00c6ff, #00ffcc, #2b6cb0);
+  background-size: 200% 100%;
 
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
@@ -75,10 +62,37 @@ body.dark .home-tile::before {
   mask-composite: exclude;
 }
 
-body.dark .home-tile:hover::before {
+.home-tile:hover::before {
   opacity: 1;
   animation: borderFlow 2s linear infinite alternate;
 }
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark .home-tile {
+  background-color: #020617;
+}
+
+body.dark .home-tile::before {
+  background: linear-gradient(
+    90deg,
+    #00c6ff,
+    #00ffcc,
+    #7cff00,
+    #ffd000,
+    #ff7a00,
+    #ff004c,
+    #b000ff,
+    #00c6ff
+  );
+  background-size: 300% 100%;
+}
+
+/* =========================
+   ANIMAÇÃO
+========================= */
 
 @keyframes borderFlow {
   from {
@@ -95,7 +109,7 @@ body.dark .home-tile:hover::before {
 }
 
 .home-tile:hover {
-  transform: translateY(-0.31vh); /* 2px ≈ 0.31vh */
+  transform: translateY(-0.31vh);
   transition: 0.15s ease;
 }
 
@@ -119,12 +133,12 @@ body.dark .home-label {
 
 .home-badge {
   position: absolute;
-  top: 1.54vh; /* 10px ≈ 1.54vh */
-  right: 1.54vh; /* 10px ≈ 1.54vh */
+  top: 1.54vh;
+  right: 1.54vh;
   background: #c53030;
   color: #fff;
-  font-size: 1.85vh; /* 12px ≈ 1.85vh */
-  width: 3.38vh; /* 22px ≈ 3.38vh */
+  font-size: 1.85vh;
+  width: 3.38vh;
   height: 3.38vh;
   border-radius: 999px;
   display: flex;
