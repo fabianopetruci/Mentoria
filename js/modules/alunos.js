@@ -73,9 +73,9 @@ window.Alunos = {
             <div class="alunos-counter" id="alunos-counter"></div>
 
             <div class="alunos-pagination">
-              <button id="prev-page">◀</button>
-              <span id="page-info">1 / 1</span>
-              <button id="next-page">▶</button>
+              <button class="btn-arrow" id="prev-page">◀</button>
+              <span class="page-label" id="page-info">1 / 1</span>
+              <button class="btn-arrow" id="next-page">▶</button>
             </div>
 
           </div>
