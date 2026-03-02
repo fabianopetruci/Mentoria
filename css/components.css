@@ -6,12 +6,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 38px;
-  min-width: 120px;
-  padding: 0 16px;
+  height: clamp(32px, 4.5vh, 38px);
+  min-width: clamp(100px, 14vh, 120px);
+  padding: 0 clamp(12px, 2vh, 16px);
   border-radius: var(--radius);
   border: 1px solid transparent;
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 1.5vh, 0.9rem);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -94,14 +94,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: clamp(30px, 4vh, 36px);
+  height: clamp(30px, 4vh, 36px);
   padding: 0;
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--bg-soft);
   color: var(--text-main);
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 1.4vh, 0.85rem);
   cursor: pointer;
   transition: all 0.15s ease;
 }
