@@ -4,17 +4,61 @@ window.Despesas = {
   state: {
     currentMonth: new Date().getMonth(),
     currentYear: new Date().getFullYear(),
+    page: 1,
+    perPage: 4,
     data: [
       {
         descricao: "Aluguel",
-        valor: 1500.0,
+        valor: 1500,
         vencimento: "22/02/2026",
         status: "Pago",
       },
       {
         descricao: "Internet",
-        valor: 105.0,
+        valor: 105,
         vencimento: "09/02/2026",
+        status: "A pagar",
+      },
+      {
+        descricao: "Galão de água potável",
+        valor: 60,
+        vencimento: "10/02/2026",
+        status: "Pago",
+      },
+      {
+        descricao: "Energia elétrica (Equatorial)",
+        valor: 420,
+        vencimento: "15/02/2026",
+        status: "A pagar",
+      },
+      {
+        descricao: "Professora 1",
+        valor: 1200,
+        vencimento: "05/02/2026",
+        status: "Pago",
+      },
+      {
+        descricao: "Professora 2",
+        valor: 1200,
+        vencimento: "05/02/2026",
+        status: "Pago",
+      },
+      {
+        descricao: "Professora 3",
+        valor: 1200,
+        vencimento: "05/02/2026",
+        status: "A pagar",
+      },
+      {
+        descricao: "Materiais de escritório",
+        valor: 350,
+        vencimento: "18/02/2026",
+        status: "Pago",
+      },
+      {
+        descricao: "Despesas de manutenção",
+        valor: 780,
+        vencimento: "20/02/2026",
         status: "A pagar",
       },
     ],
@@ -31,6 +75,8 @@ window.Despesas = {
 
     const { rowsHtml, totalFmt } = this.buildTable();
 
+    const maxPage = Math.ceil(this.state.data.length / this.state.perPage);
+
     el.innerHTML = `
       <div class="module-frame">
         <div class="module-header">
@@ -40,11 +86,11 @@ window.Despesas = {
         <div class="module-body">
 
           <div class="despesas-actions-top">
-            <button class="btn btn-primary" id="des-btn-cadastrar">Cadastrar</button>
-            <button class="btn btn-warning" id="des-btn-alterar">Alterar</button>
-            <button class="btn btn-danger" id="des-btn-excluir">Excluir</button>
-            <button class="btn btn-print" id="des-btn-imprimir">Imprimir</button>
-            <button class="btn btn-outline" id="des-btn-periodo">Escolher período</button>
+            <button class="btn btn-primary">Cadastrar</button>
+            <button class="btn btn-warning">Alterar</button>
+            <button class="btn btn-danger">Excluir</button>
+            <button class="btn btn-print">Imprimir</button>
+            <button class="btn btn-outline">Escolher período</button>
           </div>
 
           <div class="despesas-card">
@@ -68,9 +114,23 @@ window.Despesas = {
           </div>
 
           <div class="despesas-pagination">
-            <button class="btn-arrow" id="des-prev-month">◀</button>
-            <span class="despesas-page" id="des-period-label">${periodLabel}</span>
-            <button class="btn-arrow" id="des-next-month">▶</button>
+
+            <div class="receitas-page-nav-left">
+              <button class="btn-arrow" id="des-prev-page" ${this.state.page === 1 ? "disabled" : ""}>◀</button>
+              <span class="page-label">Anterior</span>
+            </div>
+
+            <div class="receitas-month-nav">
+              <button class="btn-arrow" id="des-prev-month">◀</button>
+              <span class="despesas-page" id="des-period-label">${periodLabel}</span>
+              <button class="btn-arrow" id="des-next-month">▶</button>
+            </div>
+
+            <div class="receitas-page-nav-right">
+              <span class="page-label">Próximo</span>
+              <button class="btn-arrow" id="des-next-page" ${this.state.page >= maxPage ? "disabled" : ""}>▶</button>
+            </div>
+
           </div>
 
         </div>
@@ -89,26 +149,24 @@ window.Despesas = {
       this.changeMonth(1);
     });
 
-    document
-      .getElementById("des-btn-cadastrar")
-      ?.addEventListener("click", () => {});
-    document
-      .getElementById("des-btn-alterar")
-      ?.addEventListener("click", () => {});
-    document
-      .getElementById("des-btn-excluir")
-      ?.addEventListener("click", () => {});
-    document
-      .getElementById("des-btn-imprimir")
-      ?.addEventListener("click", () => {});
-    document
-      .getElementById("des-btn-periodo")
-      ?.addEventListener("click", () => {});
+    document.getElementById("des-prev-page")?.addEventListener("click", () => {
+      if (this.state.page > 1) {
+        this.state.page--;
+        this.render();
+      }
+    });
+
+    document.getElementById("des-next-page")?.addEventListener("click", () => {
+      const maxPage = Math.ceil(this.state.data.length / this.state.perPage);
+      if (this.state.page < maxPage) {
+        this.state.page++;
+        this.render();
+      }
+    });
   },
 
   changeMonth(step) {
     let m = this.state.currentMonth + step;
-
     if (m < 0) m = 11;
     if (m > 11) m = 0;
 
@@ -145,11 +203,15 @@ window.Despesas = {
     const fmtMoney = (n) =>
       n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
+    const start = (this.state.page - 1) * this.state.perPage;
+    const end = start + this.state.perPage;
+    const pageData = this.state.data.slice(start, end);
+
     let total = 0;
 
-    const rowsHtml = this.state.data
+    const rowsHtml = pageData
       .map((r) => {
-        total += Number(r.valor || 0);
+        total += r.valor;
 
         const statusClass =
           r.status === "Pago" ? "desp-status-pago" : "desp-status-pagar";
@@ -157,7 +219,7 @@ window.Despesas = {
         return `
           <tr>
             <td>${r.descricao}</td>
-            <td>${fmtMoney(Number(r.valor || 0))}</td>
+            <td>${fmtMoney(r.valor)}</td>
             <td>${r.vencimento}</td>
             <td class="${statusClass}">${r.status}</td>
           </tr>
