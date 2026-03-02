@@ -4,7 +4,7 @@
 
 .agenda-container {
   display: flex;
-  gap: 32px;
+  gap: 4.92vh; /* 32px ≈ 4.92vh */
 }
 
 /* =========================
@@ -12,14 +12,14 @@
 ========================= */
 
 .agenda-sidebar {
-  width: 260px;
+  width: 40vh; /* 260px ≈ 40vh */
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 2.46vh; /* 16px ≈ 2.46vh */
 }
 
 .agenda-date {
-  font-size: 0.9rem;
+  font-size: clamp(12px, 1vw, 14px);
   font-weight: 500;
   color: var(--text-muted);
   text-transform: capitalize;
@@ -36,14 +36,14 @@
 }
 
 .agenda-title {
-  font-size: 1rem;
+  font-size: clamp(13px, 1vw, 16px);
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 2.46vh; /* 16px ≈ 2.46vh */
 }
 
 .agenda-content {
   flex: 1;
-  padding: 24px;
+  padding: 3.69vh; /* 24px ≈ 3.69vh */
   border-radius: var(--radius);
   background: var(--bg-surface);
   border: 1px solid var(--border);
@@ -55,8 +55,8 @@
 ========================= */
 
 .agenda-nav-wrapper {
-  margin-top: 20px;
-  padding-top: 16px;
+  margin-top: 3.08vh; /* 20px ≈ 3.08vh */
+  padding-top: 2.46vh; /* 16px ≈ 2.46vh */
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: center;
@@ -65,11 +65,11 @@
 .agenda-nav {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 2.46vh; /* 16px ≈ 2.46vh */
 }
 
 .agenda-nav-date {
-  font-size: 0.85rem;
+  font-size: clamp(11px, 1vw, 14px);
   font-weight: 500;
   color: var(--text-muted);
 }
@@ -79,12 +79,12 @@
 ========================= */
 
 .agenda-date {
-  padding: 16px;
+  padding: 2.46vh; /* 16px ≈ 2.46vh */
   border-radius: var(--radius);
   background: var(--bg-soft);
   border: 1px solid var(--border);
   text-align: center;
-  font-size: 0.9rem;
+  font-size: clamp(12px, 1vw, 14px);
   font-weight: 600;
   line-height: 1.4;
   text-transform: capitalize;
@@ -95,14 +95,14 @@
 ========================= */
 
 .agenda-item {
-  padding: 8px 16px;
+  padding: 1.23vh 2.46vh; /* 8px ≈ 1.23vh | 16px ≈ 2.46vh */
   border-radius: var(--radius);
   background: var(--bg-soft);
   border: 1px solid var(--border);
-  font-size: 0.9rem;
+  font-size: clamp(12px, 1vw, 14px);
   line-height: 1.4;
 }
 
 .agenda-item + .agenda-item {
-  margin-top: 12px;
+  margin-top: 1.85vh; /* 12px ≈ 1.85vh */
 }
