@@ -56,7 +56,6 @@ body.dark {
 html,
 body {
   height: 100%;
-  /*overflow: hidden;*/
   margin: 0;
 }
 
@@ -68,44 +67,33 @@ body {
   flex-direction: column;
 }
 
-#app {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
 /* =========================
    HEADER
 ========================= */
 .header {
   position: relative;
-  height: 120px;
+  height: clamp(60px, 12.3vh, 80px);
   background-color: var(--bg-surface);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  padding: 1.23vh 1.23vh; /* 1.23vh = 8px */
   flex-shrink: 0;
 }
 
 .header-left,
 .header-right {
   display: flex;
+  height: 100%;
   align-items: center;
   gap: 12px;
 }
 
-.logo {
-  height: 160px;
+.header-left img {
+  height: 100%;
+  width: auto;
+  display: block;
   cursor: pointer;
 }
 
@@ -144,8 +132,8 @@ body.dark .header::after {
   border: 1px solid var(--border);
   color: var(--text-main);
   font-size: 1.2rem;
-  padding: 8px 10px;
-  border-radius: 8px;
+  padding: 1.23vh 1.54vh; /* 8px ≈ 1.23vh | 10px ≈ 1.54vh */
+  border-radius: 1.23vh; /* 8px ≈ 1.23vh */
   cursor: pointer;
 }
 
@@ -164,8 +152,6 @@ body.dark .header::after {
 #app > section {
   width: 100%;
   max-width: 1400px;
-  display: flex;
-  justify-content: center;
 }
 
 main#app {
@@ -173,7 +159,7 @@ main#app {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 32px 24px;
+  padding: 4.92vh 3.69vh; /* 32px ≈ 4.92vh | 24px ≈ 3.69vh */
   width: 100%;
   height: 100%;
 }
@@ -181,7 +167,6 @@ main#app {
 /* Canvas central */
 .app-canvas {
   width: 100%;
-  max-width: 1400px;
   min-height: 100%;
 }
 
@@ -189,7 +174,7 @@ main#app {
    FOOTER
 ========================= */
 .footer {
-  height: 40px;
+  height: clamp(28px, 6.15vh, 40px); /* 6.15vh = 40px */
   background-color: var(--bg-surface);
   border-top: 1px solid var(--border);
   display: flex;
@@ -203,12 +188,12 @@ main#app {
 .status {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.9vh; /* 0.9vh = 6px */
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
+  width: 1.54vh; /* 1.54vh = 10px */
+  height: 1.54vh;
   border-radius: 50%;
   background-color: var(--success);
 }
@@ -223,17 +208,18 @@ main#app {
 /* =========================
    MENU (HAMBURGER)
 ========================= */
+
 #menu.menu {
   position: fixed;
-  top: 120px; /* altura do header */
+  top: clamp(60px, 12.3vh, 80px); /* acompanha o header */
   right: 0;
-  width: 180px;
-  max-height: calc(100vh - 120px);
+  width: 18.5vh; /* 120px ≈ 18.5vh */
+  max-height: calc(100vh - clamp(60px, 12.3vh, 80px));
   overflow: auto;
   background: var(--bg-surface);
   border-left: 1px solid var(--border);
   box-shadow: var(--shadow);
-  padding: 12px 0;
+  padding: 1.85vh 0; /* 12px ≈ 1.85vh */
   z-index: 2000;
 }
 
@@ -244,7 +230,7 @@ main#app {
 }
 
 #menu.menu li {
-  padding: 10px 16px;
+  padding: 1.5vh 2.46vh; /* 10px ≈ 1.5vh | 16px ≈ 2.46vh */
   cursor: pointer;
   color: var(--text-main);
 }
@@ -268,10 +254,6 @@ main#app {
   background-color: var(--danger);
 }
 
-footer {
-  flex-shrink: 0;
-}
-
 /* =========================
    MODULE FRAME (PADRÃO)
 ========================= */
@@ -280,8 +262,8 @@ footer {
   width: 100%;
   max-width: 1200px;
 
-  /*height: 100%;*/
-  height: calc(100vh - 240px);
+  /* header ≈ 12.3vh | footer ≈ 6.15vh  */
+  height: calc(100vh - 18.45vh);
 
   display: flex;
   flex-direction: column;
@@ -289,12 +271,13 @@ footer {
   background: var(--bg-surface);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 24px;
+  padding: 3.69vh; /* 24px ≈ 3.69vh */
 }
+
 .module-header {
-  margin-bottom: 24px;
+  margin-bottom: 3.69vh; /* 24px ≈ 3.69vh */
   border-bottom: 1px solid var(--border);
-  padding-bottom: 12px;
+  padding-bottom: 1.85vh; /* 12px ≈ 1.85vh */
 }
 
 .module-title {
