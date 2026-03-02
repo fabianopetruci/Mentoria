@@ -98,12 +98,6 @@
   margin-top: clamp(6px, 1.2vh, 10px);
 }
 
-#gal-page-info {
-  font-weight: 600;
-  color: var(--text-muted);
-  font-size: clamp(0.8rem, 1.4vh, 0.9rem);
-}
-
 /* =========================
    EMPTY STATE
 ========================= */

@@ -180,19 +180,3 @@
   gap: clamp(8px, 1.5vh, 12px);
   margin-top: 0;
 }
-
-.alunos-pagination button {
-  width: clamp(28px, 4vh, 36px);
-  height: clamp(28px, 4vh, 36px);
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--bg-soft);
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.alunos-pagination button:hover {
-  background: var(--primary);
-  color: #fff;
-  border-color: var(--primary);
-}
