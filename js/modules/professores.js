@@ -54,9 +54,9 @@ window.Professores = {
             <div class="professores-counter" id="prof-counter"></div>
 
             <div class="professores-pagination">
-              <button id="prev-page">◀</button>
-              <span id="page-info">1 / 1</span>
-              <button id="next-page">▶</button>
+              <button id="prof-prev-page">◀</button>
+              <span id="prof-page-info">1 / 1</span>
+              <button id="prof-next-page">▶</button>
             </div>
 
           </div>
@@ -80,7 +80,7 @@ window.Professores = {
       this.state.data = [];
     }
 
-    // MOCK VISUAL TEMPORÁRIO (10 registros)
+    // MOCK VISUAL TEMPORÁRIO (mantido)
     if (!this.state.data.length) {
       this.state.data = [
         {
@@ -131,7 +131,7 @@ window.Professores = {
             "Ana Rocha",
             "ana@email.com",
             "(99) 96666-4444",
-            "Letras (Português)",
+            "Letras",
             "6",
             "R$ 65,00",
             "Seg-Qua 14h-18h",
@@ -232,14 +232,14 @@ window.Professores = {
   },
 
   bindUI() {
-    document.getElementById("prev-page")?.addEventListener("click", () => {
+    document.getElementById("prof-prev-page")?.addEventListener("click", () => {
       if (this.state.page > 1) {
         this.state.page--;
         this.paint();
       }
     });
 
-    document.getElementById("next-page")?.addEventListener("click", () => {
+    document.getElementById("prof-next-page")?.addEventListener("click", () => {
       const total = Math.max(
         1,
         Math.ceil(this.state.data.length / this.state.perPage),
@@ -263,10 +263,11 @@ window.Professores = {
 
   paint() {
     const list = document.getElementById("professores-list");
-    const pageInfo = document.getElementById("page-info");
+    const pageInfo = document.getElementById("prof-page-info");
     const counter = document.getElementById("prof-counter");
-    const prevBtn = document.getElementById("prev-page");
-    const nextBtn = document.getElementById("next-page");
+    const prevBtn = document.getElementById("prof-prev-page");
+    const nextBtn = document.getElementById("prof-next-page");
+
     if (!list || !pageInfo || !counter) return;
 
     const totalPages = Math.max(
