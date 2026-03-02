@@ -80,7 +80,7 @@ window.Professores = {
       this.state.data = [];
     }
 
-    // MOCK VISUAL TEMPORÁRIO
+    // MOCK VISUAL TEMPORÁRIO (10 registros)
     if (!this.state.data.length) {
       this.state.data = [
         {
@@ -88,7 +88,7 @@ window.Professores = {
           data: [
             "João Silva",
             "joao@email.com",
-            "(99) 99999-9999",
+            "(99) 99999-1111",
             "Licenciatura em Matemática",
             "5",
             "R$ 60,00",
@@ -102,7 +102,7 @@ window.Professores = {
           data: [
             "Maria Souza",
             "maria@email.com",
-            "(99) 98888-8888",
+            "(99) 98888-2222",
             "Pedagogia",
             "8",
             "R$ 70,00",
@@ -116,11 +116,109 @@ window.Professores = {
           data: [
             "Carlos Lima",
             "carlos@email.com",
-            "(99) 97777-7777",
+            "(99) 97777-3333",
             "Física",
             "3",
             "R$ 55,00",
             "Ter-Qui 16h-20h",
+            "Inativo",
+            "",
+          ],
+        },
+        {
+          id: "PROF-4",
+          data: [
+            "Ana Rocha",
+            "ana@email.com",
+            "(99) 96666-4444",
+            "Letras (Português)",
+            "6",
+            "R$ 65,00",
+            "Seg-Qua 14h-18h",
+            "Ativo",
+            "",
+          ],
+        },
+        {
+          id: "PROF-5",
+          data: [
+            "Pedro Alves",
+            "pedro@email.com",
+            "(99) 95555-5555",
+            "Química",
+            "4",
+            "R$ 58,00",
+            "Ter-Qui 08h-12h",
+            "Ativo",
+            "",
+          ],
+        },
+        {
+          id: "PROF-6",
+          data: [
+            "Fernanda Gomes",
+            "fernanda@email.com",
+            "(99) 94444-6666",
+            "História",
+            "7",
+            "R$ 72,00",
+            "Seg-Sex 10h-14h",
+            "Ativo",
+            "",
+          ],
+        },
+        {
+          id: "PROF-7",
+          data: [
+            "Rafael Mendes",
+            "rafael@email.com",
+            "(99) 93333-7777",
+            "Biologia",
+            "2",
+            "R$ 50,00",
+            "Qua-Sex 16h-20h",
+            "Inativo",
+            "",
+          ],
+        },
+        {
+          id: "PROF-8",
+          data: [
+            "Beatriz Costa",
+            "beatriz@email.com",
+            "(99) 92222-8888",
+            "Geografia",
+            "9",
+            "R$ 75,00",
+            "Seg-Qua 14h-18h",
+            "Ativo",
+            "",
+          ],
+        },
+        {
+          id: "PROF-9",
+          data: [
+            "Lucas Ribeiro",
+            "lucas@email.com",
+            "(99) 91111-9999",
+            "Inglês",
+            "5",
+            "R$ 68,00",
+            "Ter-Qui 14h-18h",
+            "Ativo",
+            "",
+          ],
+        },
+        {
+          id: "PROF-10",
+          data: [
+            "Juliana Martins",
+            "juliana@email.com",
+            "(99) 90000-0000",
+            "Artes",
+            "3",
+            "R$ 52,00",
+            "Seg-Qua 08h-12h",
             "Inativo",
             "",
           ],
@@ -167,6 +265,8 @@ window.Professores = {
     const list = document.getElementById("professores-list");
     const pageInfo = document.getElementById("page-info");
     const counter = document.getElementById("prof-counter");
+    const prevBtn = document.getElementById("prev-page");
+    const nextBtn = document.getElementById("next-page");
     if (!list || !pageInfo || !counter) return;
 
     const totalPages = Math.max(
@@ -202,14 +302,51 @@ window.Professores = {
             </div>
 
             <div class="prof-info">
-              <div class="prof-name">${nome}</div>
-              <div>${email}</div>
-              <div>${celular}</div>
-              <div>${formacao}</div>
-              <div>${experiencia} anos</div>
-              <div>${valor}</div>
-              <div>${disponibilidade}</div>
-              <div class="${String(status).toLowerCase() === "ativo" ? "status-ativo" : "status-inativo"}">${status}</div>
+
+              <div class="prof-row prof-name">
+                <span class="prof-label">Nome:</span>
+                <span class="prof-value">${nome}</span>
+              </div>
+
+              <div class="prof-row">
+                <span class="prof-label">Email:</span>
+                <span class="prof-value">${email}</span>
+              </div>
+
+              <div class="prof-row">
+                <span class="prof-label">Celular:</span>
+                <span class="prof-value">${celular}</span>
+              </div>
+
+              <div class="prof-row">
+                <span class="prof-label">Formação:</span>
+                <span class="prof-value">${formacao}</span>
+              </div>
+
+              <div class="prof-row">
+                <span class="prof-label">Experiência:</span>
+                <span class="prof-value">${experiencia} anos</span>
+              </div>
+
+              <div class="prof-row">
+                <span class="prof-label">Valor:</span>
+                <span class="prof-value">${valor}</span>
+              </div>
+
+              <div class="prof-row">
+                <span class="prof-label">Disponibilidade:</span>
+                <span class="prof-value">${disponibilidade}</span>
+              </div>
+
+              <div class="prof-row">
+                <span class="prof-label">Status:</span>
+                <span class="prof-value ${
+                  String(status).toLowerCase() === "ativo"
+                    ? "status-ativo"
+                    : "status-inativo"
+                }">${status}</span>
+              </div>
+
             </div>
           </div>
         `;
@@ -218,5 +355,8 @@ window.Professores = {
 
     pageInfo.textContent = `${this.state.page} / ${totalPages}`;
     counter.textContent = `Exibindo ${slice.length} de ${this.state.data.length} professores`;
+
+    if (prevBtn) prevBtn.disabled = this.state.page <= 1;
+    if (nextBtn) nextBtn.disabled = this.state.page >= totalPages;
   },
 };
