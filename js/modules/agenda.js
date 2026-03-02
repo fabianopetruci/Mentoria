@@ -75,6 +75,7 @@ window.Agenda = {
 
     this.renderTasks();
     this.bindEvents();
+    this.updatePaginationState();
   },
 
   renderTasks() {
@@ -106,16 +107,19 @@ window.Agenda = {
         this.state.page--;
         this.renderTasks();
         this.updatePageLabel();
+        this.updatePaginationState();
       }
     });
 
     document.getElementById("next-page")?.addEventListener("click", () => {
       const maxPage =
         Math.ceil(this.state.tasks.length / this.state.perPage) - 1;
+
       if (this.state.page < maxPage) {
         this.state.page++;
         this.renderTasks();
         this.updatePageLabel();
+        this.updatePaginationState();
       }
     });
   },
@@ -124,6 +128,21 @@ window.Agenda = {
     const label = document.querySelector(".agenda-nav-date");
     if (label) {
       label.textContent = `Página ${this.state.page + 1}`;
+    }
+  },
+
+  updatePaginationState() {
+    const prevBtn = document.getElementById("prev-page");
+    const nextBtn = document.getElementById("next-page");
+
+    const maxPage = Math.ceil(this.state.tasks.length / this.state.perPage) - 1;
+
+    if (prevBtn) {
+      prevBtn.disabled = this.state.page === 0;
+    }
+
+    if (nextBtn) {
+      nextBtn.disabled = this.state.page === maxPage;
     }
   },
 };
