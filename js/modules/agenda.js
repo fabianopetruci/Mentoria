@@ -59,11 +59,11 @@ window.Agenda = {
 
             <div class="agenda-nav-wrapper">
               <div class="agenda-nav">
-                <button id="prev-page" class="btn-arrow">◀</button>
-                <span class="agenda-nav-date">
-                  Página ${this.state.page + 1}
+                <button id="prev-day" class="btn-arrow">◀</button>
+                <span class="pagination-info agenda-nav-date">
+                  ${this.formatShortDate(this.state.currentDate)}
                 </span>
-                <button id="next-page" class="btn-arrow">▶</button>
+                <button id="next-day" class="btn-arrow">▶</button>
               </div>
             </div>
 
@@ -75,7 +75,6 @@ window.Agenda = {
 
     this.renderTasks();
     this.bindEvents();
-    this.updatePaginationState();
   },
 
   renderTasks() {
@@ -92,6 +91,7 @@ window.Agenda = {
       .join("");
   },
 
+  // 🔵 Formato LONGO (quadro lateral)
   formatFullDate(date) {
     return date.toLocaleDateString("pt-BR", {
       weekday: "long",
@@ -101,48 +101,40 @@ window.Agenda = {
     });
   },
 
+  // 🔹 Formato CURTO (navegação)
+  formatShortDate(date) {
+    return date.toLocaleDateString("pt-BR");
+  },
+
+  changeDay(offset) {
+    const newDate = new Date(this.state.currentDate);
+    newDate.setDate(newDate.getDate() + offset);
+
+    this.state.currentDate = newDate;
+    this.state.page = 0;
+
+    this.updateDisplayedDate();
+    this.renderTasks();
+  },
+
+  updateDisplayedDate() {
+    const full = this.formatFullDate(this.state.currentDate);
+    const short = this.formatShortDate(this.state.currentDate);
+
+    const sidebarLabel = document.getElementById("agenda-date-label");
+    const navLabel = document.querySelector(".agenda-nav-date");
+
+    if (sidebarLabel) sidebarLabel.textContent = full;
+    if (navLabel) navLabel.textContent = short;
+  },
+
   bindEvents() {
-    document.getElementById("prev-page")?.addEventListener("click", () => {
-      if (this.state.page > 0) {
-        this.state.page--;
-        this.renderTasks();
-        this.updatePageLabel();
-        this.updatePaginationState();
-      }
+    document.getElementById("prev-day")?.addEventListener("click", () => {
+      this.changeDay(-1);
     });
 
-    document.getElementById("next-page")?.addEventListener("click", () => {
-      const maxPage =
-        Math.ceil(this.state.tasks.length / this.state.perPage) - 1;
-
-      if (this.state.page < maxPage) {
-        this.state.page++;
-        this.renderTasks();
-        this.updatePageLabel();
-        this.updatePaginationState();
-      }
+    document.getElementById("next-day")?.addEventListener("click", () => {
+      this.changeDay(1);
     });
-  },
-
-  updatePageLabel() {
-    const label = document.querySelector(".agenda-nav-date");
-    if (label) {
-      label.textContent = `Página ${this.state.page + 1}`;
-    }
-  },
-
-  updatePaginationState() {
-    const prevBtn = document.getElementById("prev-page");
-    const nextBtn = document.getElementById("next-page");
-
-    const maxPage = Math.ceil(this.state.tasks.length / this.state.perPage) - 1;
-
-    if (prevBtn) {
-      prevBtn.disabled = this.state.page === 0;
-    }
-
-    if (nextBtn) {
-      nextBtn.disabled = this.state.page === maxPage;
-    }
   },
 };
