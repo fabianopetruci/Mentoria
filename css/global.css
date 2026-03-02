@@ -78,7 +78,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.23vh 1.23vh; /* 1.23vh = 8px */
+  padding: 1.23vh 1.23vh;
   flex-shrink: 0;
 }
 
@@ -97,7 +97,7 @@ body {
   cursor: pointer;
 }
 
-/* Linha animada no dark (igual ao antigo) */
+/* Linha animada no dark */
 body.dark .header::after {
   content: "";
   position: absolute;
@@ -132,8 +132,8 @@ body.dark .header::after {
   border: 1px solid var(--border);
   color: var(--text-main);
   font-size: 1.2rem;
-  padding: 1.23vh 1.54vh; /* 8px ≈ 1.23vh | 10px ≈ 1.54vh */
-  border-radius: 1.23vh; /* 8px ≈ 1.23vh */
+  padding: 1.23vh 1.54vh;
+  border-radius: 1.23vh;
   cursor: pointer;
 }
 
@@ -159,9 +159,9 @@ main#app {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 4.92vh 3.69vh; /* 32px ≈ 4.92vh | 24px ≈ 3.69vh */
+  padding: 4.92vh 3.69vh;
   width: 100%;
-  height: 100%;
+  min-height: 0;
 }
 
 /* Canvas central */
@@ -174,7 +174,7 @@ main#app {
    FOOTER
 ========================= */
 .footer {
-  height: clamp(28px, 6.15vh, 40px); /* 6.15vh = 40px */
+  height: clamp(28px, 6.15vh, 40px);
   background-color: var(--bg-surface);
   border-top: 1px solid var(--border);
   display: flex;
@@ -188,11 +188,11 @@ main#app {
 .status {
   display: flex;
   align-items: center;
-  gap: 0.9vh; /* 0.9vh = 6px */
+  gap: 0.9vh;
 }
 
 .dot {
-  width: 1.54vh; /* 1.54vh = 10px */
+  width: 1.54vh;
   height: 1.54vh;
   border-radius: 50%;
   background-color: var(--success);
@@ -211,15 +211,15 @@ main#app {
 
 #menu.menu {
   position: fixed;
-  top: clamp(60px, 12.3vh, 80px); /* acompanha o header */
+  top: clamp(60px, 12.3vh, 80px);
   right: 0;
-  width: 18.5vh; /* 120px ≈ 18.5vh */
+  width: 18.5vh;
   max-height: calc(100vh - clamp(60px, 12.3vh, 80px));
   overflow: auto;
   background: var(--bg-surface);
   border-left: 1px solid var(--border);
   box-shadow: var(--shadow);
-  padding: 1.85vh 0; /* 12px ≈ 1.85vh */
+  padding: 1.85vh 0;
   z-index: 2000;
 }
 
@@ -230,7 +230,7 @@ main#app {
 }
 
 #menu.menu li {
-  padding: 1.5vh 2.46vh; /* 10px ≈ 1.5vh | 16px ≈ 2.46vh */
+  padding: 1.5vh 2.46vh;
   cursor: pointer;
   color: var(--text-main);
 }
@@ -239,7 +239,6 @@ main#app {
   background: var(--bg-soft);
 }
 
-/* menu fechado */
 #menu.hidden {
   display: none !important;
 }
@@ -263,8 +262,7 @@ main#app {
   max-width: 1200px;
   margin: 0 auto;
 
-  /* header ≈ 12.3vh | footer ≈ 6.15vh  */
-  height: calc(100vh - 18.45vh);
+  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -272,13 +270,13 @@ main#app {
   background: var(--bg-surface);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 3.69vh; /* 24px ≈ 3.69vh */
+  padding: 3.69vh;
 }
 
 .module-header {
-  margin-bottom: 3.69vh; /* 24px ≈ 3.69vh */
+  margin-bottom: 3.69vh;
   border-bottom: 1px solid var(--border);
-  padding-bottom: 1.85vh; /* 12px ≈ 1.85vh */
+  padding-bottom: 1.85vh;
 }
 
 .module-title {
