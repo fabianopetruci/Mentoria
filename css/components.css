@@ -87,7 +87,25 @@
 }
 
 /* =========================
-   BOTÃO SETA (NAV MÊS/DIA)
+   PAGINAÇÃO PADRÃO
+========================= */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.pagination-info {
+  font-size: clamp(0.8rem, 1.4vh, 0.9rem);
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* =========================
+   BOTÃO SETA PADRÃO
 ========================= */
 
 .btn-arrow {
@@ -96,18 +114,22 @@
   justify-content: center;
   width: clamp(30px, 4vh, 36px);
   height: clamp(30px, 4vh, 36px);
-  padding: 0;
-  border-radius: 8px;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--bg-soft);
   color: var(--text-main);
-  font-size: clamp(0.75rem, 1.4vh, 0.85rem);
+  font-size: clamp(0.8rem, 1.6vh, 0.95rem);
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
-.btn-arrow:hover {
+.btn-arrow:hover:not(:disabled) {
   background: var(--primary);
   border-color: var(--primary);
   color: #fff;
+}
+
+.btn-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
