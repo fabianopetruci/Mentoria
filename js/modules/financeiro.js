@@ -6,6 +6,8 @@ window.Financeiro = {
     dados: [],
   },
 
+  chart: null,
+
   async render() {
     const el = document.getElementById("financeiro");
     if (!el) return;
@@ -31,9 +33,10 @@ window.Financeiro = {
         <h2>Fluxo de Caixa</h2>
 
         <div class="financeiro-grid">
+
           <div class="financeiro-card">
             <h3>Resumo Anual</h3>
-            <div id="financeiro-resumo"></div>
+            <div id="financeiro-resumo" class="fin-kpis"></div>
           </div>
 
           <div class="financeiro-card financeiro-card-table">
@@ -43,8 +46,11 @@ window.Financeiro = {
 
           <div class="financeiro-card">
             <h3>Gráfico</h3>
-            <div id="financeiro-grafico">—</div>
+            <div class="financeiro-chart-wrapper">
+              <canvas id="financeiro-chart"></canvas>
+            </div>
           </div>
+
         </div>
 
       </div>
@@ -129,6 +135,7 @@ window.Financeiro = {
   paint() {
     this.paintResumo();
     this.paintTabela();
+    this.paintGrafico();
   },
 
   paintResumo() {
@@ -146,30 +153,30 @@ window.Financeiro = {
     const totalLucro = totalReceitas - totalDespesas;
 
     el.innerHTML = `
-        <div class="fin-kpi">
-            <span>Receitas</span>
-            <strong>${this.moeda(totalReceitas)}</strong>
-        </div>
+      <div class="fin-kpi">
+        <span>Receitas</span>
+        <strong>${this.moeda(totalReceitas)}</strong>
+      </div>
 
-        <div class="fin-kpi">
-            <span>Despesas</span>
-            <strong>${this.moeda(totalDespesas)}</strong>
-        </div>
+      <div class="fin-kpi">
+        <span>Despesas</span>
+        <strong>${this.moeda(totalDespesas)}</strong>
+      </div>
 
-        <div class="fin-kpi">
-            <span>Lucro</span>
-            <strong>${this.moeda(totalLucro)}</strong>
-        </div>
+      <div class="fin-kpi">
+        <span>Lucro</span>
+        <strong>${this.moeda(totalLucro)}</strong>
+      </div>
 
-        <div class="fin-kpi">
-            <span>Pró-labore</span>
-            <strong>${this.moeda(totalLucro * 0.9)}</strong>
-        </div>
+      <div class="fin-kpi">
+        <span>Pró-labore</span>
+        <strong>${this.moeda(totalLucro * 0.9)}</strong>
+      </div>
 
-        <div class="fin-kpi">
-            <span>Capital</span>
-            <strong>${this.moeda(totalLucro * 0.1)}</strong>
-        </div>
+      <div class="fin-kpi">
+        <span>Capital</span>
+        <strong>${this.moeda(totalLucro * 0.1)}</strong>
+      </div>
     `;
   },
 
@@ -209,11 +216,81 @@ window.Financeiro = {
     `;
   },
 
+  paintGrafico() {
+    const canvas = document.getElementById("financeiro-chart");
+    if (!canvas) return;
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.chart = new Chart(canvas, {
+      type: "bar",
+      data: {
+        labels: this.state.dados.map((x) => x.mes),
+        datasets: [
+          {
+            label: "Receitas",
+            data: this.state.dados.map((x) => x.receitas),
+            backgroundColor: "rgba(54, 162, 235, 0.7)",
+            borderRadius: 4,
+          },
+          {
+            label: "Despesas",
+            data: this.state.dados.map((x) => x.despesas),
+            backgroundColor: "rgba(255, 99, 132, 0.7)",
+            borderRadius: 4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+
+        plugins: {
+          legend: {
+            position: "bottom", // 👈 legenda embaixo
+            labels: {
+              boxWidth: 12,
+              font: {
+                size: 11,
+              },
+            },
+          },
+        },
+
+        scales: {
+          x: {
+            ticks: {
+              autoSkip: false,
+              maxRotation: 45,
+              minRotation: 45,
+              font: function (context) {
+                const width = context.chart.width;
+
+                if (width < 350) return { size: 7 };
+                if (width < 450) return { size: 8 };
+                return { size: 10 };
+              },
+            },
+            grid: {
+              display: false,
+            },
+          },
+          y: {
+            ticks: {
+              font: {
+                size: 10,
+              },
+            },
+          },
+        },
+      },
+    });
+  },
+
   async gravarBalanco() {
     alert("Balanço anual gravado (mock).");
-
-    // Futuramente:
-    // Api.replaceYear("Fluxo_caixa", this.state.ano, this.state.dados);
   },
 
   moeda(valor) {

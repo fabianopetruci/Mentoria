@@ -1,105 +1,155 @@
-/* css/financeiro.css */
+/* =========================
+   FINANCEIRO - TOPO
+========================= */
 
 .financeiro-topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 12px;
+  gap: 2vh;
+  margin-bottom: 2vh;
 }
 
 .financeiro-year-nav {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 1.5vh;
 }
 
 .financeiro-year {
   font-weight: 700;
   color: var(--text-main);
-  min-width: 64px;
+  min-width: clamp(60px, 6vh, 80px);
   text-align: center;
+  font-size: clamp(0.9rem, 1.8vh, 1.05rem);
 }
 
 .financeiro-actions {
   display: flex;
-  gap: 10px;
+  gap: 1.5vh;
   align-items: center;
 }
 
+/* =========================
+   GRID PRINCIPAL
+========================= */
+
 .financeiro-grid {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 16px;
+  grid-template-columns: 0.8fr 2.6fr 1.2fr;
+  gap: 1vh;
   width: 100%;
 }
+
+/* =========================
+   CARD PADRÃO
+========================= */
 
 .financeiro-card {
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 16px;
-  min-height: 360px;
+  padding: clamp(1.5vh, 2vh, 2.5vh);
+  min-height: clamp(280px, 45vh, 420px);
+  display: flex;
+  flex-direction: column;
 }
 
 .financeiro-card h3 {
-  font-size: 1rem;
-  margin-bottom: 12px;
+  font-size: clamp(0.95rem, 2vh, 1.1rem);
+  margin-bottom: 1.5vh;
   color: var(--text-main);
 }
 
+/* =========================
+   TABELA
+========================= */
+
 .financeiro-card-table {
-  min-height: 360px;
+  flex: 1;
+  overflow: auto;
 }
 
 .financeiro-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.92rem;
+  font-size: clamp(0.72rem, 1.2vh, 0.82rem);
+  table-layout: fixed;
 }
 
 .financeiro-table th,
 .financeiro-table td {
-  padding: 10px 12px;
+  padding: 0.5vh 0.8vh;
   border-bottom: 1px solid var(--border);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.financeiro-table th:first-child,
+.financeiro-table td:first-child {
   text-align: left;
-  white-space: nowrap;
+  width: 10%;
 }
 
 .financeiro-table thead th {
   background: var(--bg-soft);
-  color: var(--text-main);
   font-weight: 700;
 }
+
+/* =========================
+   KPIs
+========================= */
 
 .fin-kpis {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.8vh;
 }
 
 .fin-kpi {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8vh 0.4vh;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 12px;
   background: var(--bg-soft);
+  font-size: clamp(0.6rem, 1vh, 0.7rem);
+  white-space: nowrap;
 }
 
 .fin-kpi-label {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin-bottom: 6px;
+  margin: 0;
 }
 
 .fin-kpi-value {
-  font-size: 1.1rem;
   font-weight: 700;
-  color: var(--text-main);
 }
+
+/* =========================
+   RESUMO
+========================= */
 
 #financeiro-resumo {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.8vh;
+}
+
+/* =========================
+   GRÁFICO
+========================= */
+
+.financeiro-chart-wrapper {
+  position: relative;
+  height: 30vh;
+  min-height: 180px;
+  max-height: 320px;
+}
+
+#financeiro-chart {
+  width: 100% !important;
+  height: 100% !important;
 }
