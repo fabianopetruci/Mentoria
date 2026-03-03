@@ -12,7 +12,7 @@ window.Router = {
     "despesas",
     "financeiro",
     "pendencias",
-    "matricula",
+    "contrato",
     "galeria",
   ],
 
@@ -54,7 +54,7 @@ window.Router = {
       receitas: window.Receitas,
       despesas: window.Despesas,
       pendencias: window.Pendencias,
-      matricula: window.Matricula,
+      contrato: window.Contrato,
       galeria: window.Galeria,
     };
 
