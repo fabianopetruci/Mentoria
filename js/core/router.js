@@ -17,97 +17,7 @@ window.Router = {
   ],
 
   init() {
-    this.bindHeaderActions();
-    this.bindMenuActions();
-    this.setConnectionStatus(false);
     this.navigate("home");
-  },
-
-  /* =========================
-     HEADER
-  ========================= */
-  bindHeaderActions() {
-    const homeBtn = document.getElementById("btn-home");
-    if (homeBtn) {
-      homeBtn.addEventListener("click", () => this.navigate("home"));
-    }
-
-    const toggleBtn = document.getElementById("themeToggle");
-
-    const applyTheme = (isDark) => {
-      document.body.classList.toggle("dark", isDark);
-      if (toggleBtn) toggleBtn.textContent = isDark ? "☀️" : "🌙";
-      localStorage.setItem("theme", isDark ? "dark" : "light");
-    };
-
-    const saved = localStorage.getItem("theme");
-    applyTheme(saved === "dark");
-
-    if (toggleBtn) {
-      toggleBtn.addEventListener("click", () => {
-        const isDark = !document.body.classList.contains("dark");
-        applyTheme(isDark);
-      });
-    }
-
-    const menuBtn = document.querySelector(".menu-btn");
-    if (menuBtn) {
-      menuBtn.addEventListener("click", () => this.toggleMenu());
-    }
-  },
-
-  /* =========================
-     MENU
-  ========================= */
-  bindMenuActions() {
-    document.querySelectorAll("#menu [data-route]").forEach((item) => {
-      item.addEventListener("click", () => {
-        const route = item.getAttribute("data-route");
-        if (!route) return;
-        this.closeMenu();
-        this.navigate(route);
-      });
-    });
-
-    document.addEventListener("click", (e) => {
-      const menu = document.getElementById("menu");
-      const menuBtn = document.querySelector(".menu-btn");
-      if (!menu || menu.classList.contains("hidden")) return;
-
-      const insideMenu = menu.contains(e.target);
-      const insideBtn = menuBtn && menuBtn.contains(e.target);
-
-      if (!insideMenu && !insideBtn) this.closeMenu();
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") this.closeMenu();
-    });
-  },
-
-  toggleMenu() {
-    const menu = document.getElementById("menu");
-    if (!menu) return;
-    menu.classList.toggle("hidden");
-  },
-
-  closeMenu() {
-    const menu = document.getElementById("menu");
-    if (!menu) return;
-    menu.classList.add("hidden");
-  },
-
-  /* =========================
-     FOOTER STATUS
-  ========================= */
-  setConnectionStatus(isConnected) {
-    const dot = document.getElementById("connDot");
-    const text = document.getElementById("connText");
-    if (!dot || !text) return;
-
-    dot.classList.toggle("is-connected", !!isConnected);
-    dot.classList.toggle("is-disconnected", !isConnected);
-    text.textContent = isConnected ? "Conectado" : "Desconectado";
   },
 
   /* =========================
@@ -120,7 +30,6 @@ window.Router = {
 
     // logout é ação
     if (route === "logout") {
-      this.setConnectionStatus(false);
       this.navigate("home");
       return;
     }
