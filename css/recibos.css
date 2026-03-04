@@ -1,0 +1,213 @@
+/* css/recibos.css */
+
+/* =========================
+   RECIBOS - AÇÕES (TOP)
+========================= */
+
+.recibos-actions-top {
+  display: flex;
+  align-items: center;
+  gap: 1vh;
+  margin-bottom: 1.5vh;
+  flex-wrap: wrap;
+}
+
+/* =========================
+   GRID (2 CARDS)
+========================= */
+
+.recibos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 1.2vh;
+  width: 100%;
+  align-items: stretch;
+}
+
+/* =========================
+   CARD PADRÃO
+========================= */
+
+.recibos-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: clamp(1.5vh, 2vh, 2.5vh);
+  min-height: clamp(280px, 45vh, 420px);
+  display: flex;
+  flex-direction: column;
+}
+
+.recibos-card-title {
+  font-size: clamp(0.95rem, 2vh, 1.1rem);
+  margin-bottom: 1.5vh;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+/* =========================
+   RESUMO (KPIs)
+========================= */
+
+.recibos-kpis {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8vh;
+  margin-top: 0.5vh;
+}
+
+.recibos-kpi {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9vh 1vh;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  font-size: clamp(0.78rem, 1.2vh, 0.9rem);
+  white-space: nowrap;
+}
+
+.recibos-kpi span {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.recibos-kpi strong {
+  color: var(--text-main);
+  font-weight: 800;
+}
+
+/* =========================
+   PREVIEW (A4 miniatura)
+========================= */
+
+.recibos-preview-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  padding: 1.2vh;
+  overflow: hidden;
+}
+
+.recibos-preview {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* página */
+
+.recibos-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* folha A4 escalada */
+
+.recibos-page-sheet {
+  width: 141.41px;
+  height: 200px;
+
+  background: #fff;
+  border: 1px solid #d7dde6;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* conteúdo da folha */
+
+.recibos-page-body {
+  padding: 16px;
+  font-size: 12px;
+  color: #1f2937;
+  line-height: 1.35;
+}
+
+.recibos-page-watermark {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: rgba(31, 41, 55, 0.45);
+  font-weight: 800;
+}
+
+/* estado vazio */
+
+.recibos-preview-empty {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: clamp(0.85rem, 1.4vh, 0.95rem);
+  text-align: center;
+  padding: 2vh;
+}
+
+/* =========================
+   NAVEGAÇÃO DE PÁGINAS
+========================= */
+
+.recibos-preview-nav {
+  margin-top: 1vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2vh;
+}
+
+.recibos-page-info {
+  min-width: 60px;
+  text-align: center;
+  color: var(--text-main);
+  font-weight: 800;
+  font-size: clamp(0.85rem, 1.4vh, 0.95rem);
+}
+
+/* =========================
+   IMPRESSÃO
+========================= */
+
+@media print {
+  @page {
+    margin: 0;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  header,
+  nav,
+  footer,
+  #app {
+    display: none !important;
+  }
+
+  #print-root {
+    display: block !important;
+  }
+
+  .recibos-page {
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .recibos-page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+}
