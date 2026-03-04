@@ -57,6 +57,7 @@ window.Router = {
       pendencias: window.Pendencias,
       contrato: window.Contrato,
       galeria: window.Galeria,
+      recibos: window.Recibos,
     };
 
     const mod = map[route];
