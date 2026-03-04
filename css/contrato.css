@@ -96,32 +96,29 @@
 }
 
 .contrato-preview {
-  /*width: 100%;
-  height: 100%;*/
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* página */
 .contrato-page {
-  /*width: 100%;*/
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* folha A4 em miniatura (governada pela altura do preview) */
+/* folha A4 real escalada */
 .contrato-page-sheet {
-  width: 120px;
-  height: 169px;
+  width: 141.41px;
+  height: 200px;
 
   background: #fff;
   border: 1px solid #d7dde6;
-  border-radius: 10px;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  position: relative;
 
   display: flex;
   flex-direction: column;
@@ -172,4 +169,42 @@
   color: var(--text-main);
   font-weight: 800;
   font-size: clamp(0.85rem, 1.4vh, 0.95rem);
+}
+
+/* =========================
+   IMPRESSÃO (PRINT)
+========================= */
+@media print {
+  /* evita páginas extras por margem padrão */
+  @page {
+    margin: 0;
+  }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* esconde o sistema inteiro */
+  header,
+  nav,
+  footer,
+  #app {
+    display: none !important;
+  }
+
+  /* mostra apenas a área de impressão */
+  #print-root {
+    display: block !important;
+  }
+
+  /* cada página do contrato quebra corretamente */
+  .contrato-page {
+    break-after: page;
+    page-break-after: always;
+  }
+  .contrato-page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
 }
