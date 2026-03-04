@@ -14,6 +14,7 @@ window.Router = {
     "pendencias",
     "contrato",
     "galeria",
+    "recibos",
   ],
 
   init() {

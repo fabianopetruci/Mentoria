@@ -20,7 +20,7 @@ window.Home = {
       { label: "CONTRATO", route: "contrato", img: "contract.png" },
       { label: "FLUXO DE CAIXA", route: "financeiro", img: "cash_flow.png" },
       { label: "MURAL DE FOTOS", route: "galeria", img: "gallery.png" },
-      { label: "SAIR DO SISTEMA", route: "logout", img: "logout.png" },
+      { label: "RECIBOS", route: "recibos", img: "receipt.png" },
     ];
 
     homeSection.innerHTML = `
