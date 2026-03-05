@@ -9,8 +9,10 @@ function doPost(e) {
 }
 
 function routeRequest(method, e) {
-  let resource;
-  let action = "";
+  const params = e && e.parameter ? e.parameter : {};
+
+  let resource = params.resource || "";
+  let action = params.action || "";
 
   if (method === "GET") {
     resource = e.parameter.resource;
@@ -147,40 +149,32 @@ function deleteAluno(e) {
 ========================= */
 
 function uploadAlunoFoto(e) {
-  const data = JSON.parse(e.postData.contents);
+  const payload = JSON.parse(e.postData.contents);
 
-  // ⚠️ coloque aqui o ID da pasta "mentoria/imagens/alunos"
   const folderId = "135vdzduv1b0Jk5sz07TdUs-2vhVefpwp";
   const folder = DriveApp.getFolderById(folderId);
 
-  const base64 = (data.fileBase64 || "").split(",").pop();
+  const dataUrl = payload.dataUrl;
+
+  const match = dataUrl.match(/^data:(image\/\w+);base64,(.+)$/);
+
+  const mimeType = match[1];
+  const base64 = match[2];
+
   const bytes = Utilities.base64Decode(base64);
 
-  const mimeType = data.mimeType || "image/jpeg";
-  const ext =
-    mimeType === "image/png"
-      ? "png"
-      : mimeType === "image/webp"
-        ? "webp"
-        : mimeType === "image/gif"
-          ? "gif"
-          : "jpg";
+  const ext = mimeType.includes("png") ? "png" : "jpg";
 
-  const name = data.fileName
-    ? String(data.fileName)
-    : `aluno_${Utilities.formatDate(
-        new Date(),
-        Session.getScriptTimeZone(),
-        "yyyyMMdd_HHmmss",
-      )}.${ext}`;
+  const blob = Utilities.newBlob(bytes, mimeType, `aluno_${Date.now()}.${ext}`);
 
-  const blob = Utilities.newBlob(bytes, mimeType, name);
   const file = folder.createFile(blob);
 
   file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
 
-  const fileId = file.getId();
-  const url = `https://drive.google.com/uc?id=${fileId}`;
+  const fotoUrl = `https://drive.google.com/thumbnail?id=${file.getId()}&sz=w300`;
 
-  return jsonResponse({ success: true, fileId, url });
+  return jsonResponse({
+    success: true,
+    fotoUrl,
+  });
 }

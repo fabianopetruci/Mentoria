@@ -582,14 +582,21 @@ window.Alunos = {
         document
           .getElementById("aluno-salvar")
           ?.addEventListener("click", async () => {
-            //const file =
-            // document.getElementById("aluno-foto")?.files?.[0] || null;
+            const file = document.getElementById("aluno-foto")?.files?.[0];
 
-            //let foto_url = "";
-            //if (file) {
-            //const up = await API.uploadAlunoFoto(file);
-            //foto_url = up.url || "";
-            //}
+            let foto_url = "";
+
+            if (file) {
+              const reader = new FileReader();
+
+              const dataUrl = await new Promise((resolve) => {
+                reader.onload = () => resolve(reader.result);
+                reader.readAsDataURL(file);
+              });
+
+              const up = await API.uploadAlunoFoto(dataUrl);
+              foto_url = up.fotoUrl || "";
+            }
 
             const aluno = {
               nome: document.getElementById("aluno-nome").value,
@@ -601,12 +608,13 @@ window.Alunos = {
               responsavel: document.getElementById("aluno-responsavel").value,
               celular: document.getElementById("aluno-celular").value,
               status: document.getElementById("aluno-status").value,
-              foto_url: "",
+              foto_url: foto_url,
             };
 
             await API.createAluno(aluno);
 
             Modal.close();
+
             await Alunos.load();
           });
       });
