@@ -1,180 +1,129 @@
 const SPREADSHEET_ID = "1RxD14YKY3wksLAb0YuOQZuFfNVJF9yIrDFydDMACWHA";
+const PASTA_FOTOS_ID = "135vdzduv1b0Jk5sz07TdUs-2vhVefpwp";
 
-function doGet(e) {
-  return routeRequest("GET", e);
+const ABAS = ["Alunos"]; // por enquanto só alunos
+
+function doGet() {
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const retorno = {};
+
+    ABAS.forEach((nome) => {
+      const sheet = ss.getSheetByName(nome);
+      if (!sheet) {
+        retorno[nome] = [];
+        return;
+      }
+
+      const values = sheet.getDataRange().getValues();
+      if (values.length <= 1) {
+        retorno[nome] = [];
+        return;
+      }
+
+      values.shift();
+
+      retorno[nome] = values
+        .filter((r) => String(r[0] || "").trim() !== "")
+        .map((row) => ({
+          id: String(row[0]),
+          data: row.slice(1),
+        }));
+    });
+
+    return json({ status: "ok", ...retorno });
+  } catch (err) {
+    return json({ status: "erro", message: String(err.message || err) });
+  }
 }
 
 function doPost(e) {
-  return routeRequest("POST", e);
-}
+  try {
+    const payload = JSON.parse((e.postData && e.postData.contents) || "{}");
 
-function routeRequest(method, e) {
-  const params = e && e.parameter ? e.parameter : {};
+    if (payload.action === "uploadFoto") {
+      return uploadFoto(payload);
+    }
 
-  let resource = params.resource || "";
-  let action = params.action || "";
+    const { action, aba, id, valores } = payload;
 
-  if (method === "GET") {
-    resource = e.parameter.resource;
-  } else {
-    const body = JSON.parse(e.postData.contents);
-    resource = body.resource;
-    action = body.action || "";
-  }
+    if (!action || !aba) throw new Error("Ação ou aba não informada");
 
-  switch (resource) {
-    case "alunos":
-      if (method === "GET") return getAlunos();
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName(aba);
+    if (!sheet) throw new Error("Aba não encontrada: " + aba);
 
-      if (method === "POST") {
-        if (action === "create") return createAluno(e);
-        if (action === "update") return updateAluno(e);
-        if (action === "delete") return deleteAluno(e);
-        if (action === "uploadFoto") return uploadAlunoFoto(e);
+    const rows = sheet.getDataRange().getValues().slice(1);
 
-        return jsonResponse({ success: false, error: "Action not found" });
+    switch (action) {
+      case "insert":
+        if (!id) throw new Error("ID não informado");
+        sheet.appendRow([id, ...(valores || [])]);
+        return json({ status: "ok" });
+
+      case "update": {
+        if (!id) throw new Error("ID não informado");
+        const idx = rows.findIndex((r) => String(r[0]) === String(id));
+        if (idx === -1) throw new Error("ID não encontrado");
+
+        sheet
+          .getRange(idx + 2, 1, 1, (valores || []).length + 1)
+          .setValues([[id, ...(valores || [])]]);
+        return json({ status: "ok" });
       }
-      break;
 
-    default:
-      return jsonResponse({ success: false, error: "Resource not found" });
+      case "delete": {
+        if (!id) throw new Error("ID não informado");
+        const idx = rows.findIndex((r) => String(r[0]) === String(id));
+        if (idx === -1) throw new Error("ID não encontrado");
+
+        sheet.deleteRow(idx + 2);
+        return json({ status: "ok" });
+      }
+
+      default:
+        throw new Error("Ação inválida: " + action);
+    }
+  } catch (err) {
+    return json({ status: "erro", message: String(err.message || err) });
   }
-
-  return jsonResponse({ success: false, error: "Invalid request" });
 }
 
-function jsonResponse(obj) {
+function uploadFoto(payload) {
+  try {
+    const folder = DriveApp.getFolderById(PASTA_FOTOS_ID);
+    if (!folder) throw new Error("Pasta não encontrada no Drive");
+
+    const dataUrl = String(payload.dataUrl || "");
+    const alunoId = payload.alunoId || "ALU-" + Date.now();
+
+    const match = dataUrl.match(/^data:(image\/\w+);base64,(.+)$/);
+    if (!match) throw new Error("DataURL inválida");
+
+    const mimeType = match[1];
+    const base64 = match[2];
+    const bytes = Utilities.base64Decode(base64);
+
+    const ext = mimeType.includes("png") ? "png" : "jpg";
+    const blob = Utilities.newBlob(
+      bytes,
+      mimeType,
+      `aluno_${alunoId}_${Date.now()}.${ext}`,
+    );
+
+    const file = folder.createFile(blob);
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+
+    const fotoUrl = `https://drive.google.com/thumbnail?id=${file.getId()}&sz=w300`;
+
+    return json({ status: "ok", fotoUrl, fileId: file.getId() });
+  } catch (err) {
+    return json({ status: "erro", message: String(err.message || err) });
+  }
+}
+
+function json(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(
     ContentService.MimeType.JSON,
   );
-}
-
-/* =========================
-   ALUNOS
-========================= */
-
-function getAlunos() {
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const sheet = ss.getSheetByName("Alunos");
-
-  const data = sheet.getDataRange().getValues();
-  const headers = data.shift();
-
-  const alunos = data.map((row) => {
-    const obj = {};
-    headers.forEach((h, i) => {
-      obj[h] = row[i];
-    });
-    return obj;
-  });
-
-  return jsonResponse({ success: true, data: alunos });
-}
-
-function createAluno(e) {
-  const data = JSON.parse(e.postData.contents);
-
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const sheet = ss.getSheetByName("Alunos");
-
-  const lastRow = sheet.getLastRow(); // inclui header
-  const next = String(lastRow).padStart(4, "0");
-  const id = `ALU-${next}`;
-
-  sheet.appendRow([
-    id,
-    data.nome,
-    data.nascimento,
-    data.sexo,
-    data.turno,
-    data.ano,
-    data.escola,
-    data.responsavel,
-    data.celular,
-    data.status,
-    data.foto_url || "",
-  ]);
-
-  return jsonResponse({ success: true, id });
-}
-
-function updateAluno(e) {
-  const data = JSON.parse(e.postData.contents);
-
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const sheet = ss.getSheetByName("Alunos");
-
-  const rows = sheet.getDataRange().getValues();
-
-  for (let i = 1; i < rows.length; i++) {
-    if (rows[i][0] === data.id) {
-      sheet.getRange(i + 1, 2).setValue(data.nome);
-      sheet.getRange(i + 1, 3).setValue(data.nascimento);
-      sheet.getRange(i + 1, 4).setValue(data.sexo);
-      sheet.getRange(i + 1, 5).setValue(data.turno);
-      sheet.getRange(i + 1, 6).setValue(data.ano);
-      sheet.getRange(i + 1, 7).setValue(data.escola);
-      sheet.getRange(i + 1, 8).setValue(data.responsavel);
-      sheet.getRange(i + 1, 9).setValue(data.celular);
-      sheet.getRange(i + 1, 10).setValue(data.status);
-      sheet.getRange(i + 1, 11).setValue(data.foto_url || "");
-
-      return jsonResponse({ success: true });
-    }
-  }
-
-  return jsonResponse({ success: false, error: "Aluno not found" });
-}
-
-function deleteAluno(e) {
-  const data = JSON.parse(e.postData.contents);
-
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const sheet = ss.getSheetByName("Alunos");
-
-  const rows = sheet.getDataRange().getValues();
-
-  for (let i = 1; i < rows.length; i++) {
-    if (rows[i][0] === data.id) {
-      sheet.deleteRow(i + 1);
-      return jsonResponse({ success: true });
-    }
-  }
-
-  return jsonResponse({ success: false, error: "Aluno not found" });
-}
-
-/* =========================
-   UPLOAD FOTO (DRIVE)
-========================= */
-
-function uploadAlunoFoto(e) {
-  const payload = JSON.parse(e.postData.contents);
-
-  const folderId = "135vdzduv1b0Jk5sz07TdUs-2vhVefpwp";
-  const folder = DriveApp.getFolderById(folderId);
-
-  const dataUrl = payload.dataUrl;
-
-  const match = dataUrl.match(/^data:(image\/\w+);base64,(.+)$/);
-
-  const mimeType = match[1];
-  const base64 = match[2];
-
-  const bytes = Utilities.base64Decode(base64);
-
-  const ext = mimeType.includes("png") ? "png" : "jpg";
-
-  const blob = Utilities.newBlob(bytes, mimeType, `aluno_${Date.now()}.${ext}`);
-
-  const file = folder.createFile(blob);
-
-  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-
-  const fotoUrl = `https://drive.google.com/thumbnail?id=${file.getId()}&sz=w300`;
-
-  return jsonResponse({
-    success: true,
-    fotoUrl,
-  });
 }
