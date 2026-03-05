@@ -178,3 +178,76 @@ textarea {
   resize: vertical;
   min-height: 90px;
 }
+
+/* =========================
+   FORMULÁRIO GLOBAL (MODAL)
+========================= */
+
+/* títulos dentro do modal */
+.modal-body h1,
+.modal-body h2,
+.modal-body h3 {
+  color: var(--text-main);
+  margin-bottom: 20px;
+  font-size: 1.25rem;
+}
+
+/* labels */
+.modal-body label {
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* inputs / selects / textarea */
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+  width: 100%;
+  background: var(--bg-soft);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+}
+
+/* inputs especiais */
+.modal-body input[type="date"],
+.modal-body input[type="time"] {
+  color-scheme: light dark;
+}
+
+/* placeholder */
+.modal-body input::placeholder,
+.modal-body textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+/* agrupamento de campos */
+.modal-body .form-group,
+.modal-body .field,
+.modal-body .input-group {
+  margin-bottom: 16px;
+}
+
+/* grid simples para forms */
+.modal-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* linha inteira */
+.modal-form-grid .full {
+  grid-column: 1 / -1;
+}
+
+/* ações do modal */
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
