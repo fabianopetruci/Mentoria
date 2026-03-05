@@ -74,7 +74,9 @@ function createAluno(e) {
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName("Alunos");
 
-  const id = "ALU" + Utilities.getUuid().slice(0, 6);
+  const lastRow = sheet.getLastRow();
+  const next = String(lastRow).padStart(4, "0");
+  const id = `ALU-${next}`;
 
   sheet.appendRow([
     id,
