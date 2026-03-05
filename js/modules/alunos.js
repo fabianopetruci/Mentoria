@@ -540,7 +540,7 @@ window.Alunos = {
           <h2>Cadastrar Aluno</h2>
 
           <div class="modal-form-grid">
-            <input id="aluno-nome" placeholder="Nome">
+            <input id="aluno-nome" placeholder="Nome" class="full">
             <input id="aluno-nascimento" type="date">
 
             <select id="aluno-sexo">
@@ -565,6 +565,11 @@ window.Alunos = {
               <option value="Ativo">Ativo</option>
               <option value="Inativo">Inativo</option>
             </select>
+
+            <div class="full">
+              <label>Foto do aluno</label>
+              <input type="file" id="aluno-foto" accept="image/*">
+            </div>
           </div>
 
           <div class="modal-actions">
@@ -577,6 +582,15 @@ window.Alunos = {
         document
           .getElementById("aluno-salvar")
           ?.addEventListener("click", async () => {
+            //const file =
+            // document.getElementById("aluno-foto")?.files?.[0] || null;
+
+            //let foto_url = "";
+            //if (file) {
+            //const up = await API.uploadAlunoFoto(file);
+            //foto_url = up.url || "";
+            //}
+
             const aluno = {
               nome: document.getElementById("aluno-nome").value,
               nascimento: document.getElementById("aluno-nascimento").value,
@@ -587,6 +601,7 @@ window.Alunos = {
               responsavel: document.getElementById("aluno-responsavel").value,
               celular: document.getElementById("aluno-celular").value,
               status: document.getElementById("aluno-status").value,
+              foto_url: "",
             };
 
             await API.createAluno(aluno);
