@@ -95,407 +95,15 @@ window.Alunos = {
     try {
       const alunos = await API.getAlunos();
 
-      this.state.data = alunos.map((a) => ({
-        id: a.ID || "",
-        data: [
-          a.NOME,
-          a.NASCIMENTO,
-          a.SEXO,
-          a.TURNO,
-          a.ANO,
-          a.ESCOLA,
-          a.RESPONSAVEL,
-          a.CELULAR,
-          a.STATUS,
-          a.FOTO_URL || "",
-        ],
-      }));
-    } catch {
-      // MOCK TEMPORÁRIO (25 registros)
-      this.state.data = [
-        {
-          id: "ALU-1",
-          data: [
-            "Júlia Victoria Botentuite Duarte",
-            "2013-07-29",
-            "Feminino",
-            "Vespertino",
-            "7º ano",
-            "Colégio Vinícius de Moraes",
-            "Valdinar Espíndola Duarte",
-            "98984210844",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-2",
-          data: [
-            "Maria Helena de Oliveira Garreto de Souza",
-            "2014-06-03",
-            "Feminino",
-            "Matutino",
-            "6º ano",
-            "Instituto Divina Pastora",
-            "Vanessa de Oliveira Coelho",
-            "98991001102",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-3",
-          data: [
-            "Maria Alice de Oliveira Garreto de Souza",
-            "2016-08-01",
-            "Feminino",
-            "Matutino",
-            "4º ano",
-            "Instituto Divina Pastora",
-            "Vanessa de Oliveira Coelho",
-            "98991001102",
-            "Ativo",
-            "",
-          ],
-        },
+      this.state.data = alunos;
+      this.state.filteredData = [...this.state.data];
+      this.state.page = 1;
+      this.state.selected = null;
 
-        {
-          id: "ALU-4",
-          data: [
-            "João Miguel Ferreira Lima",
-            "2012-03-18",
-            "Masculino",
-            "Matutino",
-            "8º ano",
-            "Colégio Modelo",
-            "Renata Ferreira Lima",
-            "98990010001",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-5",
-          data: [
-            "Ana Clara Souza Martins",
-            "2015-11-09",
-            "Feminino",
-            "Vespertino",
-            "5º ano",
-            "Escola Santa Luzia",
-            "Paulo Souza Martins",
-            "98990010002",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-6",
-          data: [
-            "Pedro Henrique Alves Rocha",
-            "2014-01-22",
-            "Masculino",
-            "Matutino",
-            "6º ano",
-            "Instituto Alfa",
-            "Carla Alves Rocha",
-            "98990010003",
-            "Inativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-7",
-          data: [
-            "Beatriz Oliveira Mendes",
-            "2016-05-30",
-            "Feminino",
-            "Vespertino",
-            "4º ano",
-            "Colégio Horizonte",
-            "Marcos Oliveira Mendes",
-            "98990010004",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-8",
-          data: [
-            "Lucas Gabriel Santos",
-            "2013-09-14",
-            "Masculino",
-            "Matutino",
-            "7º ano",
-            "Colégio Vinícius de Moraes",
-            "Aline Santos",
-            "98990010005",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-9",
-          data: [
-            "Fernanda Araújo Ribeiro",
-            "2015-02-07",
-            "Feminino",
-            "Vespertino",
-            "5º ano",
-            "Instituto Divina Pastora",
-            "Joana Araújo Ribeiro",
-            "98990010006",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-10",
-          data: [
-            "Rafael Gomes Cardoso",
-            "2012-12-02",
-            "Masculino",
-            "Matutino",
-            "8º ano",
-            "Escola Santa Luzia",
-            "Rita Gomes Cardoso",
-            "98990010007",
-            "Inativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-11",
-          data: [
-            "Isabela Barbosa Teixeira",
-            "2014-08-25",
-            "Feminino",
-            "Vespertino",
-            "6º ano",
-            "Colégio Horizonte",
-            "Daniel Barbosa Teixeira",
-            "98990010008",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-12",
-          data: [
-            "Thiago Nunes Vieira",
-            "2016-04-16",
-            "Masculino",
-            "Matutino",
-            "4º ano",
-            "Colégio Modelo",
-            "Camila Nunes Vieira",
-            "98990010009",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-13",
-          data: [
-            "Larissa Melo Costa",
-            "2013-10-05",
-            "Feminino",
-            "Vespertino",
-            "7º ano",
-            "Instituto Alfa",
-            "Patrícia Melo Costa",
-            "98990010010",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-14",
-          data: [
-            "Matheus Castro Pereira",
-            "2015-07-11",
-            "Masculino",
-            "Matutino",
-            "5º ano",
-            "Colégio Horizonte",
-            "Juliana Castro Pereira",
-            "98990010011",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-15",
-          data: [
-            "Camila Andrade Silva",
-            "2012-02-28",
-            "Feminino",
-            "Vespertino",
-            "8º ano",
-            "Colégio Vinícius de Moraes",
-            "Roberto Andrade Silva",
-            "98990010012",
-            "Inativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-16",
-          data: [
-            "Felipe Ramos Duarte",
-            "2014-05-19",
-            "Masculino",
-            "Matutino",
-            "6º ano",
-            "Escola Santa Luzia",
-            "Vanessa Ramos Duarte",
-            "98990010013",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-17",
-          data: [
-            "Letícia Teixeira Lima",
-            "2016-09-03",
-            "Feminino",
-            "Vespertino",
-            "4º ano",
-            "Instituto Divina Pastora",
-            "Mariana Teixeira Lima",
-            "98990010014",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-18",
-          data: [
-            "Daniel Ferreira Gomes",
-            "2013-01-10",
-            "Masculino",
-            "Matutino",
-            "7º ano",
-            "Colégio Modelo",
-            "Helena Ferreira Gomes",
-            "98990010015",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-19",
-          data: [
-            "Patrícia Martins Rocha",
-            "2015-03-27",
-            "Feminino",
-            "Vespertino",
-            "5º ano",
-            "Instituto Alfa",
-            "Sérgio Martins Rocha",
-            "98990010016",
-            "Inativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-20",
-          data: [
-            "Eduardo Vieira Souza",
-            "2012-06-06",
-            "Masculino",
-            "Matutino",
-            "8º ano",
-            "Colégio Horizonte",
-            "Cláudia Vieira Souza",
-            "98990010017",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-21",
-          data: [
-            "Vanessa Duarte Melo",
-            "2014-10-21",
-            "Feminino",
-            "Vespertino",
-            "6º ano",
-            "Escola Santa Luzia",
-            "Carlos Duarte Melo",
-            "98990010018",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-22",
-          data: [
-            "Bruno Ribeiro Santos",
-            "2016-12-12",
-            "Masculino",
-            "Matutino",
-            "4º ano",
-            "Colégio Vinícius de Moraes",
-            "Aline Ribeiro Santos",
-            "98990010019",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-23",
-          data: [
-            "Aline Cardoso Oliveira",
-            "2013-04-04",
-            "Feminino",
-            "Vespertino",
-            "7º ano",
-            "Instituto Divina Pastora",
-            "Rafael Cardoso Oliveira",
-            "98990010020",
-            "Ativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-24",
-          data: [
-            "Gustavo Mendes Araujo",
-            "2015-08-08",
-            "Masculino",
-            "Matutino",
-            "5º ano",
-            "Colégio Modelo",
-            "Fernanda Mendes Araujo",
-            "98990010021",
-            "Inativo",
-            "",
-          ],
-        },
-        {
-          id: "ALU-25",
-          data: [
-            "Juliana Pereira Nunes",
-            "2012-09-26",
-            "Feminino",
-            "Vespertino",
-            "8º ano",
-            "Instituto Alfa",
-            "Thiago Pereira Nunes",
-            "98990010022",
-            "Ativo",
-            "",
-          ],
-        },
-      ];
+      this.paint();
+    } catch (err) {
+      list.innerHTML = "Erro ao carregar alunos.";
     }
-
-    this.state.filteredData = [...this.state.data];
-    this.state.page = 1;
-    this.state.selected = null;
-    this.paint();
   },
 
   bindUI() {
@@ -511,6 +119,7 @@ window.Alunos = {
         1,
         Math.ceil(this.state.filteredData.length / this.state.perPage),
       );
+
       if (this.state.page < total) {
         this.state.page++;
         this.paint();
@@ -536,93 +145,15 @@ window.Alunos = {
     document
       .getElementById("aluno-btn-cadastrar")
       ?.addEventListener("click", () => {
-        const content = `
-          <h2>Cadastrar Aluno</h2>
-
-          <div class="modal-form-grid">
-            <input id="aluno-nome" placeholder="Nome" class="full">
-            <input id="aluno-nascimento" type="date">
-
-            <select id="aluno-sexo">
-              <option value="">Sexo</option>
-              <option value="Masculino">Masculino</option>
-              <option value="Feminino">Feminino</option>
-            </select>
-
-            <select id="aluno-turno">
-              <option value="">Turno</option>
-              <option value="Matutino">Matutino</option>
-              <option value="Vespertino">Vespertino</option>
-            </select>
-
-            <input id="aluno-ano" placeholder="Ano escolar">
-            <input id="aluno-escola" placeholder="Escola">
-
-            <input id="aluno-responsavel" placeholder="Responsável">
-            <input id="aluno-celular" placeholder="Celular">
-
-            <select id="aluno-status">
-              <option value="Ativo">Ativo</option>
-              <option value="Inativo">Inativo</option>
-            </select>
-
-            <div class="full">
-              <label>Foto do aluno</label>
-              <input type="file" id="aluno-foto" accept="image/*">
-            </div>
-          </div>
-
-          <div class="modal-actions">
-            <button class="btn btn-primary" id="aluno-salvar">Salvar</button>
-          </div>
-        `;
-
-        Modal.open(content, { width: "700px" });
-
-        document
-          .getElementById("aluno-salvar")
-          ?.addEventListener("click", async () => {
-            const file = document.getElementById("aluno-foto")?.files?.[0];
-
-            let foto_url = "";
-
-            if (file) {
-              const reader = new FileReader();
-
-              const dataUrl = await new Promise((resolve) => {
-                reader.onload = () => resolve(reader.result);
-                reader.readAsDataURL(file);
-              });
-
-              const up = await API.uploadAlunoFoto(dataUrl);
-              foto_url = up.fotoUrl || "";
-            }
-
-            const aluno = {
-              nome: document.getElementById("aluno-nome").value,
-              nascimento: document.getElementById("aluno-nascimento").value,
-              sexo: document.getElementById("aluno-sexo").value,
-              turno: document.getElementById("aluno-turno").value,
-              ano: document.getElementById("aluno-ano").value,
-              escola: document.getElementById("aluno-escola").value,
-              responsavel: document.getElementById("aluno-responsavel").value,
-              celular: document.getElementById("aluno-celular").value,
-              status: document.getElementById("aluno-status").value,
-              foto_url: foto_url,
-            };
-
-            await API.createAluno(aluno);
-
-            Modal.close();
-
-            await Alunos.load();
-          });
+        this.openForm();
       });
 
     document
       .getElementById("aluno-btn-alterar")
       ?.addEventListener("click", () => {
-        console.log("Alterar aluno");
+        if (this.state.selected) {
+          this.openForm(this.state.selected);
+        }
       });
 
     document
@@ -630,13 +161,142 @@ window.Alunos = {
       ?.addEventListener("click", async () => {
         if (!this.state.selected) return;
 
-        const ok = confirm("Excluir aluno selecionado?");
-        if (!ok) return;
+        if (!confirm("Excluir aluno selecionado?")) return;
 
         await API.deleteAluno(this.state.selected.id);
 
         await this.load();
       });
+
+    document
+      .getElementById("aluno-btn-imprimir")
+      ?.addEventListener("click", () => {
+        window.print();
+      });
+  },
+
+  openForm(selected = null) {
+    const isEdit = !!selected;
+    const d = selected ? selected.data : [];
+
+    const fotoAtual = d?.[9] || "";
+
+    Modal.open(`
+      <h3>${isEdit ? "Alterar aluno" : "Cadastrar aluno"}</h3>
+
+      <div class="form-group">
+        <label>Nome</label>
+        <input id="a-nome" value="${d?.[0] || ""}">
+      </div>
+
+      <div class="form-group">
+        <label>Foto</label>
+        <input type="file" id="a-foto" accept="image/*">
+      </div>
+
+      <div class="form-group">
+        <label>Nascimento</label>
+        <input type="date" id="a-nasc" value="${d?.[1] || ""}">
+      </div>
+
+      <div class="form-group">
+        <label>Sexo</label>
+        <select id="a-sexo">
+          <option value="Masculino" ${d?.[2] === "Masculino" ? "selected" : ""}>Masculino</option>
+          <option value="Feminino" ${d?.[2] === "Feminino" ? "selected" : ""}>Feminino</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Turno</label>
+        <select id="a-turno">
+          <option value="Matutino" ${d?.[3] === "Matutino" ? "selected" : ""}>Matutino</option>
+          <option value="Vespertino" ${d?.[3] === "Vespertino" ? "selected" : ""}>Vespertino</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Ano</label>
+        <input id="a-ano" value="${d?.[4] || ""}">
+      </div>
+
+      <div class="form-group">
+        <label>Escola</label>
+        <input id="a-escola" value="${d?.[5] || ""}">
+      </div>
+
+      <div class="form-group">
+        <label>Responsável</label>
+        <input id="a-resp" value="${d?.[6] || ""}">
+      </div>
+
+      <div class="form-group">
+        <label>Celular</label>
+        <input id="a-cel" value="${d?.[7] || ""}">
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+        <select id="a-status">
+          <option value="Ativo" ${d?.[8] === "Ativo" ? "selected" : ""}>Ativo</option>
+          <option value="Inativo" ${d?.[8] === "Inativo" ? "selected" : ""}>Inativo</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary" id="a-salvar">
+        ${isEdit ? "Salvar alterações" : "Cadastrar"}
+      </button>
+    `);
+
+    document.getElementById("a-salvar")?.addEventListener("click", async () => {
+      const nome = this.v("a-nome");
+      const nasc = this.v("a-nasc");
+      const sexo = this.v("a-sexo");
+      const turno = this.v("a-turno");
+      const ano = this.v("a-ano");
+      const escola = this.v("a-escola");
+      const resp = this.v("a-resp");
+      const cel = this.v("a-cel");
+      const status = this.v("a-status");
+
+      if (!nome) {
+        alert("Preencha o nome.");
+        return;
+      }
+
+      let fotoUrl = fotoAtual;
+
+      const file = document.getElementById("a-foto")?.files?.[0];
+
+      if (file) {
+        const up = await API.uploadAlunoFoto(file, selected?.id);
+        fotoUrl = up.fotoUrl;
+      }
+
+      const valores = [
+        nome,
+        nasc,
+        sexo,
+        turno,
+        ano,
+        escola,
+        resp,
+        cel,
+        status,
+        fotoUrl,
+      ];
+
+      if (isEdit) {
+        await API.updateAluno(selected.id, valores);
+      } else {
+        const id = "ALU-" + Date.now();
+        await API.insertAluno(id, valores);
+      }
+
+      Modal.close();
+
+      await this.load();
+    });
   },
 
   applyFilters() {
@@ -691,25 +351,19 @@ window.Alunos = {
     const list = document.getElementById("alunos-list");
     const pageInfo = document.getElementById("page-info");
     const counter = document.getElementById("alunos-counter");
-    const prevBtn = document.getElementById("prev-page");
-    const nextBtn = document.getElementById("next-page");
+
     if (!list || !pageInfo || !counter) return;
 
-    const totalFiltered = this.state.filteredData.length;
+    const total = this.state.filteredData.length;
 
-    if (!totalFiltered) {
+    if (!total) {
       list.innerHTML = "Nenhum aluno encontrado.";
       pageInfo.textContent = "0 / 0";
       counter.textContent = "Exibindo 0 alunos.";
-      if (prevBtn) prevBtn.disabled = true;
-      if (nextBtn) nextBtn.disabled = true;
       return;
     }
 
-    const totalPages = Math.max(
-      1,
-      Math.ceil(totalFiltered / this.state.perPage),
-    );
+    const totalPages = Math.ceil(total / this.state.perPage);
 
     const start = (this.state.page - 1) * this.state.perPage;
     const slice = this.state.filteredData.slice(
@@ -720,8 +374,6 @@ window.Alunos = {
     list.innerHTML = slice
       .map((item) => {
         const { id, data } = item;
-        const selectedClass =
-          this.state.selected?.id === id ? " aluno-card-selected" : "";
 
         const [
           nome,
@@ -738,10 +390,13 @@ window.Alunos = {
 
         const foto = fotoUrl || "assets/img/students.png";
 
+        const selectedClass =
+          this.state.selected?.id === id ? " aluno-card-selected" : "";
+
         return `
           <div class="aluno-card${selectedClass}" data-id="${id}">
             <div class="aluno-foto">
-              <img src="${foto}" alt="Aluno">
+              <img src="${foto}">
             </div>
 
             <div class="aluno-info">
@@ -787,11 +442,8 @@ window.Alunos = {
       })
       .join("");
 
-    counter.textContent = `Exibindo ${slice.length} de ${totalFiltered} alunos.`;
+    counter.textContent = `Exibindo ${slice.length} de ${total} alunos.`;
     pageInfo.textContent = `${this.state.page} / ${totalPages}`;
-
-    if (prevBtn) prevBtn.disabled = this.state.page <= 1;
-    if (nextBtn) nextBtn.disabled = this.state.page >= totalPages;
 
     list.querySelectorAll(".aluno-card").forEach((card) => {
       card.addEventListener("click", () => {
@@ -799,11 +451,10 @@ window.Alunos = {
         this.state.selected =
           this.state.filteredData.find((x) => x.id === id) || null;
 
-        const alterarBtn = document.getElementById("aluno-btn-alterar");
-        const excluirBtn = document.getElementById("aluno-btn-excluir");
-
-        if (alterarBtn) alterarBtn.disabled = !this.state.selected;
-        if (excluirBtn) excluirBtn.disabled = !this.state.selected;
+        document.getElementById("aluno-btn-alterar").disabled =
+          !this.state.selected;
+        document.getElementById("aluno-btn-excluir").disabled =
+          !this.state.selected;
 
         this.paint();
       });
