@@ -536,7 +536,64 @@ window.Alunos = {
     document
       .getElementById("aluno-btn-cadastrar")
       ?.addEventListener("click", () => {
-        console.log("Cadastrar aluno");
+        const content = `
+          <h2>Cadastrar Aluno</h2>
+
+          <div class="modal-form-grid">
+            <input id="aluno-nome" placeholder="Nome">
+            <input id="aluno-nascimento" type="date">
+
+            <select id="aluno-sexo">
+              <option value="">Sexo</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Feminino">Feminino</option>
+            </select>
+
+            <select id="aluno-turno">
+              <option value="">Turno</option>
+              <option value="Matutino">Matutino</option>
+              <option value="Vespertino">Vespertino</option>
+            </select>
+
+            <input id="aluno-ano" placeholder="Ano escolar">
+            <input id="aluno-escola" placeholder="Escola">
+
+            <input id="aluno-responsavel" placeholder="Responsável">
+            <input id="aluno-celular" placeholder="Celular">
+
+            <select id="aluno-status">
+              <option value="Ativo">Ativo</option>
+              <option value="Inativo">Inativo</option>
+            </select>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn btn-primary" id="aluno-salvar">Salvar</button>
+          </div>
+        `;
+
+        Modal.open(content, { width: "700px" });
+
+        document
+          .getElementById("aluno-salvar")
+          ?.addEventListener("click", async () => {
+            const aluno = {
+              nome: document.getElementById("aluno-nome").value,
+              nascimento: document.getElementById("aluno-nascimento").value,
+              sexo: document.getElementById("aluno-sexo").value,
+              turno: document.getElementById("aluno-turno").value,
+              ano: document.getElementById("aluno-ano").value,
+              escola: document.getElementById("aluno-escola").value,
+              responsavel: document.getElementById("aluno-responsavel").value,
+              celular: document.getElementById("aluno-celular").value,
+              status: document.getElementById("aluno-status").value,
+            };
+
+            await API.createAluno(aluno);
+
+            Modal.close();
+            await Alunos.load();
+          });
       });
 
     document
