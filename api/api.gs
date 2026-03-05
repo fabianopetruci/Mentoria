@@ -10,12 +10,14 @@ function doPost(e) {
 
 function routeRequest(method, e) {
   let resource;
+  let action = "";
 
   if (method === "GET") {
     resource = e.parameter.resource;
   } else {
     const body = JSON.parse(e.postData.contents);
     resource = body.resource;
+    action = body.action || "";
   }
 
   switch (resource) {
@@ -25,9 +27,10 @@ function routeRequest(method, e) {
       }
 
       if (method === "POST") {
-        return createAluno(e);
+        if (action === "create") return createAluno(e);
+        if (action === "update") return updateAluno(e);
+        if (action === "delete") return deleteAluno(e);
       }
-
       break;
 
     default:
@@ -90,5 +93,92 @@ function createAluno(e) {
   return jsonResponse({
     success: true,
     id: id,
+  });
+}
+
+function routeRequest(method, e) {
+  let resource;
+  let action;
+
+  if (method === "GET") {
+    resource = e.parameter.resource;
+  } else {
+    const body = JSON.parse(e.postData.contents);
+    resource = body.resource;
+    action = body.action;
+  }
+
+  switch (resource) {
+    case "alunos":
+      if (method === "GET") {
+        return getAlunos();
+      }
+
+      if (method === "POST") {
+        if (action === "create") return createAluno(e);
+        if (action === "update") return updateAluno(e);
+        if (action === "delete") return deleteAluno(e);
+      }
+
+      break;
+
+    default:
+      return jsonResponse({
+        success: false,
+        error: "Resource not found",
+      });
+  }
+}
+
+function updateAluno(e) {
+  const data = JSON.parse(e.postData.contents);
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName("Alunos");
+
+  const rows = sheet.getDataRange().getValues();
+
+  for (let i = 1; i < rows.length; i++) {
+    if (rows[i][0] === data.id) {
+      sheet.getRange(i + 1, 2).setValue(data.nome);
+      sheet.getRange(i + 1, 3).setValue(data.nascimento);
+      sheet.getRange(i + 1, 4).setValue(data.sexo);
+      sheet.getRange(i + 1, 5).setValue(data.turno);
+      sheet.getRange(i + 1, 6).setValue(data.ano);
+      sheet.getRange(i + 1, 7).setValue(data.escola);
+      sheet.getRange(i + 1, 8).setValue(data.responsavel);
+      sheet.getRange(i + 1, 9).setValue(data.celular);
+      sheet.getRange(i + 1, 10).setValue(data.status);
+      sheet.getRange(i + 1, 11).setValue(data.foto_url || "");
+
+      return jsonResponse({ success: true });
+    }
+  }
+
+  return jsonResponse({
+    success: false,
+    error: "Aluno not found",
+  });
+}
+
+function deleteAluno(e) {
+  const data = JSON.parse(e.postData.contents);
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName("Alunos");
+
+  const rows = sheet.getDataRange().getValues();
+
+  for (let i = 1; i < rows.length; i++) {
+    if (rows[i][0] === data.id) {
+      sheet.deleteRow(i + 1);
+
+      return jsonResponse({ success: true });
+    }
+  }
+
+  return jsonResponse({
+    success: false,
+    error: "Aluno not found",
   });
 }

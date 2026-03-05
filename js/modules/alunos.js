@@ -532,6 +532,31 @@ window.Alunos = {
     document.getElementById("f-limpar")?.addEventListener("click", () => {
       this.clearFilters();
     });
+
+    document
+      .getElementById("aluno-btn-cadastrar")
+      ?.addEventListener("click", () => {
+        console.log("Cadastrar aluno");
+      });
+
+    document
+      .getElementById("aluno-btn-alterar")
+      ?.addEventListener("click", () => {
+        console.log("Alterar aluno");
+      });
+
+    document
+      .getElementById("aluno-btn-excluir")
+      ?.addEventListener("click", async () => {
+        if (!this.state.selected) return;
+
+        const ok = confirm("Excluir aluno selecionado?");
+        if (!ok) return;
+
+        await API.deleteAluno(this.state.selected.id);
+
+        await this.load();
+      });
   },
 
   applyFilters() {
@@ -693,6 +718,13 @@ window.Alunos = {
         const id = card.dataset.id;
         this.state.selected =
           this.state.filteredData.find((x) => x.id === id) || null;
+
+        const alterarBtn = document.getElementById("aluno-btn-alterar");
+        const excluirBtn = document.getElementById("aluno-btn-excluir");
+
+        if (alterarBtn) alterarBtn.disabled = !this.state.selected;
+        if (excluirBtn) excluirBtn.disabled = !this.state.selected;
+
         this.paint();
       });
     });

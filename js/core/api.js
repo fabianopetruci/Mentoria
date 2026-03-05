@@ -16,7 +16,34 @@ window.API = {
       method: "POST",
       body: JSON.stringify({
         resource: "alunos",
+        action: "create",
         ...aluno,
+      }),
+    });
+
+    return res.json();
+  },
+
+  async updateAluno(aluno) {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        resource: "alunos",
+        action: "update",
+        ...aluno,
+      }),
+    });
+
+    return res.json();
+  },
+
+  async deleteAluno(id) {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        resource: "alunos",
+        action: "delete",
+        id: id,
       }),
     });
 
