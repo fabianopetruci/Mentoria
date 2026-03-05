@@ -49,4 +49,31 @@ window.API = {
 
     return res.json();
   },
+
+  async uploadAlunoFoto(file) {
+    const base64 = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+    const payload = JSON.stringify({
+      resource: "alunos",
+      action: "uploadFoto",
+      fileName: file.name,
+      mimeType: file.type,
+      fileBase64: base64,
+    });
+
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+      body: payload,
+    });
+
+    return res.json();
+  },
 };
