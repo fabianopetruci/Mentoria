@@ -93,8 +93,23 @@ window.Alunos = {
     if (!list) return;
 
     try {
-      const res = await Api.getAll();
-      this.state.data = res.Alunos || [];
+      const alunos = await API.getAlunos();
+
+      this.state.data = alunos.map((a) => ({
+        id: a.ID || "",
+        data: [
+          a.NOME,
+          a.NASCIMENTO,
+          a.SEXO,
+          a.TURNO,
+          a.ANO,
+          a.ESCOLA,
+          a.RESPONSAVEL,
+          a.CELULAR,
+          a.STATUS,
+          a.FOTO_URL || "",
+        ],
+      }));
     } catch {
       // MOCK TEMPORÁRIO (25 registros)
       this.state.data = [

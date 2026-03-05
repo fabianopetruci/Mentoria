@@ -6,8 +6,9 @@ const API_URL =
 window.API = {
   async getAlunos() {
     const res = await fetch(`${API_URL}?resource=alunos`);
-    const data = await res.json();
-    return data.data || [];
+    const json = await res.json();
+
+    return json.data || [];
   },
 
   async createAluno(aluno) {
