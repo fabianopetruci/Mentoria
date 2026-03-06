@@ -287,7 +287,8 @@ window.Alunos = {
       if (isEdit) {
         await API.updateAluno(selected.id, valores);
       } else {
-        const id = "ALU-" + Date.now();
+        const total = this.state.data.length + 1;
+        const id = "ALU-" + String(total).padStart(4, "0");
         await API.insertAluno(id, valores);
       }
 
