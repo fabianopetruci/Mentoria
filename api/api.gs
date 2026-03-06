@@ -1,6 +1,17 @@
 // ===== CONFIG =====
 const SPREADSHEET_ID = "1RxD14YKY3wksLAb0YuOQZuFfNVJF9yIrDFydDMACWHA";
-const ABAS = ["Alunos"];
+const ABAS = [
+  "Alunos",
+  "Professores",
+  "Agenda",
+  "Receitas",
+  "Despesas",
+  "Pendencias",
+  "Fluxo_caixa",
+  "Contrato",
+  "Rebibos",
+  "Galeria",
+];
 
 // ===== GET =====
 function doGet() {
