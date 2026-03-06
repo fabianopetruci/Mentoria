@@ -42,6 +42,25 @@ window.Print = {
           .aluno-value{
             margin-right:10px;
           }
+          
+          .prof-card{
+            border:1px solid #ccc;
+            padding:15px;
+            margin-bottom:20px;
+            border-radius:6px;
+          }
+
+          .prof-row{
+            margin-bottom:4px;
+          }
+
+          .prof-label{
+            font-weight:bold;
+          }
+
+          .prof-value{
+            margin-right:10px;
+          }
 
           img{
             display:none;
