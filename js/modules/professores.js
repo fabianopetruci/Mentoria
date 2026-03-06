@@ -290,55 +290,62 @@ window.Professores = {
           fotoUrl,
         ] = data;
 
-        const foto = fotoUrl || "assets/img/teacher.png";
+        const foto = fotoUrl || "assets/img/teachers.png";
 
         const selectedClass =
-          this.state.selected?.id === id ? " professor-card-selected" : "";
+          this.state.selected?.id === id ? " prof-card-selected" : "";
 
         return `
-          <div class="professor-card${selectedClass}" data-id="${id}">
-            <div class="professor-foto">
+          <div class="prof-card${selectedClass}" data-id="${id}">
+            <div class="prof-foto">
               <img src="${foto}">
             </div>
 
-            <div class="professor-info">
+            <div class="prof-info">
 
-              <div class="professor-row professor-name">
-                <span class="professor-label">Nome:</span>
-                <span class="professor-value">${nome}</span>
+              <div class="prof-row prof-name">
+                <span class="prof-label">Nome:</span>
+                <span class="prof-value">${nome}</span>
               </div>
 
-              <div class="professor-row">
-                <span class="professor-label">Email:</span>
-                <span class="professor-value">${email}</span>
+              <div class="prof-row">
+                <span class="prof-label">Email:</span>
+                <span class="prof-value">${email}</span>
               </div>
 
-              <div class="professor-row">
-                <span class="professor-label">Celular:</span>
-                <span class="professor-value">${celular}</span>
-                <span class="professor-label">Formação:</span>
-                <span class="professor-value">${formacao}</span>
+              <div class="prof-row">
+                <span class="prof-label">Celular:</span>
+                <span class="prof-value">${celular}</span>
               </div>
 
-              <div class="professor-row">
-                <span class="professor-label">Experiência:</span>
-                <span class="professor-value">${experiencia} anos</span>
-                <span class="professor-label">Valor Hora:</span>
-                <span class="professor-value">${Number(
-                  valorHora,
-                ).toLocaleString("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                })}</span>
+              <div class="prof-row">
+                <span class="prof-label">Formação:</span>
+                <span class="prof-value">${formacao}</span>
               </div>
 
-              <div class="professor-row">
-                <span class="professor-label">Disponibilidade:</span>
-                <span class="professor-value">${disponibilidade} x por semana</span>
-                <span class="professor-label">Horário:</span>
-                <span class="professor-value">${horario}</span>
-                <span class="professor-label">Status:</span>
-                <span class="professor-value ${
+              <div class="prof-row">
+                <span class="prof-label">Experiência:</span>
+                <span class="prof-value">${experiencia} anos</span>
+              </div>
+
+              <div class="prof-row">
+                <span class="prof-label">Valor Hora:</span>
+                <span class="prof-value">${Number(valorHora).toLocaleString(
+                  "pt-BR",
+                  {
+                    style: "currency",
+                    currency: "BRL",
+                  },
+                )}</span>
+              </div>
+
+              <div class="prof-row">
+                <span class="prof-label">Disponibilidade:</span>
+                <span class="prof-value">${disponibilidade} x por semana</span>
+                <span class="prof-label">Horário:</span>
+                <span class="prof-value">${horario}</span>
+                <span class="prof-label">Status:</span>
+                <span class="prof-value ${
                   String(status).toLowerCase() === "ativo"
                     ? "status-ativo"
                     : "status-inativo"
@@ -356,7 +363,7 @@ window.Professores = {
     counter.textContent = `Exibindo ${slice.length} de ${total} professores.`;
     pageInfo.textContent = `${this.state.page} / ${totalPages}`;
 
-    list.querySelectorAll(".professor-card").forEach((card) => {
+    list.querySelectorAll(".prof-card").forEach((card) => {
       card.addEventListener("click", () => {
         const id = card.dataset.id;
 
