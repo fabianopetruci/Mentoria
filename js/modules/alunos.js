@@ -184,68 +184,74 @@ window.Alunos = {
     Modal.open(`
       <h3>${isEdit ? "Alterar aluno" : "Cadastrar aluno"}</h3>
 
-      <div class="form-group">
-        <label>Nome</label>
-        <input id="a-nome" value="${d?.[0] || ""}">
+      <div class="modal-form-grid">
+
+        <div class="form-group full">
+          <label>Nome</label>
+          <input id="a-nome" value="${d?.[0] || ""}">
+        </div>
+
+        <div class="form-group">
+          <label>Foto (caminho da imagem)</label>
+          <input id="a-foto" value="${fotoAtual}">
+        </div>
+
+        <div class="form-group">
+          <label>Nascimento</label>
+          <input type="date" id="a-nasc" value="${d?.[1] || ""}">
+        </div>
+
+        <div class="form-group">
+          <label>Sexo</label>
+          <select id="a-sexo">
+            <option value="Masculino" ${d?.[2] === "Masculino" ? "selected" : ""}>Masculino</option>
+            <option value="Feminino" ${d?.[2] === "Feminino" ? "selected" : ""}>Feminino</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Turno</label>
+          <select id="a-turno">
+            <option value="Matutino" ${d?.[3] === "Matutino" ? "selected" : ""}>Matutino</option>
+            <option value="Vespertino" ${d?.[3] === "Vespertino" ? "selected" : ""}>Vespertino</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Ano</label>
+          <input id="a-ano">
+        </div>
+
+        <div class="form-group">
+          <label>Escola</label>
+          <input id="a-escola">
+        </div>
+
+        <div class="form-group">
+          <label>Responsável</label>
+          <input id="a-resp" value="${d?.[6] || ""}">
+        </div>
+
+        <div class="form-group">
+          <label>Celular</label>
+          <input id="a-cel" value="${d?.[7] || ""}">
+        </div>
+
+        <div class="form-group">
+          <label>Status</label>
+          <select id="a-status">
+            <option value="Ativo" ${d?.[8] === "Ativo" ? "selected" : ""}>Ativo</option>
+            <option value="Inativo" ${d?.[8] === "Inativo" ? "selected" : ""}>Inativo</option>
+          </select>
+        </div>
+
       </div>
 
-      <div class="form-group">
-        <label>Foto</label>
-        <input type="file" id="a-foto" accept="image/*">
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="a-salvar">
+          ${isEdit ? "Salvar alterações" : "Cadastrar"}
+        </button>
       </div>
-
-      <div class="form-group">
-        <label>Nascimento</label>
-        <input type="date" id="a-nasc" value="${d?.[1] || ""}">
-      </div>
-
-      <div class="form-group">
-        <label>Sexo</label>
-        <select id="a-sexo">
-          <option value="Masculino" ${d?.[2] === "Masculino" ? "selected" : ""}>Masculino</option>
-          <option value="Feminino" ${d?.[2] === "Feminino" ? "selected" : ""}>Feminino</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Turno</label>
-        <select id="a-turno">
-          <option value="Matutino" ${d?.[3] === "Matutino" ? "selected" : ""}>Matutino</option>
-          <option value="Vespertino" ${d?.[3] === "Vespertino" ? "selected" : ""}>Vespertino</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Ano</label>
-        <input id="a-ano" value="${d?.[4] || ""}">
-      </div>
-
-      <div class="form-group">
-        <label>Escola</label>
-        <input id="a-escola" value="${d?.[5] || ""}">
-      </div>
-
-      <div class="form-group">
-        <label>Responsável</label>
-        <input id="a-resp" value="${d?.[6] || ""}">
-      </div>
-
-      <div class="form-group">
-        <label>Celular</label>
-        <input id="a-cel" value="${d?.[7] || ""}">
-      </div>
-
-      <div class="form-group">
-        <label>Status</label>
-        <select id="a-status">
-          <option value="Ativo" ${d?.[8] === "Ativo" ? "selected" : ""}>Ativo</option>
-          <option value="Inativo" ${d?.[8] === "Inativo" ? "selected" : ""}>Inativo</option>
-        </select>
-      </div>
-
-      <button class="btn btn-primary" id="a-salvar">
-        ${isEdit ? "Salvar alterações" : "Cadastrar"}
-      </button>
     `);
 
     document.getElementById("a-salvar")?.addEventListener("click", async () => {
@@ -258,19 +264,11 @@ window.Alunos = {
       const resp = this.v("a-resp");
       const cel = this.v("a-cel");
       const status = this.v("a-status");
+      const fotoUrl = this.v("a-foto");
 
       if (!nome) {
         alert("Preencha o nome.");
         return;
-      }
-
-      let fotoUrl = fotoAtual;
-
-      const file = document.getElementById("a-foto")?.files?.[0];
-
-      if (file) {
-        const up = await API.uploadAlunoFoto(file, selected?.id);
-        fotoUrl = up.fotoUrl;
       }
 
       const valores = [
@@ -294,7 +292,6 @@ window.Alunos = {
       }
 
       Modal.close();
-
       await this.load();
     });
   },
@@ -314,7 +311,8 @@ window.Alunos = {
       return (
         (!this.state.filters.status || d[8] === this.state.filters.status) &&
         (!this.state.filters.sexo || d[2] === this.state.filters.sexo) &&
-        (!this.state.filters.ano || d[4]?.includes(this.state.filters.ano)) &&
+        (!this.state.filters.ano ||
+          String(d[4]).includes(this.state.filters.ano)) &&
         (!this.state.filters.escola ||
           d[5]
             ?.toLowerCase()

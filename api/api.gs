@@ -1,7 +1,5 @@
 // ===== CONFIG =====
 const SPREADSHEET_ID = "1RxD14YKY3wksLAb0YuOQZuFfNVJF9yIrDFydDMACWHA";
-const PASTA_FOTOS_ID = "135vdzduv1b0Jk5sz07TdUs-2vhVefpwp";
-
 const ABAS = ["Alunos"];
 
 // ===== GET =====
@@ -25,7 +23,7 @@ function doGet() {
         return;
       }
 
-      values.shift(); // remove cabeçalho
+      values.shift();
 
       retorno[nome] = values
         .filter((r) => String(r[0] || "").trim() !== "")
@@ -45,11 +43,6 @@ function doGet() {
 function doPost(e) {
   try {
     const payload = JSON.parse(e.postData.contents || "{}");
-
-    // prioridade upload
-    if (payload.action === "uploadFoto") {
-      return uploadFoto(payload);
-    }
 
     const { action, aba, id, valores } = payload;
 
@@ -103,58 +96,6 @@ function doPost(e) {
     }
   } catch (err) {
     return json({ status: "erro", message: String(err.message || err) });
-  }
-}
-
-// ===== UPLOAD FOTO =====
-function uploadFoto(payload) {
-  try {
-    const folder = DriveApp.getFolderById(PASTA_FOTOS_ID);
-
-    if (!folder) throw new Error("Pasta não encontrada no Drive");
-
-    const dataUrl = String(payload.dataUrl || "");
-    const alunoId = payload.alunoId || "ALU-" + Date.now();
-
-    if (!dataUrl.startsWith("data:image/")) {
-      throw new Error("DataURL inválida");
-    }
-
-    const match = dataUrl.match(/^data:(image\/\w+);base64,(.+)$/);
-
-    if (!match) {
-      throw new Error("DataURL inválida (regex)");
-    }
-
-    const mimeType = match[1];
-    const base64 = match[2];
-
-    const bytes = Utilities.base64Decode(base64);
-
-    const ext = mimeType.includes("png") ? "png" : "jpg";
-
-    const blob = Utilities.newBlob(
-      bytes,
-      mimeType,
-      `aluno_${alunoId}_${Date.now()}.${ext}`,
-    );
-
-    const file = folder.createFile(blob);
-
-    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-
-    const fotoUrl = `https://drive.google.com/thumbnail?id=${file.getId()}&sz=w300`;
-
-    return json({
-      status: "ok",
-      fotoUrl,
-      fileId: file.getId(),
-    });
-  } catch (err) {
-    return json({
-      status: "erro",
-      message: String(err.message || err),
-    });
   }
 }
 

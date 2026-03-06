@@ -8,14 +8,20 @@ const API_URL =
 // ===============================
 async function apiGet() {
   const res = await fetch(API_URL);
-  if (!res.ok) throw new Error("Falha no GET");
-  return await res.json();
+
+  const text = await res.text();
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error("Resposta inválida: " + text);
+  }
 }
 
 async function apiPost(payload) {
   const res = await fetch(API_URL, {
     method: "POST",
-    body: JSON.stringify(payload), // SEM headers (Apps Script exige assim)
+    body: JSON.stringify(payload),
   });
 
   const text = await res.text();
@@ -25,20 +31,6 @@ async function apiPost(payload) {
   } catch {
     throw new Error("Resposta não é JSON: " + text);
   }
-}
-
-// ===============================
-// FILE → DATAURL
-// ===============================
-function fileToDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-
-    reader.readAsDataURL(file);
-  });
 }
 
 // ===============================
@@ -74,21 +66,5 @@ window.API = {
       aba: "Alunos",
       id,
     });
-  },
-
-  async uploadAlunoFoto(file, alunoId) {
-    const dataUrl = await fileToDataUrl(file);
-
-    const res = await apiPost({
-      action: "uploadFoto",
-      dataUrl,
-      alunoId,
-    });
-
-    if (res.status !== "ok") {
-      throw new Error(res.message || "Falha no upload");
-    }
-
-    return res;
   },
 };
