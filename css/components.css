@@ -232,16 +232,31 @@ textarea {
   margin-bottom: 16px;
 }
 
-/* grid simples para forms */
+/* =========================
+   GRID DE FORMULÁRIOS (MODAL)
+========================= */
+
 .modal-form-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+  align-items: start;
 }
 
-/* linha inteira */
+/* campo ocupa linha inteira */
 .modal-form-grid .full {
   grid-column: 1 / -1;
+}
+
+/* grupos dentro da grid */
+.modal-form-grid .form-group {
+  margin-bottom: 0;
+}
+
+/* inputs mais compactos no modal */
+.modal-body input,
+.modal-body select {
+  height: 36px;
 }
 
 /* ações do modal */
