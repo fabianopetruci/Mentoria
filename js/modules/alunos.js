@@ -406,6 +406,9 @@ window.Alunos = {
               <div class="aluno-row">
                 <span class="aluno-label">Nascimento:</span>
                 <span class="aluno-value">${this.formatDate(nascimento)}</span>
+              </div>
+
+              <div class="aluno-row">
                 <span class="aluno-label">Sexo:</span>
                 <span class="aluno-value">${sexo}</span>
               </div>
@@ -415,6 +418,9 @@ window.Alunos = {
                 <span class="aluno-value">${turno}</span>
                 <span class="aluno-label">Ano:</span>
                 <span class="aluno-value">${ano}</span>
+              </div>
+
+              <div class="aluno-row">
                 <span class="aluno-label">Escola:</span>
                 <span class="aluno-value">${escola}</span>
               </div>
@@ -422,6 +428,9 @@ window.Alunos = {
               <div class="aluno-row">
                 <span class="aluno-label">Responsável:</span>
                 <span class="aluno-value">${responsavel}</span>
+              </div>
+
+              <div class="aluno-row">
                 <span class="aluno-label">Celular:</span>
                 <span class="aluno-value">${celular}</span>
                 <span class="aluno-label">Status:</span>
