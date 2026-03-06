@@ -3,6 +3,12 @@ window.Print = {
     const el = document.getElementById(id);
     if (!el) return;
 
+    // clona o conteúdo
+    const clone = el.cloneNode(true);
+
+    // remove todas as imagens (fotos dos alunos)
+    clone.querySelectorAll("img").forEach((img) => img.remove());
+
     const html = `
       <html>
       <head>
@@ -15,18 +21,30 @@ window.Print = {
           }
 
           h1{
-            margin-bottom:20px;
+            margin-bottom:30px;
           }
 
-          table{
-            width:100%;
-            border-collapse: collapse;
-          }
-
-          th,td{
+          .aluno-card{
             border:1px solid #ccc;
-            padding:8px;
-            text-align:left;
+            padding:15px;
+            margin-bottom:20px;
+            border-radius:6px;
+          }
+
+          .aluno-row{
+            margin-bottom:4px;
+          }
+
+          .aluno-label{
+            font-weight:bold;
+          }
+
+          .aluno-value{
+            margin-right:10px;
+          }
+
+          img{
+            display:none;
           }
         </style>
 
@@ -36,7 +54,7 @@ window.Print = {
 
         <h1>${title}</h1>
 
-        ${el.outerHTML}
+        ${clone.outerHTML}
 
       </body>
       </html>
