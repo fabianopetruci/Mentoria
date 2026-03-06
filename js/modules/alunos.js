@@ -171,7 +171,7 @@ window.Alunos = {
     document
       .getElementById("aluno-btn-imprimir")
       ?.addEventListener("click", () => {
-        window.print();
+        Print.section("alunos-list", "Lista de alunos");
       });
   },
 
@@ -363,6 +363,12 @@ window.Alunos = {
     }
 
     const totalPages = Math.ceil(total / this.state.perPage);
+
+    const prevBtn = document.getElementById("prev-page");
+    const nextBtn = document.getElementById("next-page");
+
+    if (prevBtn) prevBtn.disabled = this.state.page === 1;
+    if (nextBtn) nextBtn.disabled = this.state.page === totalPages;
 
     const start = (this.state.page - 1) * this.state.perPage;
     const slice = this.state.filteredData.slice(
