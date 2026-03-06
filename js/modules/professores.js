@@ -106,7 +106,11 @@ window.Professores = {
 
         if (!confirm("Excluir professor selecionado?")) return;
 
-        await API.deleteRegistro("Professores", this.state.selected.id);
+        await apiPost({
+          action: "delete",
+          aba: "Professores",
+          id: this.state.selected.id,
+        });
         await this.load();
       });
 
@@ -163,7 +167,17 @@ window.Professores = {
 
         <div class="form-group">
           <label>Horário</label>
-          <input id="p-horario" value="${d?.[7] || ""}">
+          <select id="p-horario">
+
+            <option value="09:00h às 12:00h" ${d?.[7] === "09:00h às 12:00h" ? "selected" : ""}>
+              09:00h às 12:00h
+            </option>
+
+            <option value="14:00h às 18:00h" ${d?.[7] === "14:00h às 18:00h" ? "selected" : ""}>
+              14:00h às 18:00h
+            </option>
+
+          </select>
         </div>
 
         <div class="form-group">
@@ -188,6 +202,12 @@ window.Professores = {
       </div>
     `);
 
+    const nomeInput = document.getElementById("p-nome");
+
+    nomeInput?.addEventListener("input", (e) => {
+      e.target.value = e.target.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, "");
+    });
+
     document.getElementById("p-salvar")?.addEventListener("click", async () => {
       const valores = [
         this.v("p-nome"),
@@ -208,10 +228,22 @@ window.Professores = {
       }
 
       if (isEdit) {
-        await API.updateRegistro("Professores", selected.id, valores);
+        await apiPost({
+          action: "update",
+          aba: "Professores",
+          id: selected.id,
+          valores,
+        });
       } else {
-        const id = "PROF-" + Date.now();
-        await API.insertRegistro("Professores", id, valores);
+        const total = this.state.data.length + 1;
+        const id = "PRO-" + String(total).padStart(4, "0");
+
+        await apiPost({
+          action: "insert",
+          aba: "Professores",
+          id,
+          valores,
+        });
       }
 
       Modal.close();
@@ -290,14 +322,19 @@ window.Professores = {
 
               <div class="professor-row">
                 <span class="professor-label">Experiência:</span>
-                <span class="professor-value">${experiencia}</span>
+                <span class="professor-value">${experiencia} anos</span>
                 <span class="professor-label">Valor Hora:</span>
-                <span class="professor-value">${valorHora}</span>
+                <span class="professor-value">${Number(
+                  valorHora,
+                ).toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })}</span>
               </div>
 
               <div class="professor-row">
                 <span class="professor-label">Disponibilidade:</span>
-                <span class="professor-value">${disponibilidade}</span>
+                <span class="professor-value">${disponibilidade} x por semana</span>
                 <span class="professor-label">Horário:</span>
                 <span class="professor-value">${horario}</span>
                 <span class="professor-label">Status:</span>
