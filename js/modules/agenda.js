@@ -311,6 +311,64 @@ window.Agenda = {
 
     document
       .getElementById("agenda-btn-print")
-      ?.addEventListener("click", () => window.print());
+      ?.addEventListener("click", () => this.printAgenda());
+  },
+
+  printAgenda() {
+    const content = document.getElementById("agenda-content");
+    if (!content) return;
+
+    const data = this.formatFullDate(this.state.currentDate);
+
+    const html = `
+      <html>
+        <head>
+          <title>Agenda</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              padding: 40px;
+            }
+
+            h1 {
+              margin-bottom: 10px;
+            }
+
+            .data {
+              margin-bottom: 30px;
+              font-size: 14px;
+              color: #555;
+            }
+
+            ul {
+              padding: 0;
+              list-style: none;
+            }
+
+            li {
+              margin-bottom: 10px;
+              font-size: 16px;
+            }
+          </style>
+        </head>
+
+        <body>
+          <h1>Agenda</h1>
+          <div class="data">${data}</div>
+          <ul>
+            ${[...content.children]
+              .map((el) => `<li>${el.textContent}</li>`)
+              .join("")}
+          </ul>
+        </body>
+      </html>
+    `;
+
+    const win = window.open("", "", "width=800,height=600");
+    win.document.write(html);
+    win.document.close();
+    win.focus();
+    win.print();
+    win.close();
   },
 };
