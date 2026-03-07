@@ -67,4 +67,9 @@ window.API = {
       id,
     });
   },
+
+  async getReceitas() {
+    const res = await apiGet();
+    return res.Receitas || [];
+  },
 };
