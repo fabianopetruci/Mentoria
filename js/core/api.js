@@ -72,4 +72,30 @@ window.API = {
     const res = await apiGet();
     return res.Receitas || [];
   },
+
+  async insertReceita(id, valores) {
+    return await apiPost({
+      action: "insert",
+      aba: "Receitas",
+      id,
+      valores,
+    });
+  },
+
+  async updateReceita(id, valores) {
+    return await apiPost({
+      action: "update",
+      aba: "Receitas",
+      id,
+      valores,
+    });
+  },
+
+  async deleteReceita(id) {
+    return await apiPost({
+      action: "delete",
+      aba: "Receitas",
+      id,
+    });
+  },
 };
