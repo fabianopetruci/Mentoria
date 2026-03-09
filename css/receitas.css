@@ -89,6 +89,14 @@
   table-layout: fixed;
 }
 
+.receitas-table tbody tr {
+  cursor: pointer;
+}
+
+.receitas-table tbody tr.receita-row-selected td {
+  background: var(--bg-soft);
+}
+
 /* =========================
    SALDO
 ========================= */
