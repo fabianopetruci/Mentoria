@@ -118,6 +118,43 @@ window.Receitas = {
         Print.section("receitas-list", "Relatório de receitas");
       });
 
+    document
+      .getElementById("rec-btn-periodo")
+      ?.addEventListener("click", () => {
+        const monthValue = `${this.state.currentYear}-${String(this.state.currentMonth + 1).padStart(2, "0")}`;
+
+        Modal.open(`
+          <h3>Escolher período</h3>
+
+          <div class="modal-form-grid">
+            <div class="form-group full">
+              <label>Mês / Ano</label>
+              <input type="month" id="rec-mes-ano" value="${monthValue}">
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn btn-primary" id="rec-aplicar-periodo">Aplicar</button>
+          </div>
+        `);
+
+        document
+          .getElementById("rec-aplicar-periodo")
+          ?.addEventListener("click", () => {
+            const value = document.getElementById("rec-mes-ano")?.value;
+            if (!value) return;
+
+            const [year, month] = value.split("-").map(Number);
+
+            this.state.currentYear = year;
+            this.state.currentMonth = month - 1;
+            this.state.page = 1;
+
+            Modal.close();
+            this.paint();
+          });
+      });
+
     document.getElementById("rec-prev-page")?.addEventListener("click", () => {
       if (this.state.page > 1) {
         this.state.page--;
@@ -210,20 +247,55 @@ window.Receitas = {
       const pago = Number(this.v("r-pago") || 0);
       const saldo = devido - pago;
 
+      const hoje = new Date();
+      const anoAtual = hoje.getFullYear();
+      const mesAtual = hoje.getMonth() + 1;
+
+      if (!data) {
+        alert("Preencha a data.");
+        return;
+      }
+
+      const [anoData, mesData] = data.split("-").map(Number);
+
+      if (anoData !== anoAtual || mesData !== mesAtual) {
+        alert("A receita só pode ser cadastrada no mês corrente.");
+        return;
+      }
+
       const valores = [aluno, tipo, data, devido, pago, saldo];
 
       if (isEdit) {
         await API.updateReceita(selected.id, valores);
       } else {
-        const id = "REC-" + Date.now();
+        const next = this.state.data.length + 1;
+        const id = `REC-${String(next).padStart(4, "0")}`;
         await API.insertReceita(id, valores);
       }
 
       Modal.close();
-
       await this.load();
       this.paint();
     });
+  },
+
+  changeMonth(step) {
+    let newMonth = this.state.currentMonth + step;
+
+    if (newMonth < 0) {
+      newMonth = 11;
+      this.state.currentYear--;
+    }
+
+    if (newMonth > 11) {
+      newMonth = 0;
+      this.state.currentYear++;
+    }
+
+    this.state.currentMonth = newMonth;
+    this.state.page = 1;
+
+    this.paint();
   },
 
   paint() {
@@ -233,8 +305,32 @@ window.Receitas = {
     const fmt = (n) =>
       Number(n).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
+    const filtered = this.state.data.filter((r) => {
+      const str = String(r.data || "").trim();
+
+      const iso = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (iso) {
+        const year = Number(iso[1]);
+        const month = Number(iso[2]) - 1;
+        return (
+          year === this.state.currentYear && month === this.state.currentMonth
+        );
+      }
+
+      const br = str.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      if (br) {
+        const year = Number(br[3]);
+        const month = Number(br[2]) - 1;
+        return (
+          year === this.state.currentYear && month === this.state.currentMonth
+        );
+      }
+
+      return false;
+    });
+
     const start = (this.state.page - 1) * this.state.perPage;
-    const slice = this.state.data.slice(start, start + this.state.perPage);
+    const slice = filtered.slice(start, start + this.state.perPage);
 
     const rows = slice
       .map((r) => {
@@ -248,7 +344,7 @@ window.Receitas = {
           <tr data-id="${r.id}" class="${selectedClass}">
             <td>${r.aluno}</td>
             <td>${r.tipo}</td>
-            <td>${r.data}</td>
+            <td>${this.formatDateBR(r.data)}</td>
             <td>${fmt(r.devido)}</td>
             <td>${fmt(r.pago)}</td>
             <td class="${saldoClass}">${fmt(r.saldo)}</td>
@@ -257,7 +353,7 @@ window.Receitas = {
       })
       .join("");
 
-    const totalPago = this.state.data.reduce((s, r) => s + r.pago, 0);
+    const totalPago = filtered.reduce((s, r) => s + r.pago, 0);
 
     list.innerHTML = `
       <div class="receitas-card">
@@ -300,12 +396,21 @@ window.Receitas = {
       });
     });
 
-    const maxPage = Math.ceil(this.state.data.length / this.state.perPage) || 1;
+    const maxPage = Math.ceil(filtered.length / this.state.perPage) || 1;
     const prev = document.getElementById("rec-prev-page");
     const next = document.getElementById("rec-next-page");
 
     if (prev) prev.disabled = this.state.page === 1;
     if (next) next.disabled = this.state.page >= maxPage;
+
+    const label = document.getElementById("rec-period-label");
+
+    if (label) {
+      label.textContent = this.formatPeriod(
+        this.state.currentMonth,
+        this.state.currentYear,
+      );
+    }
   },
 
   formatPeriod(monthIndex, year) {
@@ -324,6 +429,24 @@ window.Receitas = {
       "dez",
     ];
     return `${meses[monthIndex]}/${year}`;
+  },
+
+  formatDateBR(value) {
+    if (!value) return "";
+
+    const str = String(value).trim();
+
+    if (/^\d{2}\/\d{2}\/\d{4}$/.test(str)) {
+      return str;
+    }
+
+    const iso = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+
+    if (iso) {
+      return `${iso[3]}/${iso[2]}/${iso[1]}`;
+    }
+
+    return str;
   },
 
   v(id) {
