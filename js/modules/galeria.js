@@ -13,7 +13,6 @@ window.Galeria = {
 
     el.innerHTML = `
       <div class="module-frame">
-
         <div class="module-header">
           <div class="module-title">Galeria</div>
         </div>
@@ -136,15 +135,24 @@ window.Galeria = {
     const item = this.state.data[this.state.index];
     this.state.selected = item || null;
 
-    const src = this.toImageSrc(item?.url || "");
+    const srcList = this.toImageSources(item?.url || "");
+    const src1 = srcList[0] || "";
+    const src2 = srcList[1] || "";
+    const src3 = srcList[2] || "";
     const legenda = this.escapeHtml(item?.legenda || "");
 
     view.innerHTML = `
       <div class="galeria-card" data-id="${this.escapeAttr(item.id)}">
         <div class="galeria-frame">
           ${
-            src
-              ? `<img class="galeria-img" src="${this.escapeAttr(src)}" alt="Foto da galeria">`
+            src1
+              ? `<img
+                  class="galeria-img"
+                  src="${this.escapeAttr(src1)}"
+                  data-src2="${this.escapeAttr(src2)}"
+                  data-src3="${this.escapeAttr(src3)}"
+                  alt="Foto da galeria"
+                >`
               : `<div class="galeria-noimg">Sem URL de imagem</div>`
           }
         </div>
@@ -154,6 +162,13 @@ window.Galeria = {
         </div>
       </div>
     `;
+
+    const img = view.querySelector(".galeria-img");
+    if (img) {
+      img.addEventListener("error", () => this.handleImgError(img), {
+        once: false,
+      });
+    }
 
     pageInfo.textContent = `${this.state.index + 1} / ${total}`;
     this.updateButtons();
@@ -186,7 +201,7 @@ window.Galeria = {
         <div class="form-group full">
           <label>URL da foto</label>
           <input type="text" id="g-url" value="${this.escapeAttr(urlAtual)}" placeholder="https://...">
-          <small class="muted">Você vai preencher os links manualmente (Google Drive ou URL direta).</small>
+          <small class="muted">Cole o link manualmente da planilha/Drive.</small>
         </div>
 
         <div class="form-group full">
@@ -242,17 +257,51 @@ window.Galeria = {
     return `GAL-${String(max + 1).padStart(4, "0")}`;
   },
 
-  toImageSrc(url) {
+  handleImgError(imgEl) {
+    const next2 = imgEl.dataset.src2 || "";
+    const next3 = imgEl.dataset.src3 || "";
+
+    if (next2) {
+      imgEl.src = next2;
+      imgEl.dataset.src2 = "";
+      return;
+    }
+
+    if (next3) {
+      imgEl.src = next3;
+      imgEl.dataset.src3 = "";
+      return;
+    }
+
+    imgEl.outerHTML = `<div class="galeria-noimg">Não foi possível carregar a imagem</div>`;
+  },
+
+  extractDriveId(url) {
     const raw = String(url || "").trim();
     if (!raw) return "";
 
-    // Converte link padrão do Drive para link direto de visualização
-    const m = raw.match(/\/file\/d\/([^/]+)\//);
-    if (m?.[1]) {
-      return `https://drive.google.com/uc?export=view&id=${m[1]}`;
-    }
+    let m = raw.match(/\/file\/d\/([^/]+)/);
+    if (m?.[1]) return m[1];
 
-    return raw;
+    m = raw.match(/[?&]id=([^&]+)/);
+    if (m?.[1]) return m[1];
+
+    return "";
+  },
+
+  toImageSources(url) {
+    const raw = String(url || "").trim();
+    if (!raw) return [];
+
+    const driveId = this.extractDriveId(raw);
+
+    if (!driveId) return [raw];
+
+    return [
+      `https://drive.google.com/uc?export=view&id=${driveId}`,
+      `https://drive.google.com/thumbnail?id=${driveId}&sz=w2000`,
+      `https://lh3.googleusercontent.com/d/${driveId}=w2000`,
+    ];
   },
 
   v(id) {
