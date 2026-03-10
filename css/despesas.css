@@ -81,6 +81,10 @@
   background: var(--bg-soft);
 }
 
+.despesas-table tbody tr.despesa-row-selected td {
+  background: rgba(46, 106, 177, 0.14);
+}
+
 /* =========================
    STATUS
 ========================= */
