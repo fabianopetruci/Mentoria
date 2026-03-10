@@ -194,3 +194,14 @@
   padding: 1vh 0;
   border-bottom: 1px solid var(--border);
 }
+
+.pendencias-lembrete-date {
+  margin-top: 0.4vh;
+  color: var(--text-muted);
+  font-size: clamp(0.55rem, 0.35vw + 0.35rem, 0.72rem);
+}
+
+.pendencias-lembrete-item.pen-lembrete-done .pendencias-lembrete-text {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
