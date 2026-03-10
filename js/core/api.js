@@ -191,4 +191,35 @@ window.API = {
       id,
     });
   },
+
+  async getFluxoCaixa() {
+    const res = await apiGet();
+    return res.Fluxo_caixa || [];
+  },
+
+  async insertFluxoCaixa(id, valores) {
+    return await apiPost({
+      action: "insert",
+      aba: "Fluxo_caixa",
+      id,
+      valores,
+    });
+  },
+
+  async updateFluxoCaixa(id, valores) {
+    return await apiPost({
+      action: "update",
+      aba: "Fluxo_caixa",
+      id,
+      valores,
+    });
+  },
+
+  async deleteFluxoCaixa(id) {
+    return await apiPost({
+      action: "delete",
+      aba: "Fluxo_caixa",
+      id,
+    });
+  },
 };
