@@ -2,9 +2,9 @@
 
 window.Galeria = {
   state: {
-    index: 0, // 0-based
-    selected: null, // item atual (id + data)
-    data: [], // [{id, data:[url, legenda]}]
+    index: 0,
+    selected: null, // { id, url, legenda }
+    data: [], // [{ id, url, legenda }]
   },
 
   async render() {
@@ -48,35 +48,20 @@ window.Galeria = {
     if (!view) return;
 
     try {
-      // ainda estamos sem API final -> se Api não existir, usa mock local
-      if (typeof Api === "undefined" || !Api.getAll) {
-        this.state.data = [
-          {
-            id: "GAL-1",
-            data: [
-              "https://images.pexels.com/photos/8613083/pexels-photo-8613083.jpeg",
-              "Aula de reforço - terça feira",
-            ],
-          },
-          {
-            id: "GAL-2",
-            data: [
-              "https://images.pexels.com/photos/5905713/pexels-photo-5905713.jpeg",
-              "Atividade em grupo",
-            ],
-          },
-        ];
-      } else {
-        const res = await Api.getAll();
-        const lista = res.Galeria || [];
-        this.state.data = Array.isArray(lista) ? lista : [];
-      }
+      const rows = await API.getGaleria();
+
+      this.state.data = rows.map((r) => ({
+        id: r.id,
+        url: String(r.data?.[0] || "").trim(),
+        legenda: String(r.data?.[1] || "").trim(),
+      }));
 
       this.state.index = 0;
       this.state.selected = this.state.data[0] || null;
 
       this.paint();
     } catch (err) {
+      console.error("Erro ao carregar galeria", err);
       view.innerHTML = "Erro ao carregar galeria.";
     }
   },
@@ -93,8 +78,7 @@ window.Galeria = {
 
     document.getElementById("gal-next")?.addEventListener("click", () => {
       if (!this.state.data.length) return;
-      const total = this.state.data.length;
-      if (this.state.index < total - 1) {
+      if (this.state.index < this.state.data.length - 1) {
         this.state.index++;
         this.state.selected = this.state.data[this.state.index] || null;
         this.paint();
@@ -103,7 +87,7 @@ window.Galeria = {
 
     document
       .getElementById("gal-btn-cadastrar")
-      ?.addEventListener("click", () => this.openForm(null));
+      ?.addEventListener("click", () => this.openForm());
 
     document
       .getElementById("gal-btn-alterar")
@@ -118,18 +102,7 @@ window.Galeria = {
         if (!confirm("Excluir esta foto da galeria?")) return;
 
         try {
-          // se não tiver API, remove só local (mock)
-          if (typeof Api === "undefined" || !Api.remove) {
-            this.state.data = this.state.data.filter(
-              (x) => x.id !== this.state.selected.id,
-            );
-            this.state.index = 0;
-            this.state.selected = this.state.data[0] || null;
-            this.paint();
-            return;
-          }
-
-          await Api.remove("Galeria", this.state.selected.id);
+          await API.deleteGaleria(this.state.selected.id);
           await this.load();
         } catch (err) {
           alert("Erro ao excluir: " + (err?.message || err));
@@ -139,7 +112,7 @@ window.Galeria = {
     document
       .getElementById("gal-btn-imprimir")
       ?.addEventListener("click", () => {
-        window.print();
+        Print.section("galeria-view", "Galeria");
       });
   },
 
@@ -163,26 +136,21 @@ window.Galeria = {
     const item = this.state.data[this.state.index];
     this.state.selected = item || null;
 
-    const url = item?.data?.[0] || "";
-    const legenda = item?.data?.[1] || "";
-
-    const safeUrl = this.escapeAttr(url);
-    const safeLegenda = this.escapeHtml(legenda);
+    const src = this.toImageSrc(item?.url || "");
+    const legenda = this.escapeHtml(item?.legenda || "");
 
     view.innerHTML = `
       <div class="galeria-card" data-id="${this.escapeAttr(item.id)}">
         <div class="galeria-frame">
           ${
-            safeUrl
-              ? `<img class="galeria-img" src="${safeUrl}" alt="Foto da galeria">`
+            src
+              ? `<img class="galeria-img" src="${this.escapeAttr(src)}" alt="Foto da galeria">`
               : `<div class="galeria-noimg">Sem URL de imagem</div>`
           }
         </div>
 
         <div class="galeria-caption">
-          <div class="galeria-legenda">${
-            safeLegenda || "<span class='muted'>Sem legenda</span>"
-          }</div>
+          <div class="galeria-legenda">${legenda || "<span class='muted'>Sem legenda</span>"}</div>
         </div>
       </div>
     `;
@@ -198,115 +166,109 @@ window.Galeria = {
     if (bAlt) bAlt.disabled = !has;
     if (bExc) bExc.disabled = !has;
 
-    const prev = document.getElementById("gal-prev");
-    const next = document.getElementById("gal-next");
+    const bPrev = document.getElementById("gal-prev");
+    const bNext = document.getElementById("gal-next");
     const total = this.state.data.length;
 
-    if (prev) prev.disabled = !total || this.state.index <= 0;
-    if (next) next.disabled = !total || this.state.index >= total - 1;
+    if (bPrev) bPrev.disabled = !total || this.state.index <= 0;
+    if (bNext) bNext.disabled = !total || this.state.index >= total - 1;
   },
 
   openForm(item = null) {
     const isEdit = !!item;
-    const d = item?.data || [];
+    const urlAtual = item?.url || "";
+    const legendaAtual = item?.legenda || "";
 
-    const urlAtual = d[0] || "";
-    const legendaAtual = d[1] || "";
+    Modal.open(`
+      <h3>${isEdit ? "Alterar foto" : "Cadastrar foto"}</h3>
 
-    const html = `
-      <h3>${isEdit ? "Alterar Foto" : "Cadastrar Foto"}</h3>
+      <div class="modal-form-grid">
+        <div class="form-group full">
+          <label>URL da foto</label>
+          <input type="text" id="g-url" value="${this.escapeAttr(urlAtual)}" placeholder="https://...">
+          <small class="muted">Você vai preencher os links manualmente (Google Drive ou URL direta).</small>
+        </div>
 
-      <div class="form-group">
-        <label>Foto</label>
-        <input type="file" id="g-foto" accept="image/png, image/jpeg">
-        ${
-          urlAtual
-            ? `<small class="muted">Se não escolher uma nova imagem, a foto atual será mantida.</small>`
-            : `<small class="muted">Selecione uma imagem para enviar.</small>`
-        }
+        <div class="form-group full">
+          <label>Legenda</label>
+          <input type="text" id="g-legenda" value="${this.escapeAttr(legendaAtual)}" placeholder="Ex: Um dia de aula normal">
+        </div>
       </div>
 
-      <div class="form-group">
-        <label>Legenda</label>
-        <input type="text" id="g-legenda" value="${this.escapeAttr(
-          legendaAtual,
-        )}" placeholder="Ex: Aula de reforço - terça">
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="g-salvar">${isEdit ? "Salvar" : "Cadastrar"}</button>
       </div>
-
-      <button class="btn btn-primary" id="g-salvar">${
-        isEdit ? "Salvar" : "Cadastrar"
-      }</button>
-    `;
-
-    Modal.open(html);
+    `);
 
     document.getElementById("g-salvar")?.addEventListener("click", async () => {
-      const legenda = (
-        document.getElementById("g-legenda")?.value || ""
-      ).trim();
-      const file = document.getElementById("g-foto")?.files?.[0];
+      const url = this.v("g-url");
+      const legenda = this.v("g-legenda");
+
+      if (!url) {
+        alert("Informe a URL da foto.");
+        return;
+      }
+
+      const valores = [url, legenda];
 
       try {
-        let url = urlAtual;
-
-        if (!isEdit && !file) {
-          alert("Selecione uma imagem para cadastrar.");
-          return;
-        }
-
-        // sem API: mocka usando URL temporária local
-        if (!Api || !Api.uploadFoto) {
-          if (file) url = URL.createObjectURL(file);
-
-          const payload = [url, legenda];
-
-          if (isEdit) {
-            const idx = this.state.data.findIndex((x) => x.id === item.id);
-            if (idx >= 0) this.state.data[idx].data = payload;
-          } else {
-            const id = "GAL-" + Date.now();
-            this.state.data.push({ id, data: payload });
-            this.state.index = this.state.data.length - 1;
-          }
-
-          Modal.close();
-          this.paint();
-          return;
-        }
-
-        // com API (futuro real)
-        if (file) {
-          const up = await Api.uploadFoto(file);
-          url = up.fotoUrl;
-        }
-
-        const payload = [url, legenda];
-
         if (isEdit) {
-          await Api.update("Galeria", item.id, payload);
+          await API.updateGaleria(item.id, valores);
         } else {
-          const id = "GAL-" + Date.now();
-          await Api.insert("Galeria", id, payload);
+          const id = this.buildNextId();
+          await API.insertGaleria(id, valores);
         }
 
         Modal.close();
         await this.load();
+
+        if (!isEdit) {
+          this.state.index = Math.max(0, this.state.data.length - 1);
+          this.state.selected = this.state.data[this.state.index] || null;
+          this.paint();
+        }
       } catch (err) {
         alert("Erro ao salvar: " + (err?.message || err));
       }
     });
   },
 
-  escapeHtml(s) {
-    return String(s ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+  buildNextId() {
+    const max = this.state.data.reduce((acc, item) => {
+      const n = Number(String(item.id || "").replace(/^GAL-/, ""));
+      return Number.isFinite(n) ? Math.max(acc, n) : acc;
+    }, 0);
+
+    return `GAL-${String(max + 1).padStart(4, "0")}`;
   },
 
-  escapeAttr(s) {
-    return this.escapeHtml(s).replace(/`/g, "&#096;");
+  toImageSrc(url) {
+    const raw = String(url || "").trim();
+    if (!raw) return "";
+
+    // Converte link padrão do Drive para link direto de visualização
+    const m = raw.match(/\/file\/d\/([^/]+)\//);
+    if (m?.[1]) {
+      return `https://drive.google.com/uc?export=view&id=${m[1]}`;
+    }
+
+    return raw;
+  },
+
+  v(id) {
+    return (document.getElementById(id)?.value || "").trim();
+  },
+
+  escapeHtml(str = "") {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  },
+
+  escapeAttr(str = "") {
+    return this.escapeHtml(str);
   },
 };

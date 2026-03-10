@@ -160,4 +160,35 @@ window.API = {
       id,
     });
   },
+
+  async getGaleria() {
+    const res = await apiGet();
+    return res.Galeria || [];
+  },
+
+  async insertGaleria(id, valores) {
+    return await apiPost({
+      action: "insert",
+      aba: "Galeria",
+      id,
+      valores,
+    });
+  },
+
+  async updateGaleria(id, valores) {
+    return await apiPost({
+      action: "update",
+      aba: "Galeria",
+      id,
+      valores,
+    });
+  },
+
+  async deleteGaleria(id) {
+    return await apiPost({
+      action: "delete",
+      aba: "Galeria",
+      id,
+    });
+  },
 };
