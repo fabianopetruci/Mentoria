@@ -1,9 +1,11 @@
 // js/modules/home.js
 
 window.Home = {
-  render() {
+  async render() {
     const homeSection = document.getElementById("home");
     if (!homeSection) return;
+
+    const pendenciasBadge = await this.getPendenciasFinanceirasCount();
 
     const tiles = [
       { label: "AGENDA", route: "agenda", img: "agenda.png" },
@@ -13,7 +15,7 @@ window.Home = {
         label: "PENDÊNCIAS / LEMBRETES",
         route: "pendencias",
         img: "tasks.png",
-        badge: 2,
+        badge: pendenciasBadge,
       },
       { label: "ALUNOS", route: "alunos", img: "students.png" },
       { label: "PROFESSORES", route: "professores", img: "teachers.png" },
@@ -40,6 +42,22 @@ window.Home = {
     `;
 
     this.bindActions();
+  },
+
+  async getPendenciasFinanceirasCount() {
+    try {
+      const despesas = await API.getDespesas();
+
+      return despesas.filter((d) => {
+        const status = String(d?.data?.[3] || "")
+          .trim()
+          .toLowerCase();
+        return status === "a pagar";
+      }).length;
+    } catch (err) {
+      console.error("Erro ao carregar badge de pendências:", err);
+      return 0;
+    }
   },
 
   bindActions() {
