@@ -98,4 +98,35 @@ window.API = {
       id,
     });
   },
+
+  async getDespesas() {
+    const res = await apiGet();
+    return res.Despesas || [];
+  },
+
+  async insertDespesa(id, valores) {
+    return await apiPost({
+      action: "insert",
+      aba: "Despesas",
+      id,
+      valores,
+    });
+  },
+
+  async updateDespesa(id, valores) {
+    return await apiPost({
+      action: "update",
+      aba: "Despesas",
+      id,
+      valores,
+    });
+  },
+
+  async deleteDespesa(id) {
+    return await apiPost({
+      action: "delete",
+      aba: "Despesas",
+      id,
+    });
+  },
 };
