@@ -38,7 +38,6 @@ window.Despesas = {
           <div id="despesas-list">Carregando despesas...</div>
 
           <div class="despesas-pagination">
-
             <div class="receitas-page-nav-left">
               <button class="btn-arrow" id="des-prev-page">◀</button>
               <span class="page-label">Anterior</span>
@@ -54,7 +53,6 @@ window.Despesas = {
               <span class="page-label">Próximo</span>
               <button class="btn-arrow" id="des-next-page">▶</button>
             </div>
-
           </div>
 
         </div>
@@ -70,7 +68,6 @@ window.Despesas = {
     try {
       const despesas = await API.getDespesas();
 
-      // Planilha: [DESCRICAO, VALOR, VENCIMENTO, STATUS]
       this.state.data = despesas.map((d) => ({
         id: d.id,
         descricao: d.data[0],
@@ -90,9 +87,7 @@ window.Despesas = {
   bindEvents() {
     document
       .getElementById("des-btn-cadastrar")
-      ?.addEventListener("click", () => {
-        this.openForm();
-      });
+      ?.addEventListener("click", () => this.openForm());
 
     document
       .getElementById("des-btn-alterar")
@@ -104,11 +99,9 @@ window.Despesas = {
       .getElementById("des-btn-excluir")
       ?.addEventListener("click", async () => {
         if (!this.state.selected) return;
-
         if (!confirm("Excluir despesa selecionada?")) return;
 
         await API.deleteDespesa(this.state.selected.id);
-
         await this.load();
         this.paint();
       });
@@ -126,14 +119,12 @@ window.Despesas = {
 
         Modal.open(`
           <h3>Escolher período</h3>
-
           <div class="modal-form-grid">
             <div class="form-group full">
               <label>Mês / Ano</label>
               <input type="month" id="des-mes-ano" value="${monthValue}">
             </div>
           </div>
-
           <div class="modal-actions">
             <button class="btn btn-primary" id="des-aplicar-periodo">Aplicar</button>
           </div>
@@ -146,7 +137,6 @@ window.Despesas = {
             if (!value) return;
 
             const [year, month] = value.split("-").map(Number);
-
             this.state.currentYear = year;
             this.state.currentMonth = month - 1;
             this.state.page = 1;
@@ -189,7 +179,6 @@ window.Despesas = {
       <h3>${isEdit ? "Alterar despesa" : "Cadastrar despesa"}</h3>
 
       <div class="modal-form-grid">
-
         <div class="form-group full">
           <label>Descrição</label>
           <input id="d-descricao" value="${selected?.descricao || ""}">
@@ -212,7 +201,6 @@ window.Despesas = {
             <option value="a pagar" ${String(selected?.status || "").toLowerCase() !== "pago" ? "selected" : ""}>A pagar</option>
           </select>
         </div>
-
       </div>
 
       <div class="modal-actions">
@@ -236,6 +224,33 @@ window.Despesas = {
       if (!vencimento) {
         alert("Preencha o vencimento.");
         return;
+      }
+
+      const hoje = new Date();
+      hoje.setHours(0, 0, 0, 0);
+      const dataVencimento = new Date(`${vencimento}T00:00:00`);
+
+      if (Number.isNaN(dataVencimento.getTime())) {
+        alert("Data de vencimento inválida.");
+        return;
+      }
+
+      if (!isEdit) {
+        if (dataVencimento < hoje) {
+          alert("Não é permitido cadastrar despesa com data retroativa.");
+          return;
+        }
+
+        const anoAtual = hoje.getFullYear();
+        const mesAtual = hoje.getMonth();
+
+        if (
+          dataVencimento.getFullYear() !== anoAtual ||
+          dataVencimento.getMonth() !== mesAtual
+        ) {
+          alert("A despesa só pode ser cadastrada no mês corrente.");
+          return;
+        }
       }
 
       const valores = [descricao, valor, vencimento, status];
