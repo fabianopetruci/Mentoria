@@ -129,4 +129,35 @@ window.API = {
       id,
     });
   },
+
+  async getPendencias() {
+    const res = await apiGet();
+    return res.Pendencias || [];
+  },
+
+  async insertPendencia(id, valores) {
+    return await apiPost({
+      action: "insert",
+      aba: "Pendencias",
+      id,
+      valores,
+    });
+  },
+
+  async updatePendencia(id, valores) {
+    return await apiPost({
+      action: "update",
+      aba: "Pendencias",
+      id,
+      valores,
+    });
+  },
+
+  async deletePendencia(id) {
+    return await apiPost({
+      action: "delete",
+      aba: "Pendencias",
+      id,
+    });
+  },
 };
